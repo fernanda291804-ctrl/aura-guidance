@@ -8,7 +8,7 @@ export default function Saved() {
   if (!user) return <Navigate to="/" replace />;
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-background pb-24 liquid-light grain-overlay">
       <div className="gradient-aura px-6 pb-6 pt-12">
         <h1 className="font-lora text-2xl font-bold text-heading">Saved</h1>
         <p className="mt-1 text-sm text-body">Your personal journal of insights</p>
