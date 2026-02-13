@@ -16,7 +16,7 @@ export default function Profile() {
   ];
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-background pb-24 liquid-light grain-overlay">
       <div className="gradient-aura px-6 pb-8 pt-12 text-center">
         <div className="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-full bg-secondary shadow-card">
           <User className="h-10 w-10 text-primary" />

@@ -40,12 +40,7 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-6 gradient-mystic">
-      {/* Decorative orbs */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-20 -right-20 h-64 w-64 rounded-full bg-primary/20 blur-3xl" />
-        <div className="absolute -bottom-20 -left-20 h-64 w-64 rounded-full bg-accent/40 blur-3xl" />
-      </div>
+    <div className="flex min-h-screen flex-col items-center justify-center px-6 gradient-mystic liquid-light grain-overlay">
 
       <div className="relative z-10 w-full max-w-sm">
         {/* Logo */}
@@ -53,7 +48,7 @@ export default function Onboarding() {
           <div className="flex h-16 w-16 items-center justify-center rounded-2xl gradient-warm shadow-glow">
             <Sparkles className="h-8 w-8 text-foreground" />
           </div>
-          <h1 className="font-lora text-3xl font-bold text-heading">Aura Path</h1>
+          <h1 className="font-lora text-3xl font-bold text-heading">NUMI</h1>
           <p className="text-body text-center text-sm">Discover your numerological essence</p>
         </div>
 

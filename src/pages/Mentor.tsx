@@ -75,8 +75,8 @@ export default function Mentor() {
 
   if (step === 'loading') {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center px-6">
-        <div className="h-64 w-64 rounded-full animate-shimmer" />
+      <div className="flex min-h-screen flex-col items-center justify-center px-6 grain-overlay">
+        <div className="h-64 w-64 rounded-full animate-shimmer" style={{ background: 'linear-gradient(270deg, hsl(25 95% 74% / 0.5), hsl(280 60% 70% / 0.4), hsl(25 95% 74% / 0.5))', backgroundSize: '400% 100%' }} />
         <p className="mt-8 font-lora text-lg text-heading animate-pulse">
           Synchronizing with your Path number...
         </p>
@@ -88,7 +88,7 @@ export default function Mentor() {
   if (step === 'insight' && scenario) {
     const insight = INSIGHTS[scenario];
     return (
-      <div className="min-h-screen bg-background pb-24">
+      <div className="min-h-screen bg-background pb-24 liquid-light grain-overlay">
         <div className="gradient-aura px-6 pb-6 pt-12">
           <button onClick={() => { setStep('select'); setSaved(false); }} className="mb-4 flex items-center gap-1 text-sm text-body">
             <ArrowLeft className="h-4 w-4" /> Back
@@ -144,7 +144,7 @@ export default function Mentor() {
 
   // Selector
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-background pb-24 liquid-light grain-overlay">
       <div className="gradient-aura px-6 pb-6 pt-12">
         <h1 className="font-lora text-2xl font-bold text-heading">Mentor</h1>
         <p className="mt-1 text-sm text-body">Choose an area of guidance</p>

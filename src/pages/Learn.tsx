@@ -16,7 +16,7 @@ export default function Learn() {
   if (!user) return <Navigate to="/" replace />;
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-background pb-24 liquid-light grain-overlay">
       <div className="gradient-aura px-6 pb-6 pt-12">
         <h1 className="font-lora text-2xl font-bold text-heading">Learn</h1>
         <p className="mt-1 text-sm text-body">Deepen your numerological knowledge</p>

@@ -32,43 +32,43 @@ interface AppState {
 
 const AppContext = createContext<AppState | undefined>(undefined);
 
-function reduceToSingle(n: number): number {
-  while (n > 9 && n !== 11 && n !== 22) {
+function reduceToSingleOr10(n: number): number {
+  while (n > 10) {
     n = String(n).split('').reduce((a, b) => a + parseInt(b), 0);
   }
   return n;
 }
 
-function calcLetterValue(c: string): number {
-  const val = c.toLowerCase().charCodeAt(0) - 96;
-  return val > 0 && val <= 26 ? val : 0;
-}
+export function calculateNumbers(_name: string, birthDate: string) {
+  // Parse DD/MM/YYYY
+  const parts = birthDate.split('/');
+  const day = parseInt(parts[0]) || 1;
+  const month = parseInt(parts[1]) || 1;
+  const year = parseInt(parts[2]) || 2000;
 
-const VOWELS = 'aeiou';
+  // Soul (Alma): Sum digits of the Day
+  const dayDigitSum = String(day).split('').reduce((s, d) => s + parseInt(d), 0);
+  const soul = reduceToSingleOr10(dayDigitSum);
 
-export function calculateNumbers(name: string, birthDate: string) {
-  const letters = name.replace(/[^a-zA-Z]/g, '');
-  
-  // Soul: vowels sum
-  const vowelSum = letters.split('').filter(c => VOWELS.includes(c.toLowerCase())).reduce((s, c) => s + calcLetterValue(c), 0);
-  const soul = reduceToSingle(vowelSum);
+  // Personality (Personalidad): Use the Month digit. If 11→2, 12→3, else keep.
+  let personality: number;
+  if (month >= 10) {
+    personality = String(month).split('').reduce((s, d) => s + parseInt(d), 0);
+  } else {
+    personality = month;
+  }
 
-  // Personality: consonants sum
-  const consSum = letters.split('').filter(c => !VOWELS.includes(c.toLowerCase())).reduce((s, c) => s + calcLetterValue(c), 0);
-  const personality = reduceToSingle(consSum);
+  // Gift (Don): Sum last two digits of Year, reduce to single or 10
+  const lastTwo = year % 100;
+  const giftSum = String(lastTwo).split('').reduce((s, d) => s + parseInt(d), 0);
+  const gift = reduceToSingleOr10(giftSum);
 
-  // Path: birth date digits
-  const dateDigits = birthDate.replace(/\D/g, '');
-  const pathSum = dateDigits.split('').reduce((s, d) => s + parseInt(d), 0);
-  const path = reduceToSingle(pathSum);
+  // Past Life (Vida Pasada): Sum all 4 digits of Year, reduce to single or 10
+  const yearSum = String(year).split('').reduce((s, d) => s + parseInt(d), 0);
+  const pastLife = reduceToSingleOr10(yearSum);
 
-  // Past Life: day of birth
-  const day = parseInt(birthDate.split('/')[0]) || 1;
-  const pastLife = reduceToSingle(day);
-
-  // Gift: month + day
-  const month = parseInt(birthDate.split('/')[1]) || 1;
-  const gift = reduceToSingle(day + month);
+  // Path (Camino): Soul + Personality + Past Life, reduce to single or 10
+  const path = reduceToSingleOr10(soul + personality + pastLife);
 
   return { soul, personality, pastLife, gift, path };
 }
