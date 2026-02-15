@@ -8,11 +8,11 @@ export default function Profile() {
   if (!user) return <Navigate to="/" replace />;
 
   const numberList = [
-    { label: 'Soul', value: user.numbers.soul, desc: 'Your inner desires' },
-    { label: 'Personality', value: user.numbers.personality, desc: 'How others perceive you' },
-    { label: 'Past Life', value: user.numbers.pastLife, desc: 'Karmic lessons' },
-    { label: 'Gift', value: user.numbers.gift, desc: 'Your natural talents' },
-    { label: 'Path', value: user.numbers.path, desc: 'Your life direction' },
+    { label: 'Alma', value: user.numbers.soul, desc: 'Tus deseos internos' },
+    { label: 'Personalidad', value: user.numbers.personality, desc: 'Cómo te perciben los demás' },
+    { label: 'Vida Pasada', value: user.numbers.pastLife, desc: 'Lecciones kármicas' },
+    { label: 'Don', value: user.numbers.gift, desc: 'Tus talentos naturales' },
+    { label: 'Camino', value: user.numbers.path, desc: 'Tu dirección de vida' },
   ];
 
   return (
@@ -29,7 +29,7 @@ export default function Profile() {
 
       <div className="px-6 mt-4">
         <h2 className="mb-3 flex items-center gap-2 font-lora text-base font-semibold text-heading">
-          <Hash className="h-4 w-4 text-primary" /> Your Numbers
+          <Hash className="h-4 w-4 text-primary" /> Tus Números
         </h2>
         <div className="space-y-3">
           {numberList.map(n => (

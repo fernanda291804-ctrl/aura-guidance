@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppProvider } from "@/context/AppContext";
 import Onboarding from "./pages/Onboarding";
 import Dashboard from "./pages/Dashboard";
@@ -10,6 +10,7 @@ import Mentor from "./pages/Mentor";
 import Profile from "./pages/Profile";
 import Learn from "./pages/Learn";
 import Saved from "./pages/Saved";
+import NumberDetail from "./pages/NumberDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/profile" element={<Profile />} />
             <Route path="/learn" element={<Learn />} />
             <Route path="/saved" element={<Saved />} />
+            <Route path="/number/:type" element={<NumberDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

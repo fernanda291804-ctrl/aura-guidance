@@ -2,11 +2,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Hash, User, Sparkles, BookOpen, Bookmark } from 'lucide-react';
 
 const NAV_ITEMS = [
-  { icon: Hash, label: 'Numbers', path: '/dashboard' },
-  { icon: User, label: 'Profile', path: '/profile' },
+  { icon: Hash, label: 'Números', path: '/dashboard' },
+  { icon: User, label: 'Perfil', path: '/profile' },
   { icon: Sparkles, label: 'MENTOR', path: '/mentor', center: true },
-  { icon: BookOpen, label: 'Learn', path: '/learn' },
-  { icon: Bookmark, label: 'Saved', path: '/saved' },
+  { icon: BookOpen, label: 'Aprender', path: '/learn' },
+  { icon: Bookmark, label: 'Guardado', path: '/saved' },
 ];
 
 export default function BottomNav() {
