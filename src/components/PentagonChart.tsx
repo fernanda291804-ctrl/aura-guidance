@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 interface Props {
   numbers: {
     soul: number;
@@ -9,14 +11,15 @@ interface Props {
 }
 
 const LABELS = [
-  { key: 'soul', label: 'Soul', angle: -90 },
-  { key: 'personality', label: 'Personality', angle: -18 },
-  { key: 'pastLife', label: 'Past Life', angle: 54 },
-  { key: 'gift', label: 'Gift', angle: 126 },
-  { key: 'path', label: 'Path', angle: 198 },
+  { key: 'soul', label: 'Alma', angle: -90 },
+  { key: 'personality', label: 'Personalidad', angle: -18 },
+  { key: 'pastLife', label: 'Vida Pasada', angle: 54 },
+  { key: 'gift', label: 'Don', angle: 126 },
+  { key: 'path', label: 'Camino', angle: 198 },
 ] as const;
 
 export default function PentagonChart({ numbers }: Props) {
+  const navigate = useNavigate();
   const cx = 150;
   const cy = 150;
   const r = 100;
@@ -34,20 +37,16 @@ export default function PentagonChart({ numbers }: Props) {
   return (
     <div className="flex justify-center">
       <svg width="300" height="300" viewBox="0 0 300 300">
-        {/* Pentagon lines */}
         <path d={pentagonPath} fill="none" stroke="hsl(225 25% 88%)" strokeWidth="1" strokeDasharray="4 4" />
         
-        {/* Connecting lines to center */}
         {points.map(p => (
           <line key={p.key} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke="hsl(225 25% 88%)" strokeWidth="1" strokeDasharray="4 4" />
         ))}
 
-        {/* Center circle */}
         <circle cx={cx} cy={cy} r={16} fill="hsl(25 95% 74% / 0.15)" stroke="hsl(25 95% 74% / 0.4)" strokeWidth="1" />
 
-        {/* Number circles */}
         {points.map(p => (
-          <g key={p.key}>
+          <g key={p.key} className="cursor-pointer" onClick={() => navigate(`/number/${p.key}`)}>
             <circle cx={p.x} cy={p.y} r={circleR} className="fill-card" stroke="hsl(225 100% 93%)" strokeWidth="2" filter="url(#glow)" />
             <text x={p.x} y={p.y - 4} textAnchor="middle" className="fill-foreground font-lora text-lg font-bold" dominantBaseline="middle" fontSize="18">
               {p.value}
