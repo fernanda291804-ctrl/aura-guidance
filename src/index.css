@@ -51,6 +51,14 @@
     --gradient-mystic: linear-gradient(180deg, hsl(225 100% 93%), hsl(280 60% 92%), hsl(25 95% 74% / 0.2));
     --gradient-loading: linear-gradient(270deg, hsl(25 95% 74% / 0.4), hsl(225 100% 93%), hsl(280 60% 90% / 0.5), hsl(25 95% 74% / 0.4));
 
+    /* Chat Theme Colors */
+    --theme-work-1: 220 100% 93%;
+    --theme-work-2: 195 100% 50%;
+    --theme-relation-1: 350 100% 91%;
+    --theme-relation-2: 240 67% 94%;
+    --theme-moving-1: 25 95% 74%;
+    --theme-moving-2: 25 100% 63%;
+
     /* Shadows */
     --shadow-soft: 0 4px 24px -4px hsl(225 50% 12% / 0.08);
     --shadow-glow: 0 0 30px hsl(25 95% 74% / 0.25);
