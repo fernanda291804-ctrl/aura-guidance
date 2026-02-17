@@ -3,6 +3,7 @@ import { useApp } from '@/context/AppContext';
 import { Navigate, useNavigate } from 'react-router-dom';
 import BottomNav from '@/components/BottomNav';
 import { Briefcase, MapPin, Heart, ArrowLeft, Send, Bookmark, Check, Sparkles } from 'lucide-react';
+import { NUMBER_PROFILES } from '@/data/numberMeanings';
 
 type Scenario = 'work' | 'relocation' | 'relationship';
 type ChatStep = 'select' | 'greeting' | 'ask_situation' | 'ask_detail' | 'thinking' | 'insight' | 'closed';
@@ -45,37 +46,56 @@ const DETAIL_QUESTIONS: Record<Scenario, string> = {
   relationship: '¿Cómo describirías tu situación sentimental actual? ¿Buscas iniciar una relación, fortalecer una existente, o sanar de una experiencia pasada?',
 };
 
+/** Camino-Céntrico: generates advice strictly from the user's Path number profile */
 function generateInsight(scenario: Scenario, pathNumber: number, _userContext: string, _userDetail: string) {
-  const insights: Record<Scenario, { analysis: string; suggestions: string[]; action: string }> = {
-    work: {
-      analysis: `Tu número de Camino (${pathNumber}) revela un ciclo de transformación profesional. La energía de este período favorece movimientos audaces y alinear tu carrera con tu propósito más profundo. Tu vibración actual indica que estás en un momento clave para tomar decisiones que definirán los próximos años de tu trayectoria.`,
-      suggestions: [
-        'Actualiza tu perfil profesional para reflejar tus verdaderas habilidades y aspiraciones',
-        'Busca un mentor o guía en el campo que deseas explorar — tu energía actual atrae a las personas correctas',
-        'Establece tres metas concretas para los próximos 90 días, alineadas con tu número de Camino',
-      ],
-      action: 'Practica un ritual de intención cada mañana antes de comenzar tu jornada laboral. Visualiza el resultado que deseas y conecta con la energía de tu número del Alma para tomar decisiones desde la autenticidad.',
-    },
-    relocation: {
-      analysis: `Tu carta numerológica con Camino ${pathNumber} indica una fuerte atracción hacia nuevos entornos. Tu número de Don sugiere que el cambio geográfico puede desbloquear un potencial dormido que llevas dentro. Este es un momento propicio para movimientos que expandan tu horizonte.`,
-      suggestions: [
-        'Investiga lugares cuya energía resuene con tu número de Camino — busca armonía vibracional',
-        'Visita posibles ubicaciones durante un mes personalmente auspicioso según tu numerología',
-        'Crea un tablero de visión para tu entorno ideal de vida, incluyendo elementos que nutran tu espíritu',
-      ],
-      action: 'Conéctate con comunidades que compartan tus valores antes de mudarte. Tu número de Personalidad indica que prosperas en ambientes donde puedes ser auténtico desde el primer día.',
-    },
-    relationship: {
-      analysis: `Tus números de Alma y Personalidad revelan un período de crecimiento emocional profundo. Con un Camino ${pathNumber}, las relaciones son un espejo de tu estado interior. Este ciclo llama a la conexión auténtica y al coraje de mostrar vulnerabilidad.`,
-      suggestions: [
-        'Practica la escucha activa en tus relaciones más cercanas — tu energía actual amplifica la empatía',
-        'Escribe una carta de gratitud a alguien significativo en tu vida',
-        'Establece límites saludables que honren tu energía sin cerrarte al amor',
-      ],
-      action: 'Explora actividades en pareja o comunidad que se alineen con valores compartidos. Tu número de Vida Pasada sugiere lecciones kármicas alrededor de la confianza — abraza la vulnerabilidad como fortaleza.',
-    },
+  const profile = NUMBER_PROFILES[pathNumber];
+  if (!profile) {
+    return {
+      analysis: `Tu número de Camino (${pathNumber}) indica un período de transformación.`,
+      suggestions: ['Reflexiona sobre tu propósito', 'Conecta con tu intuición', 'Actúa con conciencia'],
+      action: 'Mantente alineado con tu energía interior.',
+    };
+  }
+
+  const scenarioContext: Record<Scenario, { area: string; verb: string; focus: string }> = {
+    work: { area: 'profesional', verb: 'construir tu carrera', focus: 'tu camino laboral' },
+    relocation: { area: 'de cambio', verb: 'abrir este nuevo capítulo', focus: 'tu nuevo entorno' },
+    relationship: { area: 'emocional', verb: 'nutrir tus vínculos', focus: 'tus relaciones' },
   };
-  return insights[scenario];
+
+  const ctx = scenarioContext[scenario];
+
+  return {
+    analysis: `Como **${profile.title}** (Camino ${pathNumber}), tu ${profile.energyType} influye directamente en ${ctx.focus}. Tus aspectos principales — ${profile.aspectos.split('.')[0]} — son la clave para entender cómo abordar esta situación ${ctx.area}.\n\nTu perfil positivo te dice: **${profile.positivo.split('.')[0]}**. Esta es tu mayor fortaleza en este momento.`,
+    suggestions: [
+      `**Usa tu fortaleza:** ${profile.positivo.split('. ').slice(0, 2).join('. ')}. Aplica esta energía para ${ctx.verb}.`,
+      `**Cuidado con tu sombra:** ${profile.negativo.split('. ')[0]}. En el área de ${SCENARIO_LABELS[scenario].toLowerCase()}, esto podría manifestarse como resistencia o bloqueo.`,
+      `**Tu misión te guía:** ${profile.mision.split('. ')[0]}. Deja que este propósito sea tu brújula para tomar decisiones.`,
+    ],
+    action: `Recuerda: tu misión como ${profile.title} es **${profile.mision.split('. ').slice(0, 2).join('. ')}**. Cada decisión en ${ctx.focus} debe alinearse con este propósito. Confía en tu ${profile.energyType.toLowerCase()} para avanzar con claridad.`,
+  };
+}
+
+/** Renders text with **bold** and _italic_ markdown */
+function RichText({ text }: { text: string }) {
+  return (
+    <>
+      {text.split('\n').map((line, j, arr) => (
+        <span key={j}>
+          {line.split(/(\*\*.*?\*\*|_.*?_)/g).map((segment, k) => {
+            if (segment.startsWith('**') && segment.endsWith('**')) {
+              return <strong key={k} className="font-bold">{segment.slice(2, -2)}</strong>;
+            }
+            if (segment.startsWith('_') && segment.endsWith('_')) {
+              return <em key={k} className="italic">{segment.slice(1, -1)}</em>;
+            }
+            return <span key={k}>{segment}</span>;
+          })}
+          {j < arr.length - 1 && <br />}
+        </span>
+      ))}
+    </>
+  );
 }
 
 export default function Mentor() {
@@ -102,7 +122,8 @@ export default function Mentor() {
   const handleSelect = (s: Scenario) => {
     setScenario(s);
     setStep('greeting');
-    const greeting = `¡Hola, ${user.name.split(' ')[0]}! 🌟\n\nSoy tu mentor numerológico. He analizado tu mapa energético y estoy aquí para guiarte en el área de **${SCENARIO_LABELS[s]}**.\n\n¿Cuéntame, qué situación específica te trae hoy?`;
+    const profile = NUMBER_PROFILES[user.numbers.path];
+    const greeting = `¡Hola, ${user.name.split(' ')[0]}! 🌟\n\nSoy tu mentor numerológico. He analizado tu mapa energético y como **${profile?.title || 'guía'}** con Camino ${user.numbers.path}, tengo una perspectiva especial para orientarte en el área de **${SCENARIO_LABELS[s]}**.\n\n¿Cuéntame, qué situación específica te trae hoy?`;
     setMessages([{ role: 'mentor', text: greeting }]);
   };
 
@@ -189,30 +210,10 @@ export default function Mentor() {
                 className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                   msg.role === 'user'
                     ? 'bg-primary text-primary-foreground rounded-br-md'
-                    : 'glass shadow-soft rounded-bl-md'
+                    : 'glass shadow-soft rounded-bl-md text-foreground'
                 }`}
               >
-                {msg.text.split('\n').map((line, j) => {
-                  const bold = line.replace(/\*\*(.*?)\*\*/g, '###BOLD_START###$1###BOLD_END###');
-                  const italic = bold.replace(/_(.*?)_/g, '###ITALIC_START###$1###ITALIC_END###');
-                  const parts = italic.split(/(###BOLD_START###|###BOLD_END###|###ITALIC_START###|###ITALIC_END###)/);
-                  let inBold = false;
-                  let inItalic = false;
-                  return (
-                    <span key={j}>
-                      {parts.map((part, k) => {
-                        if (part === '###BOLD_START###') { inBold = true; return null; }
-                        if (part === '###BOLD_END###') { inBold = false; return null; }
-                        if (part === '###ITALIC_START###') { inItalic = true; return null; }
-                        if (part === '###ITALIC_END###') { inItalic = false; return null; }
-                        if (inBold) return <strong key={k}>{part}</strong>;
-                        if (inItalic) return <em key={k}>{part}</em>;
-                        return <span key={k}>{part}</span>;
-                      })}
-                      {j < msg.text.split('\n').length - 1 && <br />}
-                    </span>
-                  );
-                })}
+                <RichText text={msg.text} />
               </div>
             </div>
           ))}
@@ -232,7 +233,6 @@ export default function Mentor() {
             </div>
           )}
 
-          {/* Save button at end */}
           {step === 'closed' && (
             <div className="pt-2">
               {saved ? (
