@@ -46,33 +46,73 @@ const DETAIL_QUESTIONS: Record<Scenario, string> = {
   relationship: '¿Cómo describirías tu situación sentimental actual? ¿Buscas iniciar una relación, fortalecer una existente, o sanar de una experiencia pasada?',
 };
 
-/** Camino-Céntrico: generates advice strictly from the user's Path number profile */
-function generateInsight(scenario: Scenario, pathNumber: number, _userContext: string, _userDetail: string) {
+/**
+ * Camino-Céntrico + Regla 20/80:
+ * 20% teoría del número → 80% interpretación creativa aplicada al contexto del usuario.
+ * Nunca cita textualmente la base de datos; parafrasea y proyecta hacia el futuro.
+ */
+function generateInsight(scenario: Scenario, pathNumber: number, userContext: string, userDetail: string) {
   const profile = NUMBER_PROFILES[pathNumber];
   if (!profile) {
     return {
-      analysis: `Tu número de Camino (${pathNumber}) indica un período de transformación.`,
-      suggestions: ['Reflexiona sobre tu propósito', 'Conecta con tu intuición', 'Actúa con conciencia'],
-      action: 'Mantente alineado con tu energía interior.',
+      analysis: `Tu frecuencia vibratoria está en un punto de inflexión. Siento que hay una transformación profunda gestándose dentro de ti.`,
+      suggestions: [
+        'Dedica 10 minutos hoy a escribir qué sería tu escenario ideal dentro de 6 meses.',
+        'Antes de dormir, pregúntate: _¿Qué decisión estoy postergando por miedo?_',
+        'Mañana, haz una cosa que te incomode levemente — ahí está tu crecimiento.',
+      ],
+      action: 'Hoy mismo, escribe en un papel una sola palabra que represente lo que quieres soltar. Dóblalo y guárdalo en un lugar donde no lo veas hasta la próxima luna llena.',
     };
   }
 
-  const scenarioContext: Record<Scenario, { area: string; verb: string; focus: string }> = {
-    work: { area: 'profesional', verb: 'construir tu carrera', focus: 'tu camino laboral' },
-    relocation: { area: 'de cambio', verb: 'abrir este nuevo capítulo', focus: 'tu nuevo entorno' },
-    relationship: { area: 'emocional', verb: 'nutrir tus vínculos', focus: 'tus relaciones' },
+  // Extract essence without quoting verbatim
+  const strengthEssence = profile.positivo.split(', ').slice(0, 2).join(' y ').toLowerCase();
+  const shadowEssence = profile.negativo.split(', ')[0].toLowerCase();
+  const missionVerb = profile.mision.split(' ').slice(1, 5).join(' ').toLowerCase();
+
+  const situationRef = userDetail || userContext || 'tu situación actual';
+
+  // Scenario-specific creative frameworks (80% of the response)
+  const creativeFrameworks: Record<Scenario, {
+    feeling: string;
+    projection: string;
+    challenge: string;
+    task: string;
+    introspection: string;
+  }> = {
+    work: {
+      feeling: `Cuando pienso en tu frecuencia ${pathNumber} frente a lo que me cuentas sobre "${situationRef.slice(0, 60)}…", percibo una energía que necesita **canal, no contención**. Tu vibración natural te empuja hacia la acción, pero el entorno laboral a veces te pide pausa — y ahí es donde se genera la tensión.`,
+      projection: `Tu capacidad de ${strengthEssence} es exactamente lo que este momento profesional necesita de ti. No se trata de forzar resultados, sino de posicionarte como alguien que **ya sabe** hacia dónde va, incluso cuando el camino aún no está del todo claro.`,
+      challenge: `Ojo: la tendencia hacia ${shadowEssence} puede disfrazarse de "profesionalismo" o "cautela". Pregúntate con honestidad: _¿Estoy siendo estratégico o estoy evitando el riesgo por miedo?_`,
+      task: `**Ejercicio para hoy:** Escribe tres decisiones laborales que has estado posponiendo. Ordénalas de menor a mayor impacto. Ejecuta la primera antes de que termine el día — no mañana, hoy.`,
+      introspection: `Reflexiona: _¿Mi trabajo actual me acerca o me aleja de quien quiero ser en 3 años?_ La respuesta honesta a eso vale más que cualquier consejo externo.`,
+    },
+    relocation: {
+      feeling: `Tu energía ${pathNumber} frente a este cambio de entorno me dice algo interesante: no es solo una mudanza física, es un **reposicionamiento de tu frecuencia vital**. Lo que describes sobre "${situationRef.slice(0, 60)}…" refleja una necesidad profunda de alinearte con un espacio que resuene contigo.`,
+      projection: `Esa cualidad tuya de ${strengthEssence} es tu brújula aquí. No elijas el lugar más lógico — elige el que te haga sentir que puedes respirar más profundo. Tu intuición ya sabe la respuesta; tu mente es la que necesita convencerse.`,
+      challenge: `Cuidado con ${shadowEssence} disfrazada de "planificación excesiva". A veces, analizar demasiado un cambio es la forma elegante de no hacerlo. _¿Estás preparándote o estás postergando?_`,
+      task: `**Ejercicio para hoy:** Cierra los ojos 5 minutos e imagínate despertando en tu nuevo espacio. ¿Qué es lo primero que ves, hueles, sientes? Escríbelo. Ese ejercicio sensorial te dirá más que cualquier lista de pros y contras.`,
+      introspection: `Pregúntate: _¿Estoy huyendo de algo o caminando hacia algo?_ Ambas son válidas, pero la claridad sobre cuál es tu caso cambia completamente la estrategia.`,
+    },
+    relationship: {
+      feeling: `Tu frecuencia ${pathNumber} en el terreno emocional es reveladora. Lo que me compartes sobre "${situationRef.slice(0, 60)}…" no es casualidad — tu vibración está pidiendo **autenticidad radical** en cómo te vinculas. Hay algo que ya sabes pero que quizás no te has permitido decir en voz alta.`,
+      projection: `Tu don natural de ${strengthEssence} es magnético en las relaciones, pero solo cuando lo ejerces desde la vulnerabilidad, no desde la performance. La persona correcta no necesita tu mejor versión — necesita tu versión real.`,
+      challenge: `Tu punto ciego aquí es ${shadowEssence}. En relaciones, esto puede manifestarse como construir muros elegantes que parecen "estándares altos". _¿Estás protegiendo tu corazón o estás aislándolo?_`,
+      task: `**Ejercicio para hoy:** Envía un mensaje honesto a alguien importante. No tiene que ser profundo — solo genuino. "Pensé en ti hoy" es suficiente. El vínculo se nutre de presencia, no de grandes gestos.`,
+      introspection: `Reflexiona: _¿Qué patrón se repite en mis relaciones y qué me está enseñando?_ Los patrones no son errores — son lecciones que no has graduado aún.`,
+    },
   };
 
-  const ctx = scenarioContext[scenario];
+  const fw = creativeFrameworks[scenario];
 
   return {
-    analysis: `Como **${profile.title}** (Camino ${pathNumber}), tu ${profile.energyType} influye directamente en ${ctx.focus}. Tus aspectos principales — ${profile.aspectos.split('.')[0]} — son la clave para entender cómo abordar esta situación ${ctx.area}.\n\nTu perfil positivo te dice: **${profile.positivo.split('.')[0]}**. Esta es tu mayor fortaleza en este momento.`,
+    analysis: `${fw.feeling}\n\n${fw.projection}`,
     suggestions: [
-      `**Usa tu fortaleza:** ${profile.positivo.split('. ').slice(0, 2).join('. ')}. Aplica esta energía para ${ctx.verb}.`,
-      `**Cuidado con tu sombra:** ${profile.negativo.split('. ')[0]}. En el área de ${SCENARIO_LABELS[scenario].toLowerCase()}, esto podría manifestarse como resistencia o bloqueo.`,
-      `**Tu misión te guía:** ${profile.mision.split('. ')[0]}. Deja que este propósito sea tu brújula para tomar decisiones.`,
+      fw.challenge,
+      fw.introspection,
+      `Tu energía de **${profile.title}** hoy te invita a ${missionVerb} — no como obligación, sino como el siguiente paso natural de tu evolución.`,
     ],
-    action: `Recuerda: tu misión como ${profile.title} es **${profile.mision.split('. ').slice(0, 2).join('. ')}**. Cada decisión en ${ctx.focus} debe alinearse con este propósito. Confía en tu ${profile.energyType.toLowerCase()} para avanzar con claridad.`,
+    action: fw.task,
   };
 }
 
