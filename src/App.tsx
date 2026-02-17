@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Mentor from "./pages/Mentor";
 import Profile from "./pages/Profile";
 import Learn from "./pages/Learn";
+import LearnDetail from "./pages/LearnDetail";
 import Saved from "./pages/Saved";
 import NumberDetail from "./pages/NumberDetail";
 import NotFound from "./pages/NotFound";
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/mentor" element={<Mentor />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/learn" element={<Learn />} />
+            <Route path="/learn/:num" element={<LearnDetail />} />
             <Route path="/saved" element={<Saved />} />
             <Route path="/number/:type" element={<NumberDetail />} />
             <Route path="*" element={<NotFound />} />

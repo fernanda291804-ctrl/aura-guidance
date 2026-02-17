@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useApp } from '@/context/AppContext';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import BottomNav from '@/components/BottomNav';
-import { BookOpen, Search } from 'lucide-react';
+import { Search, ChevronRight } from 'lucide-react';
+import { NUMBER_PROFILES } from '@/data/numberMeanings';
 
 const LESSONS = [
   { title: '¿Qué es la Numerología Pitagórica?', preview: 'Un sistema ancestral que mapea fechas y letras a números revelando el plano de tu vida.' },
@@ -15,15 +16,31 @@ const LESSONS = [
   { title: 'Cómo interpretar tu Pentagrama', preview: 'Los cinco números forman un mapa energético. Aprende a leer las conexiones entre ellos.' },
 ];
 
+const NUMBER_ENTRIES = Object.entries(NUMBER_PROFILES).map(([key, p]) => ({
+  number: Number(key),
+  title: p.title,
+  subtitles: p.subtitles,
+  energyType: p.energyType,
+}));
+
 export default function Learn() {
   const { user } = useApp();
+  const navigate = useNavigate();
   const [search, setSearch] = useState('');
 
   if (!user) return <Navigate to="/" replace />;
 
-  const filtered = LESSONS.filter(l =>
-    l.title.toLowerCase().includes(search.toLowerCase()) ||
-    l.preview.toLowerCase().includes(search.toLowerCase())
+  const lowerSearch = search.toLowerCase();
+
+  const filteredLessons = LESSONS.filter(l =>
+    l.title.toLowerCase().includes(lowerSearch) ||
+    l.preview.toLowerCase().includes(lowerSearch)
+  );
+
+  const filteredNumbers = NUMBER_ENTRIES.filter(n =>
+    n.title.toLowerCase().includes(lowerSearch) ||
+    n.subtitles.toLowerCase().includes(lowerSearch) ||
+    String(n.number).includes(search)
   );
 
   return (
@@ -41,33 +58,57 @@ export default function Learn() {
             type="text"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            placeholder="Buscar conceptos..."
+            placeholder="Buscar conceptos o números..."
             className="w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
           />
         </div>
       </div>
 
-      <div className="space-y-3 px-6">
-        {filtered.length === 0 ? (
+      {/* Numbers section */}
+      <div className="px-6 mb-6">
+        <h2 className="font-lora text-base font-semibold text-heading mb-3">Los 10 Números</h2>
+        <div className="space-y-2">
+          {filteredNumbers.map(n => (
+            <button
+              key={n.number}
+              onClick={() => navigate(`/learn/${n.number}`)}
+              className="glass flex w-full items-center gap-4 rounded-xl p-4 shadow-soft text-left transition-transform active:scale-[0.98]"
+            >
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-secondary border border-primary/20">
+                <span className="font-lora text-lg font-bold text-primary">{n.number}</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-lora text-sm font-bold text-heading">{n.title}</h3>
+                <p className="text-xs text-body truncate">{n.subtitles} · {n.energyType}</p>
+              </div>
+              <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Concepts section */}
+      {filteredLessons.length > 0 && (
+        <div className="px-6">
+          <h2 className="font-lora text-base font-semibold text-heading mb-3">Conceptos</h2>
+          <div className="space-y-3">
+            {filteredLessons.map((l, i) => (
+              <div key={i} className="glass rounded-2xl p-5 shadow-soft">
+                <h3 className="font-lora text-sm font-bold text-heading">{l.title}</h3>
+                <p className="mt-1 text-xs leading-relaxed text-body font-lato">{l.preview}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {filteredNumbers.length === 0 && filteredLessons.length === 0 && (
+        <div className="px-6">
           <div className="glass rounded-2xl p-8 text-center shadow-soft">
             <p className="text-sm text-muted-foreground">No se encontraron resultados</p>
           </div>
-        ) : (
-          filtered.map((l, i) => (
-            <div key={i} className="glass rounded-2xl p-5 shadow-soft">
-              <div className="flex items-start gap-3">
-                <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-secondary">
-                  <BookOpen className="h-4 w-4 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-lora text-sm font-semibold text-heading">{l.title}</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-body">{l.preview}</p>
-                </div>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
+        </div>
+      )}
 
       <BottomNav />
     </div>
