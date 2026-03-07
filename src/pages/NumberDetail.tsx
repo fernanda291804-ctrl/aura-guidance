@@ -4,12 +4,12 @@ import { ArrowLeft } from 'lucide-react';
 import { NUMBER_MEANINGS, NUMBER_LABELS } from '@/data/numberMeanings';
 import BottomNav from '@/components/BottomNav';
 
-const SECTION_COLORS = {
-  energy: { bg: 'bg-secondary', border: 'border-primary', label: 'Energía' },
-  positive: { bg: 'bg-success/10', border: 'border-success', label: 'Positivo' },
-  negative: { bg: 'bg-destructive/10', border: 'border-destructive', label: 'Negativo' },
-  learning: { bg: 'bg-accent', border: 'border-primary', label: 'Aprendizaje' },
-};
+const SECTIONS: { key: 'energy' | 'positive' | 'negative' | 'learning'; label: string }[] = [
+  { key: 'energy', label: 'Energía' },
+  { key: 'positive', label: 'Aspecto Positivo' },
+  { key: 'negative', label: 'Aspecto Negativo' },
+  { key: 'learning', label: 'Aprendizaje' },
+];
 
 export default function NumberDetail() {
   const { type } = useParams<{ type: string }>();
@@ -34,7 +34,6 @@ export default function NumberDetail() {
         <h1 className="font-lora text-3xl font-bold text-heading text-center">{label}</h1>
         <p className="mt-1 text-sm text-body text-center">{meaning.name}</p>
 
-        {/* Central orb */}
         <div className="mt-6 flex justify-center">
           <div className="flex h-24 w-24 items-center justify-center rounded-full bg-card shadow-glow animate-pulse-glow border-2 border-primary/30">
             <span className="font-lora text-4xl font-bold text-primary">{value}</span>
@@ -42,13 +41,12 @@ export default function NumberDetail() {
         </div>
       </div>
 
-      <div className="space-y-4 px-6 mt-4">
-        {(Object.keys(SECTION_COLORS) as Array<keyof typeof SECTION_COLORS>).map(key => (
-          <div key={key} className={`glass rounded-2xl p-5 shadow-soft border-l-4 ${SECTION_COLORS[key].border}`}>
-            <h3 className="mb-2 font-lora text-sm font-bold uppercase tracking-wider text-primary">
-              {SECTION_COLORS[key].label}
-            </h3>
-            <p className="text-sm leading-relaxed text-body">{meaning[key]}</p>
+      {/* Clean typographic list — no borders/shadows that look clickable */}
+      <div className="px-6 mt-6 space-y-0">
+        {SECTIONS.map((s, i) => (
+          <div key={s.key} className={`py-5 ${i < SECTIONS.length - 1 ? 'border-b' : ''}`} style={{ borderColor: 'hsla(225, 25%, 70%, 0.2)' }}>
+            <h3 className="font-lora text-sm font-bold text-heading mb-2">{s.label}</h3>
+            <p className="text-sm leading-relaxed text-body font-lato">{meaning[s.key]}</p>
           </div>
         ))}
       </div>

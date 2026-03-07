@@ -4,11 +4,11 @@ import { ArrowLeft } from 'lucide-react';
 import { NUMBER_PROFILES } from '@/data/numberMeanings';
 import BottomNav from '@/components/BottomNav';
 
-const SECTIONS = [
-  { key: 'aspectos' as const, label: 'Aspectos Principales', border: 'border-primary' },
-  { key: 'positivo' as const, label: 'Características Positivas', border: 'border-success' },
-  { key: 'negativo' as const, label: 'Características Negativas', border: 'border-destructive' },
-  { key: 'mision' as const, label: 'Misión', border: 'border-accent-foreground' },
+const SECTIONS: { key: 'aspectos' | 'positivo' | 'negativo' | 'mision'; label: string }[] = [
+  { key: 'aspectos', label: 'Aspectos Principales' },
+  { key: 'positivo', label: 'Características Positivas' },
+  { key: 'negativo', label: 'Características Negativas' },
+  { key: 'mision', label: 'Misión' },
 ];
 
 export default function LearnDetail() {
@@ -32,7 +32,6 @@ export default function LearnDetail() {
         <h1 className="font-lora text-2xl font-bold text-heading text-center">{profile.title}</h1>
         <p className="mt-1 text-sm text-body text-center">{profile.subtitles}</p>
 
-        {/* Central orb */}
         <div className="mt-6 flex justify-center">
           <div className="flex h-24 w-24 items-center justify-center rounded-full bg-card shadow-glow animate-pulse-glow border-2 border-primary/30">
             <span className="font-lora text-4xl font-bold text-primary">{number}</span>
@@ -42,13 +41,12 @@ export default function LearnDetail() {
         <p className="mt-3 text-center text-xs font-semibold text-primary">{profile.energyType}</p>
       </div>
 
-      <div className="space-y-4 px-6 mt-4">
-        {SECTIONS.map(({ key, label, border }) => (
-          <div key={key} className={`glass rounded-2xl p-5 shadow-soft border-l-4 ${border}`}>
-            <h3 className="mb-2 font-lora text-sm font-bold uppercase tracking-wider text-primary">
-              {label}
-            </h3>
-            <p className="text-sm leading-relaxed text-body font-lato">{profile[key]}</p>
+      {/* Clean typographic list — reading content, not buttons */}
+      <div className="px-6 mt-6 space-y-0">
+        {SECTIONS.map((s, i) => (
+          <div key={s.key} className={`py-5 ${i < SECTIONS.length - 1 ? 'border-b' : ''}`} style={{ borderColor: 'hsla(225, 25%, 70%, 0.2)' }}>
+            <h3 className="font-lora text-sm font-bold text-heading mb-2">{s.label}</h3>
+            <p className="text-sm leading-relaxed text-body font-lato">{profile[s.key]}</p>
           </div>
         ))}
       </div>

@@ -62,7 +62,7 @@ export default function Onboarding() {
           <div className="flex h-16 w-16 items-center justify-center rounded-2xl gradient-warm shadow-glow">
             <Sparkles className="h-8 w-8 text-foreground" />
           </div>
-          <h1 className="font-lora text-3xl font-bold text-heading">NUMI</h1>
+          <h1 className="font-lora text-3xl font-bold text-heading">KYROS</h1>
           <p className="text-body text-center text-sm">Descubre tu esencia numerológica</p>
         </div>
 
