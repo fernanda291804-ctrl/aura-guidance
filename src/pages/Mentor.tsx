@@ -47,71 +47,55 @@ const DETAIL_QUESTIONS: Record<Scenario, string> = {
 };
 
 /**
- * Camino-Céntrico + Regla 20/80:
- * 20% teoría del número → 80% interpretación creativa aplicada al contexto del usuario.
- * Nunca cita textualmente la base de datos; parafrasea y proyecta hacia el futuro.
+ * KYROS – Arquetipo del Sabio.
+ * Protocolo: Empatía → Validación → Consejo Guía.
+ * Regla de Oro: Nunca "tienes que", siempre "Tu frecuencia sugiere…".
+ * Respuestas breves, legibles en burbujas Glassmorphism.
  */
 function generateInsight(scenario: Scenario, pathNumber: number, userContext: string, userDetail: string) {
   const profile = NUMBER_PROFILES[pathNumber];
   if (!profile) {
     return {
-      analysis: `Tu frecuencia vibratoria está en un punto de inflexión. Siento que hay una transformación profunda gestándose dentro de ti.`,
+      analysis: `Percibo un momento de transformación profunda en tu energía. Algo dentro de ti ya sabe hacia dónde ir.`,
       suggestions: [
-        'Dedica 10 minutos hoy a escribir qué sería tu escenario ideal dentro de 6 meses.',
-        'Antes de dormir, pregúntate: _¿Qué decisión estoy postergando por miedo?_',
-        'Mañana, haz una cosa que te incomode levemente — ahí está tu crecimiento.',
+        'Tu frecuencia sugiere que este es un gran momento para detenerte y escuchar lo que tu cuerpo te dice.',
+        'Pregúntate: _¿Qué decisión estoy postergando por miedo a equivocarme?_',
       ],
-      action: 'Hoy mismo, escribe en un papel una sola palabra que represente lo que quieres soltar. Dóblalo y guárdalo en un lugar donde no lo veas hasta la próxima luna llena.',
+      action: '**Hoy:** Escribe en una hoja una sola palabra que represente lo que necesitas soltar. Guárdala donde no la veas hasta la próxima semana.',
     };
   }
 
-  // Extract essence without quoting verbatim
-  const strengthEssence = profile.positivo.split(', ').slice(0, 2).join(' y ').toLowerCase();
-  const shadowEssence = profile.negativo.split(', ')[0].toLowerCase();
-  const missionVerb = profile.mision.split(' ').slice(1, 5).join(' ').toLowerCase();
+  const situationRef = userDetail || userContext || 'lo que estás atravesando';
+  // Paraphrase — never quote the DB verbatim
+  const strengthVerb = profile.positivo.split(':')[0].toLowerCase().replace(/^\s+/, '');
+  const shadowNoun = profile.negativo.split(':')[0].toLowerCase().replace(/^\s+/, '');
 
-  const situationRef = userDetail || userContext || 'tu situación actual';
-
-  // Scenario-specific creative frameworks (80% of the response)
-  const creativeFrameworks: Record<Scenario, {
-    feeling: string;
-    projection: string;
-    challenge: string;
-    task: string;
-    introspection: string;
-  }> = {
+  const frameworks: Record<Scenario, { empathy: string; validation: string; guide: string; task: string }> = {
     work: {
-      feeling: `Cuando pienso en tu frecuencia ${pathNumber} frente a lo que me cuentas sobre "${situationRef.slice(0, 60)}…", percibo una energía que necesita **canal, no contención**. Tu vibración natural te empuja hacia la acción, pero el entorno laboral a veces te pide pausa — y ahí es donde se genera la tensión.`,
-      projection: `Tu capacidad de ${strengthEssence} es exactamente lo que este momento profesional necesita de ti. No se trata de forzar resultados, sino de posicionarte como alguien que **ya sabe** hacia dónde va, incluso cuando el camino aún no está del todo claro.`,
-      challenge: `Ojo: la tendencia hacia ${shadowEssence} puede disfrazarse de "profesionalismo" o "cautela". Pregúntate con honestidad: _¿Estoy siendo estratégico o estoy evitando el riesgo por miedo?_`,
-      task: `**Ejercicio para hoy:** Escribe tres decisiones laborales que has estado posponiendo. Ordénalas de menor a mayor impacto. Ejecuta la primera antes de que termine el día — no mañana, hoy.`,
-      introspection: `Reflexiona: _¿Mi trabajo actual me acerca o me aleja de quien quiero ser en 3 años?_ La respuesta honesta a eso vale más que cualquier consejo externo.`,
+      empathy: `Entiendo lo que sientes. El terreno laboral puede generar una presión silenciosa que no siempre es fácil de nombrar, y lo que describes sobre "${situationRef.slice(0, 50)}…" lo confirma.`,
+      validation: `Tu frecuencia **${pathNumber}** — la de **${profile.title}** — resuena con esto de una forma muy específica: esa capacidad tuya de ${strengthVerb} es exactamente lo que este momento profesional necesita. No es coincidencia que estés aquí preguntándote esto ahora.`,
+      guide: `Tu frecuencia sugiere que este es un gran momento para dejar de planificar en silencio y **dar el primer paso visible**. Ojo con la tendencia hacia ${shadowNoun} — a veces se disfraza de prudencia.\n\n_¿Estás siendo estratégico o estás evitando el riesgo?_`,
+      task: `**Acción para hoy:** Identifica una decisión laboral que llevas posponiendo. Tómala antes de que termine el día — aunque sea imperfecta. El movimiento rompe la parálisis.`,
     },
     relocation: {
-      feeling: `Tu energía ${pathNumber} frente a este cambio de entorno me dice algo interesante: no es solo una mudanza física, es un **reposicionamiento de tu frecuencia vital**. Lo que describes sobre "${situationRef.slice(0, 60)}…" refleja una necesidad profunda de alinearte con un espacio que resuene contigo.`,
-      projection: `Esa cualidad tuya de ${strengthEssence} es tu brújula aquí. No elijas el lugar más lógico — elige el que te haga sentir que puedes respirar más profundo. Tu intuición ya sabe la respuesta; tu mente es la que necesita convencerse.`,
-      challenge: `Cuidado con ${shadowEssence} disfrazada de "planificación excesiva". A veces, analizar demasiado un cambio es la forma elegante de no hacerlo. _¿Estás preparándote o estás postergando?_`,
-      task: `**Ejercicio para hoy:** Cierra los ojos 5 minutos e imagínate despertando en tu nuevo espacio. ¿Qué es lo primero que ves, hueles, sientes? Escríbelo. Ese ejercicio sensorial te dirá más que cualquier lista de pros y contras.`,
-      introspection: `Pregúntate: _¿Estoy huyendo de algo o caminando hacia algo?_ Ambas son válidas, pero la claridad sobre cuál es tu caso cambia completamente la estrategia.`,
+      empathy: `Mudarse no es solo cambiar de dirección — es renegociar quién eres en un espacio nuevo. Lo que me cuentas sobre "${situationRef.slice(0, 50)}…" me dice que ya intuyes la respuesta, pero necesitas confirmación.`,
+      validation: `Como **${profile.title}**, tu energía ${pathNumber} está diseñada para ${strengthVerb}. Este cambio no te desestabiliza — te reposiciona. Tu frecuencia sugiere que este es un gran momento para confiar en esa brújula interna que ya está apuntando.`,
+      guide: `Solo cuida que ${shadowNoun} no se disfrace de "necesito más información". A veces, analizar de más es la forma elegante de no actuar.\n\n_¿Estás preparándote o estás postergando?_`,
+      task: `**Acción para hoy:** Cierra los ojos 5 minutos. Imagínate despertando en tu nuevo espacio. ¿Qué ves, qué hueles, qué sientes? Escríbelo. Eso te dirá más que cualquier lista de pros y contras.`,
     },
     relationship: {
-      feeling: `Tu frecuencia ${pathNumber} en el terreno emocional es reveladora. Lo que me compartes sobre "${situationRef.slice(0, 60)}…" no es casualidad — tu vibración está pidiendo **autenticidad radical** en cómo te vinculas. Hay algo que ya sabes pero que quizás no te has permitido decir en voz alta.`,
-      projection: `Tu don natural de ${strengthEssence} es magnético en las relaciones, pero solo cuando lo ejerces desde la vulnerabilidad, no desde la performance. La persona correcta no necesita tu mejor versión — necesita tu versión real.`,
-      challenge: `Tu punto ciego aquí es ${shadowEssence}. En relaciones, esto puede manifestarse como construir muros elegantes que parecen "estándares altos". _¿Estás protegiendo tu corazón o estás aislándolo?_`,
-      task: `**Ejercicio para hoy:** Envía un mensaje honesto a alguien importante. No tiene que ser profundo — solo genuino. "Pensé en ti hoy" es suficiente. El vínculo se nutre de presencia, no de grandes gestos.`,
-      introspection: `Reflexiona: _¿Qué patrón se repite en mis relaciones y qué me está enseñando?_ Los patrones no son errores — son lecciones que no has graduado aún.`,
+      empathy: `Lo que me compartes sobre "${situationRef.slice(0, 50)}…" me dice que hay algo que ya sabes pero que quizás no te has permitido decir en voz alta. Eso requiere valentía, y aquí estoy para acompañarte.`,
+      validation: `Tu frecuencia **${pathNumber}** — **${profile.title}** — tiene un don natural para ${strengthVerb}, y eso es magnético en las relaciones. Pero solo cuando lo ejerces desde la autenticidad, no desde la performance. La persona correcta necesita tu versión real, no tu mejor versión.`,
+      guide: `Tu punto ciego aquí podría ser ${shadowNoun}. En lo emocional, esto a veces se manifiesta como construir muros que parecen "estándares altos".\n\n_¿Estás protegiendo tu corazón o lo estás aislando?_`,
+      task: `**Acción para hoy:** Envía un mensaje genuino a alguien importante. No tiene que ser profundo — "pensé en ti hoy" es suficiente. El vínculo se nutre de presencia, no de grandes gestos.`,
     },
   };
 
-  const fw = creativeFrameworks[scenario];
+  const fw = frameworks[scenario];
 
   return {
-    analysis: `${fw.feeling}\n\n${fw.projection}`,
-    suggestions: [
-      fw.challenge,
-      fw.introspection,
-      `Tu energía de **${profile.title}** hoy te invita a ${missionVerb} — no como obligación, sino como el siguiente paso natural de tu evolución.`,
-    ],
+    analysis: `${fw.empathy}\n\n${fw.validation}`,
+    suggestions: [fw.guide],
     action: fw.task,
   };
 }
@@ -163,7 +147,7 @@ export default function Mentor() {
     setScenario(s);
     setStep('greeting');
     const profile = NUMBER_PROFILES[user.numbers.path];
-    const greeting = `¡Hola, ${user.name.split(' ')[0]}! 🌟\n\nSoy tu mentor numerológico. He analizado tu mapa energético y como **${profile?.title || 'guía'}** con Camino ${user.numbers.path}, tengo una perspectiva especial para orientarte en el área de **${SCENARIO_LABELS[s]}**.\n\n¿Cuéntame, qué situación específica te trae hoy?`;
+    const greeting = `Hola, ${user.name.split(' ')[0]}. 🌟\n\nSoy **KYROS**, tu guía numerológico. He leído tu mapa energético — tu Camino **${user.numbers.path}** vibra con la esencia de **${profile?.title || 'una frecuencia única'}**, y eso me da una perspectiva valiosa para acompañarte en **${SCENARIO_LABELS[s]}**.\n\nCuéntame: ¿qué situación específica te trae hoy?`;
     setMessages([{ role: 'mentor', text: greeting }]);
   };
 
@@ -184,11 +168,11 @@ export default function Mentor() {
       setStep('thinking');
       setTimeout(() => {
         const insight = generateInsight(scenario, user.numbers.path, userContext, text);
-        const insightText = `✨ **Análisis de tu Energía**\n\n${insight.analysis}\n\n🔮 **Sugerencias**\n\n${insight.suggestions.map((s, i) => `${i + 1}. ${s}`).join('\n\n')}\n\n⚡ **Acción Recomendada**\n\n${insight.action}`;
+        const insightText = `✨ **Lo que percibo**\n\n${insight.analysis}\n\n🔮 **Consejo guía**\n\n${insight.suggestions.join('\n\n')}\n\n⚡ **Tu siguiente paso**\n\n${insight.action}`;
         addMessage('mentor', insightText);
         setStep('insight');
         setTimeout(() => {
-          addMessage('mentor', '🙏 Esta sesión ha concluido. Puedes guardar este insight en tu diario para consultarlo cuando lo necesites.\n\n_Que la energía de tus números te guíe._');
+          addMessage('mentor', '🙏 Esta lectura ha terminado. Si algo resonó contigo, guárdalo — a veces releer un consejo en el momento justo lo cambia todo.\n\n_Confía en tu frecuencia._');
           setStep('closed');
         }, 1500);
       }, 2500);
@@ -236,7 +220,7 @@ export default function Mentor() {
               <Sparkles className="h-4 w-4 text-foreground" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-heading font-lora">Mentor NUMI</p>
+              <p className="text-sm font-semibold text-heading font-lora">KYROS</p>
               <p className="text-[10px] text-body">{SCENARIO_LABELS[scenario]}</p>
             </div>
           </div>
