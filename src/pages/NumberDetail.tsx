@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useApp } from '@/context/AppContext';
-import { ArrowLeft, ChevronDown, Flame, Sun, ShieldAlert, GraduationCap } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Sparkles, Sun, ShieldAlert, Compass } from 'lucide-react';
 import { NUMBER_MEANINGS, NUMBER_LABELS } from '@/data/numberMeanings';
 import BottomNav from '@/components/BottomNav';
 
