@@ -361,7 +361,7 @@ export default function Mentor() {
             </div>
             <div>
               <h3 className="font-lora text-base font-semibold text-heading">{s.title}</h3>
-              <p className="text-xs text-body">{s.desc}</p>
+              <p className="text-xs text-body font-lato">{s.desc}</p>
             </div>
           </button>
         ))}
