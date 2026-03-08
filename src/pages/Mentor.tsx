@@ -151,13 +151,16 @@ export default function Mentor() {
       addMessage('user', text);
       setStep('thinking');
       setTimeout(() => {
-        const insight = generateInsight(scenario, user.numbers.path, userContext, text);
-        const insightText = `**Lo que percibo**\n\n${insight.analysis}\n\n**Consejo guía**\n\n${insight.suggestions.join('\n\n')}\n\n**Tu siguiente paso**\n\n${insight.action}`;
+        const insight = generateInsight(scenario, user.numbers.path, user.name, userContext, text);
+        const insightText = `${insight.validation}\n\n${insight.connection}\n\n${insight.advice}`;
         addMessage('mentor', insightText);
         setStep('insight');
         setTimeout(() => {
-          addMessage('mentor', 'Esta lectura ha terminado. Si algo resonó contigo, guárdalo — a veces releer un consejo en el momento justo lo cambia todo.\n\n_Confía en tu frecuencia._');
+          addMessage('mentor', `_${insight.question}_`);
           setStep('closed');
+          setTimeout(() => {
+            addMessage('mentor', 'He compartido mi visión por hoy. Solo tenemos un encuentro al día para que tengas espacio de integrar esto. Vuelve mañana.\n\n_Confía en tu frecuencia._');
+          }, 1200);
         }, 1500);
       }, 2500);
     }
