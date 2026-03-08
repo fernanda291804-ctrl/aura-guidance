@@ -51,7 +51,7 @@ export default function Dashboard() {
                   <span className="rounded-full bg-secondary px-3 py-1 text-xs font-semibold capitalize text-secondary-foreground font-lato">
                     {SCENARIO_LABELS[c.scenario] || c.scenario}
                   </span>
-                  <span className="text-xs text-muted-foreground">{c.date}</span>
+                  <span className="text-xs text-white/70 font-lato">{c.date}</span>
                 </div>
                 <p className="mt-2 text-sm text-body line-clamp-2 font-lato">{c.insight.advice}</p>
               </div>
