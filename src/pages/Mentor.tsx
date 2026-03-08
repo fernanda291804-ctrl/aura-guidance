@@ -6,7 +6,7 @@ import { Briefcase, MapPin, Heart, ArrowLeft, Send, Bookmark, Check } from 'luci
 import { NUMBER_PROFILES } from '@/data/numberMeanings';
 
 type Scenario = 'work' | 'relocation' | 'relationship';
-type ChatStep = 'select' | 'greeting' | 'ask_situation' | 'ask_detail' | 'thinking' | 'insight' | 'closed';
+type ChatStep = 'select' | 'greeting' | 'ask_situation' | 'ask_detail' | 'thinking' | 'insight' | 'first_response' | 'second_thinking' | 'closed';
 
 interface ChatMessage {
   role: 'mentor' | 'user';
@@ -55,8 +55,6 @@ const DETAIL_QUESTIONS: Record<Scenario, (name: string, pathNumber: number, prof
 function generateInsight(scenario: Scenario, pathNumber: number, userName: string, userContext: string, userDetail: string) {
   const profile = NUMBER_PROFILES[pathNumber];
   const name = userName.split(' ')[0];
-  const situationRef = userDetail || userContext || 'lo que estás atravesando';
-  const shortSituation = situationRef.slice(0, 60);
 
   if (!profile) {
     return {
@@ -89,6 +87,30 @@ function generateInsight(scenario: Scenario, pathNumber: number, userName: strin
   };
 
   return frameworks[scenario];
+}
+
+function generateRelocationFirstResponse(pathNumber: number, userName: string) {
+  const profile = NUMBER_PROFILES[pathNumber];
+  const name = userName.split(' ')[0];
+  if (!profile) {
+    return `Te escucho, ${name}. Cruzar una frontera es un acto de transformación profunda. Tu frecuencia vibra con la necesidad de expandirte y encontrar un espacio que resuene con quien te estás convirtiendo.\n\nPara que este gran salto sea exitoso, mi mejor consejo es que limpies tu energía soltando lo que ya no te nutre antes de cerrar la maleta. Viaja ligero; tu capacidad de adaptación es tu mayor superpoder, pero necesitas espacio vacío para recibir lo que ese nuevo lugar tiene para ti.\n\nAntes de que empieces con la logística, dime: ¿Qué parte de tu esencia esperas que despierte en ese nuevo destino que hoy sientes que está dormida?`;
+  }
+  return `Te escucho, ${name}. Cruzar una frontera es el acto de libertad más puro que puedes vivir, y para tu frecuencia **${pathNumber}** — **${profile.title}** —, este movimiento es la respuesta de tu alma a una necesidad de aire nuevo y expansión que ya no cabe donde estás.\n\nPara que este gran salto sea exitoso, mi mejor consejo es que limpies tu energía soltando lo que ya no te nutre antes de cerrar la maleta. Viaja ligero; tu capacidad de adaptación es tu mayor superpoder, pero necesitas espacio vacío para recibir lo que ese nuevo lugar tiene para ti.\n\nAntes de que empieces con la logística, dime: ¿Qué parte de tu esencia esperas que despierte en ese nuevo destino que hoy sientes que está dormida?`;
+}
+
+function generateRelocationSecondResponse(pathNumber: number, userName: string) {
+  const profile = NUMBER_PROFILES[pathNumber];
+  const name = userName.split(' ')[0];
+  if (!profile) {
+    return {
+      insight: `Es natural que el ruido de la logística intente apagar tu entusiasmo, ${name}, pero recuerda: el cambio es tu estado natural de crecimiento, aunque el caos a veces te haga sentir que pierdes el control.\n\nPara que no te satures, yo te sugiero este primer paso: suelta la lista completa y elige solo una cosa que resolver hoy. Tu energía brilla cuando fluye, no cuando se angustia por el futuro. Enfocarte en lo inmediato calmará tu sistema y te devolverá la claridad para dar el siguiente paso.\n\nAntes de que sigas con los pendientes, dime: Si hoy pudieras resolver una sola cosa que te diera paz absoluta, ¿qué sería?`,
+      farewell: `He compartido mi visión por hoy. Ahora te dejo este espacio para que integres lo que hablamos; la calma llega cuando dejas de correr. Estaré aquí mañana para escucharte de nuevo.`,
+    };
+  }
+  return {
+    insight: `Es natural que el ruido de la logística intente apagar tu entusiasmo, ${name}, pero recuerda: para tu frecuencia **${pathNumber}** — **${profile.title}** —, el cambio es tu estado natural de crecimiento, aunque el caos a veces te haga sentir que pierdes el control.\n\nPara que no te satures, yo te sugiero este primer paso: suelta la lista completa y elige solo una cosa que resolver hoy. Tu energía brilla cuando fluye, no cuando se angustia por el futuro. Enfocarte en lo inmediato calmará tu sistema y te devolverá la claridad para dar el siguiente paso.\n\nAntes de que sigas con los pendientes, dime: Si hoy pudieras resolver una sola cosa que te diera paz absoluta, ¿qué sería?`,
+    farewell: `He compartido mi visión por hoy. Ahora te dejo este espacio para que integres lo que hablamos; la calma llega cuando dejas de correr. Estaré aquí mañana para escucharte de nuevo.`,
+  };
 }
 
 function RichText({ text }: { text: string }) {
@@ -136,7 +158,7 @@ export default function Mentor() {
     const name = user.name.split(' ')[0];
     const greetings: Record<Scenario, string> = {
       work: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en tu evolución profesional. Cuéntame, ¿en qué tema de tu trabajo o relacionado con él necesitas ayuda hoy?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en tu siguiente paso?`,
-      relocation: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en este momento de transición. Cuéntame, ¿qué cambio de espacio estás considerando?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en este nuevo comienzo?`,
+      relocation: `Hola ${name}. Soy **KYROS** y estoy aquí para acompañarte en este cambio de espacio y energía.\n\nCuéntame, ¿en qué parte de tu mudanza o de tu nuevo hogar necesitas mi ayuda hoy? Dime, ¿cómo te puedo ayudar a sintonizar con tu nuevo centro?`,
       relationship: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en el terreno más importante: tus vínculos. Cuéntame, ¿qué te trae hoy al espacio del corazón?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en tus conexiones?`,
     };
     setMessages([{ role: 'mentor', text: greetings[s] }]);
@@ -150,12 +172,33 @@ export default function Mentor() {
     if (step === 'greeting') {
       addMessage('user', text);
       setUserContext(text);
-      const profile = NUMBER_PROFILES[user.numbers.path];
-      const name = user.name.split(' ')[0];
+
+      if (scenario === 'relocation') {
+        // Relocation: direct first insight (no bullet questions)
+        setTimeout(() => {
+          addMessage('mentor', generateRelocationFirstResponse(user.numbers.path, user.name));
+          setStep('first_response');
+        }, 800);
+      } else {
+        const profile = NUMBER_PROFILES[user.numbers.path];
+        const name = user.name.split(' ')[0];
+        setTimeout(() => {
+          addMessage('mentor', DETAIL_QUESTIONS[scenario](name, user.numbers.path, profile));
+          setStep('ask_detail');
+        }, 800);
+      }
+    } else if (step === 'first_response' && scenario === 'relocation') {
+      // Relocation: second round
+      addMessage('user', text);
+      setStep('second_thinking');
       setTimeout(() => {
-        addMessage('mentor', DETAIL_QUESTIONS[scenario](name, user.numbers.path, profile));
-        setStep('ask_detail');
-      }, 800);
+        const response = generateRelocationSecondResponse(user.numbers.path, user.name);
+        addMessage('mentor', response.insight);
+        setStep('closed');
+        setTimeout(() => {
+          addMessage('mentor', response.farewell);
+        }, 1200);
+      }, 2500);
     } else if (step === 'ask_detail') {
       addMessage('user', text);
       setStep('thinking');
@@ -257,7 +300,7 @@ export default function Mentor() {
             </div>
           ))}
 
-          {step === 'thinking' && (
+          {(step === 'thinking' || step === 'second_thinking') && (
             <div className="flex justify-start">
               <div
                 className="rounded-2xl rounded-bl-md px-4 py-3"
@@ -305,7 +348,7 @@ export default function Mentor() {
         </div>
 
         {/* Input */}
-        {(step === 'greeting' || step === 'ask_detail') && (
+        {(step === 'greeting' || step === 'ask_detail' || step === 'first_response') && (
           <div
             className="border-t px-4 py-3 pb-20"
             style={{
