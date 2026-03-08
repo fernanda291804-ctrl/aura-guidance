@@ -47,7 +47,7 @@ export default function Learn() {
     <div className="min-h-screen bg-background pb-24 liquid-light grain-overlay">
       <div className="gradient-aura px-6 pb-6 pt-12">
         <h1 className="font-lora text-2xl font-bold text-heading">Aprender</h1>
-        <p className="mt-1 text-sm text-body">Profundiza tu conocimiento numerológico</p>
+        <p className="mt-1 text-sm text-body font-lato">Profundiza tu conocimiento numerológico</p>
       </div>
 
       {/* Search bar */}

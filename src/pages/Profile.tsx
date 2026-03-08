@@ -38,8 +38,8 @@ export default function Profile() {
                 {n.value}
               </div>
               <div>
-                <p className="text-sm font-semibold text-heading">{n.label}</p>
-                <p className="text-xs text-body">{n.desc}</p>
+                <p className="text-sm font-semibold text-heading font-lato">{n.label}</p>
+                <p className="text-xs text-body font-lato">{n.desc}</p>
               </div>
             </div>
           ))}

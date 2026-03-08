@@ -37,7 +37,7 @@ export default function Saved() {
                   </span>
                   <span className="text-xs text-muted-foreground">{c.date}</span>
                 </div>
-                <p className="text-sm text-body leading-relaxed">{c.insight.advice}</p>
+                <p className="text-sm text-body leading-relaxed font-lato">{c.insight.advice}</p>
               </div>
             ))}
           </div>

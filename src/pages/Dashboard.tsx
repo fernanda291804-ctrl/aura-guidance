@@ -53,7 +53,7 @@ export default function Dashboard() {
                   </span>
                   <span className="text-xs text-muted-foreground">{c.date}</span>
                 </div>
-                <p className="mt-2 text-sm text-body line-clamp-2">{c.insight.advice}</p>
+                <p className="mt-2 text-sm text-body line-clamp-2 font-lato">{c.insight.advice}</p>
               </div>
             ))}
           </div>
