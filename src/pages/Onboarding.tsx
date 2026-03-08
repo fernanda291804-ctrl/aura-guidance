@@ -96,7 +96,7 @@ export default function Onboarding() {
             onClick={handleSubmit}
             className="w-full rounded-xl gradient-warm py-3.5 text-sm font-bold text-foreground shadow-glow transition-transform active:scale-[0.98]"
           >
-            Revelar Mis Números
+            Conocer mis números
           </button>
         </div>
 
