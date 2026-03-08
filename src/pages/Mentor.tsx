@@ -63,8 +63,8 @@ function generateInsight(scenario: Scenario, pathNumber: number, userContext: st
   }
 
   const situationRef = userDetail || userContext || 'lo que estás atravesando';
-  const strengthVerb = profile.positivo.split(':')[0].toLowerCase().replace(/^\s+/, '');
-  const shadowNoun = profile.negativo.split(':')[0].toLowerCase().replace(/^\s+/, '');
+  const strengthVerb = profile.luz.split(':')[0].toLowerCase().replace(/^\s+/, '');
+  const shadowNoun = profile.sombra.split(':')[0].toLowerCase().replace(/^\s+/, '');
 
   const frameworks: Record<Scenario, { empathy: string; validation: string; guide: string; task: string }> = {
     work: {

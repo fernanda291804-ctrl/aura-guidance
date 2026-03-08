@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useApp } from '@/context/AppContext';
-import { ArrowLeft, ChevronDown, Flame, Sun, ShieldAlert, GraduationCap } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Sparkles, Sun, ShieldAlert, Compass } from 'lucide-react';
 import { NUMBER_MEANINGS, NUMBER_LABELS } from '@/data/numberMeanings';
 import BottomNav from '@/components/BottomNav';
 
 const SECTIONS: { key: 'energy' | 'positive' | 'negative' | 'learning'; label: string; icon: React.ElementType }[] = [
-  { key: 'energy', label: 'Energía', icon: Flame },
-  { key: 'positive', label: 'Aspecto positivo', icon: Sun },
-  { key: 'negative', label: 'Aspecto negativo', icon: ShieldAlert },
-  { key: 'learning', label: 'Aprendizaje', icon: GraduationCap },
+  { key: 'energy', label: 'Esencia', icon: Sparkles },
+  { key: 'positive', label: 'Luz: Donde brillas', icon: Sun },
+  { key: 'negative', label: 'Sombra: Tu desafío', icon: ShieldAlert },
+  { key: 'learning', label: 'Misión', icon: Compass },
 ];
 
 export default function NumberDetail() {

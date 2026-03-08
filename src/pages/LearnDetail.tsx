@@ -5,10 +5,10 @@ import { ArrowLeft, ChevronDown, Sparkles, Sun, ShieldAlert, Compass } from 'luc
 import { NUMBER_PROFILES } from '@/data/numberMeanings';
 import BottomNav from '@/components/BottomNav';
 
-const SECTIONS: { key: 'aspectos' | 'positivo' | 'negativo' | 'mision'; label: string; icon: React.ElementType }[] = [
-  { key: 'aspectos', label: 'Aspectos principales', icon: Sparkles },
-  { key: 'positivo', label: 'Características positivas', icon: Sun },
-  { key: 'negativo', label: 'Características negativas', icon: ShieldAlert },
+const SECTIONS: { key: 'esencia' | 'luz' | 'sombra' | 'mision'; label: string; icon: React.ElementType }[] = [
+  { key: 'esencia', label: 'Esencia', icon: Sparkles },
+  { key: 'luz', label: 'Luz: Donde brillas', icon: Sun },
+  { key: 'sombra', label: 'Sombra: Tu desafío', icon: ShieldAlert },
   { key: 'mision', label: 'Misión', icon: Compass },
 ];
 
