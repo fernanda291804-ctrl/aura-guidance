@@ -37,7 +37,7 @@ export default function Profile() {
             const profile = NUMBER_PROFILES[n.value];
             return (
               <div key={n.label} className="flex items-center gap-4 rounded-xl bg-white/90 backdrop-blur-md p-4 border border-white/50 shadow-soft">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-secondary font-lora text-lg font-bold text-primary">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-secondary font-lora text-lg font-bold text-secondary-foreground">
                   {n.value}
                 </div>
                 <div>
