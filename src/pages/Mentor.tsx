@@ -163,7 +163,7 @@ export default function Mentor() {
         addMessage('mentor', insightText);
         setStep('insight');
         setTimeout(() => {
-          addMessage('mentor', '🙏 Esta lectura ha terminado. Si algo resonó contigo, guárdalo — a veces releer un consejo en el momento justo lo cambia todo.\n\n_Confía en tu frecuencia._');
+          addMessage('mentor', 'Esta lectura ha terminado. Si algo resonó contigo, guárdalo — a veces releer un consejo en el momento justo lo cambia todo.\n\n_Confía en tu frecuencia._');
           setStep('closed');
         }, 1500);
       }, 2500);

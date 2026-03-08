@@ -54,7 +54,7 @@ export default function LearnDetail() {
                 onClick={() => toggle(s.key)}
                 className="flex w-full items-center gap-3 px-5 py-4 text-left transition-colors active:bg-white/70"
               >
-                <span className="text-base">{s.emoji}</span>
+                <s.icon className="h-4 w-4 text-primary shrink-0" />
                 <span className="flex-1 font-lora text-sm font-bold text-heading">{s.label}</span>
                 <ChevronDown
                   className={`h-4 w-4 text-muted-foreground shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
