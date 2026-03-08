@@ -133,9 +133,13 @@ export default function Mentor() {
   const handleSelect = (s: Scenario) => {
     setScenario(s);
     setStep('greeting');
-    const profile = NUMBER_PROFILES[user.numbers.path];
-    const greeting = `Hola, ${user.name.split(' ')[0]}.\n\nSoy **KYROS**. He sintonizado con tu mapa energético — tu Camino **${user.numbers.path}**, la frecuencia de **${profile?.title || 'una vibración única'}**.\n\nCuéntame: ¿qué situación te trae hoy?`;
-    setMessages([{ role: 'mentor', text: greeting }]);
+    const name = user.name.split(' ')[0];
+    const greetings: Record<Scenario, string> = {
+      work: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en tu evolución profesional. Cuéntame, ¿en qué tema de tu trabajo o relacionado con él necesitas ayuda hoy?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en tu siguiente paso?`,
+      relocation: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en este momento de transición. Cuéntame, ¿qué cambio de espacio estás considerando?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en este nuevo comienzo?`,
+      relationship: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en el terreno más importante: tus vínculos. Cuéntame, ¿qué te trae hoy al espacio del corazón?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en tus conexiones?`,
+    };
+    setMessages([{ role: 'mentor', text: greetings[s] }]);
   };
 
   const handleSend = () => {
