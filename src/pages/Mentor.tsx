@@ -346,7 +346,7 @@ export default function Mentor() {
     <div className="min-h-screen bg-background pb-24 liquid-light grain-overlay">
       <div className="gradient-aura px-6 pb-6 pt-12">
         <h1 className="font-lora text-2xl font-bold text-heading">KYROS</h1>
-        <p className="mt-1 text-sm text-body">La voz que acompaña y aconseja</p>
+        <p className="mt-1 text-sm text-body font-lato">La voz que acompaña y aconseja</p>
       </div>
 
       <div className="space-y-4 px-6 mt-6">
