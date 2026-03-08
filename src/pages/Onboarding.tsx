@@ -46,7 +46,7 @@ export default function Onboarding() {
   if (loading) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center px-6 gradient-dashboard grain-overlay">
-        <div className="h-48 w-48 rounded-full animate-shimmer" style={{ background: 'linear-gradient(270deg, hsl(25 95% 74% / 0.5), hsl(280 60% 70% / 0.4), hsl(25 95% 74% / 0.5))', backgroundSize: '400% 100%' }} />
+        <div className="h-48 w-48 rounded-full animate-shimmer" style={{ background: 'linear-gradient(270deg, hsl(16 100% 66% / 0.5), hsl(248 54% 58% / 0.4), hsl(16 100% 66% / 0.5))', backgroundSize: '400% 100%' }} />
         <p className="mt-8 font-lora text-xl text-white animate-pulse">
           Calculando tus números...
         </p>
