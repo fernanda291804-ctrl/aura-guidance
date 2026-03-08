@@ -131,7 +131,7 @@ export default function Mentor() {
     setScenario(s);
     setStep('greeting');
     const profile = NUMBER_PROFILES[user.numbers.path];
-    const greeting = `Hola, ${user.name.split(' ')[0]}.\n\nSoy **KYROS**, la voz que acompaña y aconseja. He leído tu mapa energético — tu Camino **${user.numbers.path}** vibra con la esencia de **${profile?.title || 'una frecuencia única'}**, y eso me da una perspectiva valiosa para acompañarte en **${SCENARIO_LABELS[s]}**.\n\nCuéntame: ¿qué situación específica te trae hoy?`;
+    const greeting = `Hola, ${user.name.split(' ')[0]}.\n\nSoy **KYROS**. He sintonizado con tu mapa energético — tu Camino **${user.numbers.path}**, la frecuencia de **${profile?.title || 'una vibración única'}**.\n\nCuéntame: ¿qué situación te trae hoy?`;
     setMessages([{ role: 'mentor', text: greeting }]);
   };
 
