@@ -32,9 +32,9 @@ const SCENARIO_THEMES: Record<Scenario, { bg: string; mentorBubble: string; acce
     accent: 'hsl(195 100% 50%)',
   },
   relocation: {
-    bg: 'linear-gradient(180deg, hsl(25 80% 96%) 0%, hsl(35 70% 94%) 100%)',
-    mentorBubble: 'rgba(106, 90, 205, 0.08)',
-    accent: 'hsl(25 90% 63%)',
+    bg: 'linear-gradient(180deg, hsl(230 30% 92%) 0%, hsl(233 35% 85%) 100%)',
+    mentorBubble: 'rgba(157, 161, 213, 0.15)',
+    accent: '#9DA1D5',
   },
   relationship: {
     bg: 'linear-gradient(180deg, hsl(340 40% 96%) 0%, hsl(330 30% 94%) 100%)',
