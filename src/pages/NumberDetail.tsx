@@ -1,20 +1,22 @@
+import { useState } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useApp } from '@/context/AppContext';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Flame, Sun, ShieldAlert, GraduationCap } from 'lucide-react';
 import { NUMBER_MEANINGS, NUMBER_LABELS } from '@/data/numberMeanings';
 import BottomNav from '@/components/BottomNav';
 
-const SECTIONS: { key: 'energy' | 'positive' | 'negative' | 'learning'; label: string }[] = [
-  { key: 'energy', label: 'Energía' },
-  { key: 'positive', label: 'Aspecto positivo' },
-  { key: 'negative', label: 'Aspecto negativo' },
-  { key: 'learning', label: 'Aprendizaje' },
+const SECTIONS: { key: 'energy' | 'positive' | 'negative' | 'learning'; label: string; icon: React.ElementType }[] = [
+  { key: 'energy', label: 'Energía', icon: Flame },
+  { key: 'positive', label: 'Aspecto positivo', icon: Sun },
+  { key: 'negative', label: 'Aspecto negativo', icon: ShieldAlert },
+  { key: 'learning', label: 'Aprendizaje', icon: GraduationCap },
 ];
 
 export default function NumberDetail() {
   const { type } = useParams<{ type: string }>();
   const { user } = useApp();
   const navigate = useNavigate();
+  const [openSection, setOpenSection] = useState<string | null>(null);
 
   if (!user) return <Navigate to="/" replace />;
   if (!type || !(type in user.numbers)) return <Navigate to="/dashboard" replace />;
@@ -24,6 +26,8 @@ export default function NumberDetail() {
   const label = NUMBER_LABELS[type] || type;
 
   if (!meaning) return <Navigate to="/dashboard" replace />;
+
+  const toggle = (key: string) => setOpenSection(prev => (prev === key ? null : key));
 
   return (
     <div className="min-h-screen pb-24 gradient-dashboard grain-overlay">
@@ -41,13 +45,34 @@ export default function NumberDetail() {
         </div>
       </div>
 
-      <div className="mx-6 rounded-2xl bg-white/90 backdrop-blur-md p-6 border border-white/50 shadow-card">
-        {SECTIONS.map((s, i) => (
-          <div key={s.key} className={`py-5 ${i < SECTIONS.length - 1 ? 'border-b' : ''}`} style={{ borderColor: 'hsla(225, 25%, 70%, 0.2)' }}>
-            <h3 className="font-lora text-sm font-bold text-heading mb-2">{s.label}</h3>
-            <p className="text-sm leading-relaxed text-muted-foreground font-lato">{meaning[s.key]}</p>
-          </div>
-        ))}
+      <div className="mx-6 space-y-3">
+        {SECTIONS.map(s => {
+          const isOpen = openSection === s.key;
+          return (
+            <div key={s.key} className="rounded-2xl bg-white/90 backdrop-blur-md border border-white/50 shadow-card overflow-hidden transition-all">
+              <button
+                onClick={() => toggle(s.key)}
+                className="flex w-full items-center gap-3 px-5 py-4 text-left transition-colors active:bg-white/70"
+              >
+                <s.icon className="h-4 w-4 text-primary shrink-0" />
+                <span className="flex-1 font-lora text-sm font-bold text-heading">{s.label}</span>
+                <ChevronDown
+                  className={`h-4 w-4 text-muted-foreground shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                />
+              </button>
+              <div
+                className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+              >
+                <div className="overflow-hidden">
+                  <div className="px-5 pb-5 pt-0">
+                    <div className="h-px bg-border/30 mb-4" />
+                    <p className="text-sm leading-relaxed text-muted-foreground font-lato">{meaning[s.key]}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       <BottomNav />
