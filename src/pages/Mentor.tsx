@@ -168,15 +168,15 @@ export default function Mentor() {
 
   const handleSave = () => {
     if (!scenario) return;
-    const insight = generateInsight(scenario, user.numbers.path, userContext, '');
+    const insight = generateInsight(scenario, user.numbers.path, user.name, userContext, '');
     addConsultation({
       id: Date.now().toString(),
       scenario,
       date: new Date().toLocaleDateString('es-ES'),
       insight: {
-        reason: insight.analysis,
-        advice: insight.suggestions.join(' | '),
-        actions: [insight.action, ...insight.suggestions],
+        reason: `${insight.validation} ${insight.connection}`,
+        advice: insight.advice,
+        actions: [insight.advice, insight.question],
       },
     });
     setSaved(true);
