@@ -158,7 +158,7 @@ export default function Mentor() {
     const name = user.name.split(' ')[0];
     const greetings: Record<Scenario, string> = {
       work: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en tu evolución profesional. Cuéntame, ¿en qué tema de tu trabajo o relacionado con él necesitas ayuda hoy?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en tu siguiente paso?`,
-      relocation: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en este momento de transición. Cuéntame, ¿qué cambio de espacio estás considerando?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en este nuevo comienzo?`,
+      relocation: `Hola ${name}. Soy **KYROS** y estoy aquí para acompañarte en este cambio de espacio y energía.\n\nCuéntame, ¿en qué parte de tu mudanza o de tu nuevo hogar necesitas mi ayuda hoy? Dime, ¿cómo te puedo ayudar a sintonizar con tu nuevo centro?`,
       relationship: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en el terreno más importante: tus vínculos. Cuéntame, ¿qué te trae hoy al espacio del corazón?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en tus conexiones?`,
     };
     setMessages([{ role: 'mentor', text: greetings[s] }]);
