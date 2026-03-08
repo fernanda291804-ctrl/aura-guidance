@@ -43,10 +43,13 @@ const SCENARIO_THEMES: Record<Scenario, { bg: string; mentorBubble: string; acce
   },
 };
 
-const DETAIL_QUESTIONS: Record<Scenario, string> = {
-  work: '¿Podrías contarme más sobre tu situación laboral actual? ¿Buscas un cambio de carrera, un ascenso, o estás iniciando un nuevo proyecto?',
-  relocation: '¿Qué tipo de mudanza estás considerando? ¿Es un cambio de ciudad, de país, o simplemente un nuevo hogar? ¿Qué te motiva este cambio?',
-  relationship: '¿Cómo describirías tu situación sentimental actual? ¿Buscas iniciar una relación, fortalecer una existente, o sanar de una experiencia pasada?',
+const DETAIL_QUESTIONS: Record<Scenario, (name: string, pathNumber: number, profile: any) => string> = {
+  work: (name, pathNumber, profile) =>
+    `Entiendo perfectamente, ${name}. Para una frecuencia **${pathNumber}** como la tuya — **${profile?.title || 'tu vibración'}** —, el estancamiento suele sentirse como una jaula; tu esencia siempre te pedirá movimiento y expansión.\n\nPara ayudarte a encontrar esa claridad que buscas, cuéntame un poco más:\n\n• ¿Qué es lo que más te impulsa hoy a querer dar este paso?\n\n• ¿Cómo te hace sentir la idea de dejar lo que tienes ahora?\n\n• ¿Qué es lo que más necesitas aclarar hoy para tomar esta decisión con seguridad?\n\nAquí estoy para escucharte.`,
+  relocation: (name, pathNumber, profile) =>
+    `Te escucho, ${name}. Para una frecuencia **${pathNumber}** — **${profile?.title || 'tu vibración'}** —, el lugar donde vives necesita resonar con quien te estás convirtiendo.\n\nPara orientarte mejor, cuéntame:\n\n• ¿Qué te está pidiendo este cambio de espacio?\n\n• ¿Qué dejas atrás y qué esperas encontrar?\n\n• ¿Qué necesitas resolver hoy para dar este paso con confianza?\n\nAquí estoy para escucharte.`,
+  relationship: (name, pathNumber, profile) =>
+    `Te escucho, ${name}. Para una frecuencia **${pathNumber}** — **${profile?.title || 'tu vibración'}** —, las conexiones emocionales tienen una profundidad que no todos comprenden.\n\nPara acompañarte mejor, cuéntame:\n\n• ¿Qué es lo que más te inquieta hoy en este terreno?\n\n• ¿Cómo te sientes con lo que tienes ahora?\n\n• ¿Qué necesitas aclarar para avanzar con el corazón en paz?\n\nAquí estoy para escucharte.`,
 };
 
 function generateInsight(scenario: Scenario, pathNumber: number, userName: string, userContext: string, userDetail: string) {
@@ -66,22 +69,22 @@ function generateInsight(scenario: Scenario, pathNumber: number, userName: strin
 
   const frameworks: Record<Scenario, { validation: string; connection: string; advice: string; question: string }> = {
     work: {
-      validation: `Te entiendo, ${name}. Sé que esa presión silenciosa del trabajo es real, y lo que me cuentas sobre "${shortSituation}" lo confirma.`,
-      connection: `Como tu camino es el **${pathNumber}** — **${profile.title}** —, el estancamiento profesional se siente como una jaula. Tu frecuencia está diseñada para evolucionar, no para repetir. Cuando algo ya no te reta, tu energía empieza a apagarse.`,
-      advice: `**Tu siguiente paso:** Identifica una decisión laboral que llevas posponiendo. Tómala hoy — aunque sea imperfecta. El movimiento rompe la parálisis. Agradece lo aprendido y deja todo en orden antes de avanzar.`,
-      question: `¿Qué te permitiría vivir este cambio profesional que hoy el miedo te prohíbe?`,
+      validation: `Te escucho, ${name}.\nEntiendo ese miedo, pero no lo veas como un freno; para mí, es la señal de que tu ciclo ahí terminó y estás lista para algo más grande.`,
+      connection: `Como tu camino es el **${pathNumber}** — **${profile.title}** —, la incomodidad es tu brújula: te está avisando que ya no cabes en ese espacio y necesitas expandirte.`,
+      advice: `Para irte con las puertas abiertas, mi mejor consejo es que agradezcas honestamente lo aprendido y dejes todo en orden. Esa impecabilidad profesional es lo que te dará la libertad para saltar a lo nuevo sin pesos.`,
+      question: `Antes de dar el paso, quiero que lo veas desde aquí: ¿Qué es eso que este nuevo episodio te permitirá vivir que hoy el miedo te prohíbe?`,
     },
     relocation: {
-      validation: `Te entiendo, ${name}. Mudarse no es solo cambiar de dirección — es renegociar quién eres. Lo que me cuentas sobre "${shortSituation}" me dice que ya intuyes la respuesta.`,
+      validation: `Te escucho, ${name}.\nEntiendo esa mezcla de emoción y vértigo. Mudarse no es solo cambiar de dirección — es renegociar quién eres.`,
       connection: `Como tu camino es el **${pathNumber}** — **${profile.title}** —, necesitas que tu espacio exterior refleje tu evolución interior. Cuando el lugar donde vives ya no resuena contigo, tu frecuencia te empuja a buscar un nuevo punto de anclaje.`,
-      advice: `**Tu siguiente paso:** Cierra los ojos 5 minutos. Imagínate despertando en tu nuevo espacio. ¿Qué ves, qué hueles, qué sientes? Escríbelo. Eso te dirá más que cualquier lista de pros y contras.`,
-      question: `¿Qué te da más miedo: quedarte donde estás o atreverte a ese nuevo comienzo?`,
+      advice: `Mi consejo: cierra los ojos 5 minutos. Imagínate despertando en tu nuevo espacio. ¿Qué ves, qué hueles, qué sientes? Escríbelo. Eso te dirá más que cualquier lista de pros y contras.`,
+      question: `Quiero que te preguntes esto con honestidad: ¿Qué te da más miedo — quedarte donde estás o atreverte a ese nuevo comienzo?`,
     },
     relationship: {
-      validation: `Te entiendo, ${name}. Lo que sientes en este terreno emocional es real, y lo que me compartes sobre "${shortSituation}" me dice que ya sabes algo que no te has permitido decir en voz alta.`,
+      validation: `Te escucho, ${name}.\nLo que sientes en este terreno emocional es real, y lo que me compartes me dice que ya sabes algo que no te has permitido decir en voz alta.`,
       connection: `Como tu camino es el **${pathNumber}** — **${profile.title}** —, tu forma de amar tiene una profundidad que no todo el mundo comprende. Eso puede generar desencuentros, pero también conexiones extraordinarias cuando encuentras a alguien que vibra en tu misma frecuencia.`,
-      advice: `**Tu siguiente paso:** Envía un mensaje genuino a alguien importante hoy. No tiene que ser profundo — "pensé en ti" es suficiente. El vínculo se nutre de presencia, no de grandes gestos.`,
-      question: `¿Estás protegiendo tu corazón o lo estás aislando?`,
+      advice: `Mi consejo: envía un mensaje genuino a alguien importante hoy. No tiene que ser profundo — "pensé en ti" es suficiente. El vínculo se nutre de presencia, no de grandes gestos.`,
+      question: `Quiero que mires hacia adentro: ¿Estás protegiendo tu corazón o lo estás aislando?`,
     },
   };
 
@@ -130,9 +133,13 @@ export default function Mentor() {
   const handleSelect = (s: Scenario) => {
     setScenario(s);
     setStep('greeting');
-    const profile = NUMBER_PROFILES[user.numbers.path];
-    const greeting = `Hola, ${user.name.split(' ')[0]}.\n\nSoy **KYROS**. He sintonizado con tu mapa energético — tu Camino **${user.numbers.path}**, la frecuencia de **${profile?.title || 'una vibración única'}**.\n\nCuéntame: ¿qué situación te trae hoy?`;
-    setMessages([{ role: 'mentor', text: greeting }]);
+    const name = user.name.split(' ')[0];
+    const greetings: Record<Scenario, string> = {
+      work: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en tu evolución profesional. Cuéntame, ¿en qué tema de tu trabajo o relacionado con él necesitas ayuda hoy?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en tu siguiente paso?`,
+      relocation: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en este momento de transición. Cuéntame, ¿qué cambio de espacio estás considerando?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en este nuevo comienzo?`,
+      relationship: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en el terreno más importante: tus vínculos. Cuéntame, ¿qué te trae hoy al espacio del corazón?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en tus conexiones?`,
+    };
+    setMessages([{ role: 'mentor', text: greetings[s] }]);
   };
 
   const handleSend = () => {
@@ -143,8 +150,10 @@ export default function Mentor() {
     if (step === 'greeting') {
       addMessage('user', text);
       setUserContext(text);
+      const profile = NUMBER_PROFILES[user.numbers.path];
+      const name = user.name.split(' ')[0];
       setTimeout(() => {
-        addMessage('mentor', DETAIL_QUESTIONS[scenario]);
+        addMessage('mentor', DETAIL_QUESTIONS[scenario](name, user.numbers.path, profile));
         setStep('ask_detail');
       }, 800);
     } else if (step === 'ask_detail') {
@@ -159,7 +168,7 @@ export default function Mentor() {
           addMessage('mentor', `_${insight.question}_`);
           setStep('closed');
           setTimeout(() => {
-            addMessage('mentor', 'He compartido mi visión por hoy. Solo tenemos un encuentro al día para que tengas espacio de integrar esto. Vuelve mañana.\n\n_Confía en tu frecuencia._');
+            addMessage('mentor', 'He compartido contigo lo que mi visión ve por hoy. Ahora, la parte más importante es que dejes que estas palabras se asienten en ti.\n\nPara que nuestro trabajo sea profundo y real, solo tenemos un encuentro al día. Esto te asegura el espacio necesario para integrar lo que hablamos antes de dar el siguiente paso.\n\nEstaré aquí mañana para escucharte de nuevo si lo necesitas.');
           }, 1200);
         }, 1500);
       }, 2500);
