@@ -212,7 +212,7 @@
     width: 60%;
     height: 60%;
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    background: radial-gradient(ellipse, hsl(25 95% 74% / 0.12), transparent 70%);
+    background: radial-gradient(ellipse, hsl(16 100% 66% / 0.12), transparent 70%);
     animation: morph 12s ease-in-out infinite;
     pointer-events: none;
   }
