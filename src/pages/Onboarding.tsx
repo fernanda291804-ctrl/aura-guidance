@@ -47,10 +47,10 @@ export default function Onboarding() {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center px-6 gradient-dashboard grain-overlay">
         <div className="h-48 w-48 rounded-full animate-shimmer" style={{ background: 'linear-gradient(270deg, hsl(16 100% 66% / 0.5), hsl(248 54% 58% / 0.4), hsl(16 100% 66% / 0.5))', backgroundSize: '400% 100%' }} />
-        <p className="mt-8 font-lora text-xl text-white animate-pulse">
+        <p className="mt-8 font-lora text-xl text-on-gradient animate-pulse">
           Calculando tus números...
         </p>
-        <p className="mt-2 text-sm text-white/70 font-lato">Alineando energías cósmicas</p>
+        <p className="mt-2 text-sm text-on-gradient-muted font-lato">Alineando energías cósmicas</p>
       </div>
     );
   }
@@ -60,10 +60,10 @@ export default function Onboarding() {
       <div className="relative z-10 w-full max-w-sm">
         <div className="mb-10 flex flex-col items-center gap-3">
           <div className="flex h-16 w-16 items-center justify-center rounded-2xl gradient-warm shadow-glow">
-            <Sparkles className="h-8 w-8 text-white" />
+            <Sparkles className="h-8 w-8 text-primary-foreground" />
           </div>
-          <h1 className="font-lora text-3xl font-bold text-white">KYROS</h1>
-          <p className="text-white/80 text-center text-sm font-lato">Descubre tu esencia numerológica</p>
+          <h1 className="font-lora text-3xl font-bold text-on-gradient">KYROS</h1>
+          <p className="text-on-gradient-muted text-center text-sm font-lato">Descubre tu esencia numerológica</p>
         </div>
 
         <div className="rounded-2xl bg-white/90 backdrop-blur-md p-6 shadow-card border border-white/50 space-y-5">
@@ -94,13 +94,13 @@ export default function Onboarding() {
 
           <button
             onClick={handleSubmit}
-            className="w-full rounded-xl gradient-warm py-3.5 text-sm font-bold text-white shadow-glow transition-transform active:scale-[0.98] font-lato"
+            className="w-full rounded-xl gradient-warm py-3.5 text-sm font-bold text-primary-foreground shadow-glow transition-transform active:scale-[0.98] font-lato"
           >
             Conocer mis números
           </button>
         </div>
 
-        <p className="mt-6 text-center text-xs text-white/60 font-lato">
+        <p className="mt-6 text-center text-xs text-on-gradient-muted/80 font-lato">
           Tus datos permanecen privados en tu dispositivo
         </p>
       </div>

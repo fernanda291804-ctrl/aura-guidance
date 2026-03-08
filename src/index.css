@@ -160,6 +160,14 @@
     color: hsl(var(--muted-foreground));
   }
 
+  .text-on-gradient {
+    color: hsl(var(--on-gradient));
+  }
+
+  .text-on-gradient-muted {
+    color: hsl(var(--on-gradient-muted));
+  }
+
   @keyframes shimmer {
     0% { background-position: 200% 0; }
     100% { background-position: -200% 0; }
