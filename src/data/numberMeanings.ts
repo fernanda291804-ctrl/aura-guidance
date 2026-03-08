@@ -18,6 +18,15 @@ export interface NumberProfile {
 }
 
 export const NUMBER_PROFILES: Record<number, NumberProfile> = {
+  0: {
+    title: 'La Humanidad',
+    subtitles: 'La Vida Eterna, El Conjunto',
+    energyType: 'Energía Universal',
+    esencia: 'El cero representa la HUMANIDAD y LA VIDA ETERNA. Este número solo puede aparecer en el número de Don (años como 1900 o 2000). Si lo posees, eres un ser que maneja la energía de todos, de la humanidad entera. Son seres que tienen claro el sentido del conjunto y de la evolución de la humanidad.',
+    luz: 'Conexión universal: Posees la capacidad de sintonizar con la energía colectiva de toda la humanidad, comprendiendo el pulso del conjunto.\n\nVisión evolutiva: Tu perspectiva trasciende lo individual; puedes percibir hacia dónde se dirige la humanidad y actuar en consecuencia.\n\nCanal de la vida eterna: Representas el ciclo infinito, el punto donde todo comienza y todo retorna, otorgándote una comprensión profunda de la existencia.',
+    sombra: 'Para mantener tu sintonía y no perderte en la inmensidad de tu energía, observa estos matices:\n\nPérdida de rumbo: Si no vibras en armonía, tiendes a perderte en los deseos de todos y a irte con las masas con facilidad, perdiendo totalmente tu rumbo y tu vida.\n\nDisolución del yo: Cuidado con diluirte tanto en el colectivo que olvides quién eres; necesitas un centro propio firme.\n\nInfluencia de las masas: Evita dejarte arrastrar por corrientes ajenas sin discernimiento; tu poder está en guiar, no en seguir ciegamente.',
+    mision: 'Tu tarea fundamental es canalizar la energía de la humanidad con consciencia y propósito. Vienes a comprender que eres parte de un todo mayor y que tu evolución personal está íntimamente ligada a la evolución colectiva. Tu maestría se alcanza cuando logras mantener tu identidad mientras sirves al conjunto, siendo un faro que ilumina el camino de la humanidad sin perderse en él.',
+  },
   1: {
     title: 'El Creador',
     subtitles: 'El Pionero, El Independiente',
