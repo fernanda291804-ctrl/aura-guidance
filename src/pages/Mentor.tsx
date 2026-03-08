@@ -172,12 +172,33 @@ export default function Mentor() {
     if (step === 'greeting') {
       addMessage('user', text);
       setUserContext(text);
-      const profile = NUMBER_PROFILES[user.numbers.path];
-      const name = user.name.split(' ')[0];
+
+      if (scenario === 'relocation') {
+        // Relocation: direct first insight (no bullet questions)
+        setTimeout(() => {
+          addMessage('mentor', generateRelocationFirstResponse(user.numbers.path, user.name));
+          setStep('first_response');
+        }, 800);
+      } else {
+        const profile = NUMBER_PROFILES[user.numbers.path];
+        const name = user.name.split(' ')[0];
+        setTimeout(() => {
+          addMessage('mentor', DETAIL_QUESTIONS[scenario](name, user.numbers.path, profile));
+          setStep('ask_detail');
+        }, 800);
+      }
+    } else if (step === 'first_response' && scenario === 'relocation') {
+      // Relocation: second round
+      addMessage('user', text);
+      setStep('second_thinking');
       setTimeout(() => {
-        addMessage('mentor', DETAIL_QUESTIONS[scenario](name, user.numbers.path, profile));
-        setStep('ask_detail');
-      }, 800);
+        const response = generateRelocationSecondResponse(user.numbers.path, user.name);
+        addMessage('mentor', response.insight);
+        setStep('closed');
+        setTimeout(() => {
+          addMessage('mentor', response.farewell);
+        }, 1200);
+      }, 2500);
     } else if (step === 'ask_detail') {
       addMessage('user', text);
       setStep('thinking');
