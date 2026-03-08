@@ -285,7 +285,7 @@ export default function Mentor() {
                   onClick={handleSave}
                   className="flex w-full items-center justify-center gap-2 rounded-xl gradient-warm py-3 text-sm font-bold text-foreground shadow-glow transition-transform active:scale-[0.98]"
                 >
-                  <Bookmark className="h-4 w-4" /> Guardar en mi diario
+                  <Bookmark className="h-4 w-4" /> Guardar en mi Bitácora
                 </button>
               )}
               <button
