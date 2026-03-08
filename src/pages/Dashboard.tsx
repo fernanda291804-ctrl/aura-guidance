@@ -46,7 +46,7 @@ export default function Dashboard() {
         ) : (
           <div className="space-y-3">
             {consultations.slice(0, 3).map(c => (
-              <div key={c.id} className="glass rounded-xl p-4 shadow-soft">
+              <div key={c.id} className="rounded-xl bg-white/20 backdrop-blur-sm p-4 border border-white/20">
                 <div className="flex items-center justify-between">
                   <span className="rounded-full bg-secondary px-3 py-1 text-xs font-semibold capitalize text-secondary-foreground font-lato">
                     {SCENARIO_LABELS[c.scenario] || c.scenario}
