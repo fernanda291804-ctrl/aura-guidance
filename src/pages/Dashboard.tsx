@@ -53,7 +53,7 @@ export default function Dashboard() {
                   </span>
                   <span className="text-xs text-white/70 font-lato">{c.date}</span>
                 </div>
-                <p className="mt-2 text-sm text-body line-clamp-2 font-lato">{c.insight.advice}</p>
+                <p className="mt-2 text-sm text-white/90 line-clamp-2 font-lato">{c.insight.advice}</p>
               </div>
             ))}
           </div>
