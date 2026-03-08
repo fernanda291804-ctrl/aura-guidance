@@ -49,7 +49,7 @@ export default function PentagonChart({ numbers }: Props) {
             <stop offset="100%" stopColor="hsl(16 100% 66%)" />
           </radialGradient>
           <filter id="orb-shadow">
-            <feDropShadow dx="0" dy="3" stdDeviation="6" floodColor="hsl(225 40% 30%)" floodOpacity="0.15" />
+            <feDropShadow dx="0" dy="3" stdDeviation="6" floodColor="hsl(225 40% 20%)" floodOpacity="0.15" />
           </filter>
           <filter id="orb-inner-glow">
             <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur" />
