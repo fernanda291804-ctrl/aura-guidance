@@ -150,8 +150,10 @@ export default function Mentor() {
     if (step === 'greeting') {
       addMessage('user', text);
       setUserContext(text);
+      const profile = NUMBER_PROFILES[user.numbers.path];
+      const name = user.name.split(' ')[0];
       setTimeout(() => {
-        addMessage('mentor', DETAIL_QUESTIONS[scenario]);
+        addMessage('mentor', DETAIL_QUESTIONS[scenario](name, user.numbers.path, profile));
         setStep('ask_detail');
       }, 800);
     } else if (step === 'ask_detail') {
@@ -166,7 +168,7 @@ export default function Mentor() {
           addMessage('mentor', `_${insight.question}_`);
           setStep('closed');
           setTimeout(() => {
-            addMessage('mentor', 'He compartido mi visión por hoy. Solo tenemos un encuentro al día para que tengas espacio de integrar esto. Vuelve mañana.\n\n_Confía en tu frecuencia._');
+            addMessage('mentor', 'He compartido contigo lo que mi visión ve por hoy. Ahora, la parte más importante es que dejes que estas palabras se asienten en ti.\n\nPara que nuestro trabajo sea profundo y real, solo tenemos un encuentro al día. Esto te asegura el espacio necesario para integrar lo que hablamos antes de dar el siguiente paso.\n\nEstaré aquí mañana para escucharte de nuevo si lo necesitas.');
           }, 1200);
         }, 1500);
       }, 2500);
