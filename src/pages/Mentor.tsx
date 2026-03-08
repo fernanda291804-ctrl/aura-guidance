@@ -262,10 +262,8 @@ export default function Mentor() {
               <div
                 className="rounded-2xl rounded-bl-md px-4 py-3"
                 style={{
-                  background: theme?.mentorBubble || 'rgba(106, 90, 205, 0.08)',
-                  backdropFilter: 'blur(15px)',
-                  WebkitBackdropFilter: 'blur(15px)',
-                  border: '1px solid rgba(106, 90, 205, 0.12)',
+                  background: '#F8F9FE',
+                  border: '1px solid rgba(115, 141, 225, 0.12)',
                 }}
               >
                 <div className="flex items-center gap-2">
