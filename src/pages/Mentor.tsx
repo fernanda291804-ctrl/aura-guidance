@@ -345,8 +345,8 @@ export default function Mentor() {
   return (
     <div className="min-h-screen pb-24 gradient-dashboard grain-overlay">
       <div className="px-6 pb-6 pt-12">
-        <h1 className="font-lora text-2xl font-bold text-white">KYROS</h1>
-        <p className="mt-1 text-sm text-white/80 font-lato">La voz que acompaña y aconseja</p>
+        <h1 className="font-lora text-2xl font-bold text-on-gradient">KYROS</h1>
+        <p className="mt-1 text-sm text-on-gradient-muted font-lato">La voz que acompaña y aconseja</p>
       </div>
 
       <div className="space-y-4 px-6 mt-2">
