@@ -159,7 +159,7 @@ export default function Mentor() {
       setStep('thinking');
       setTimeout(() => {
         const insight = generateInsight(scenario, user.numbers.path, userContext, text);
-        const insightText = `✨ **Lo que percibo**\n\n${insight.analysis}\n\n🔮 **Consejo guía**\n\n${insight.suggestions.join('\n\n')}\n\n⚡ **Tu siguiente paso**\n\n${insight.action}`;
+        const insightText = `**Lo que percibo**\n\n${insight.analysis}\n\n**Consejo guía**\n\n${insight.suggestions.join('\n\n')}\n\n**Tu siguiente paso**\n\n${insight.action}`;
         addMessage('mentor', insightText);
         setStep('insight');
         setTimeout(() => {
