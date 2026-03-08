@@ -59,9 +59,6 @@ export default function Onboarding() {
     <div className="flex min-h-screen flex-col items-center justify-center px-6 gradient-dashboard grain-overlay">
       <div className="relative z-10 w-full max-w-sm">
         <div className="mb-10 flex flex-col items-center gap-3">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl gradient-warm shadow-glow">
-            <Sparkles className="h-8 w-8 text-primary-foreground" />
-          </div>
           <h1 className="font-lora text-3xl font-bold text-on-gradient">KYROS</h1>
           <p className="text-on-gradient-muted text-center text-sm font-lato">Descubre tu esencia numerológica</p>
         </div>
