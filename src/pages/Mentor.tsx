@@ -247,11 +247,8 @@ export default function Mentor() {
                         color: 'hsl(var(--primary-foreground))',
                       }
                     : {
-                        background: theme?.mentorBubble || 'rgba(106, 90, 205, 0.08)',
-                        backdropFilter: 'blur(15px)',
-                        WebkitBackdropFilter: 'blur(15px)',
-                        border: '1px solid rgba(106, 90, 205, 0.12)',
-                        boxShadow: '0 2px 12px rgba(106, 90, 205, 0.06)',
+                        background: '#F8F9FE',
+                        border: '1px solid rgba(115, 141, 225, 0.12)',
                       }
                 }
               >
