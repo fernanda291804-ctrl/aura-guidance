@@ -81,7 +81,7 @@ export default function Onboarding() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-semibold text-heading font-lato">Fecha de Nacimiento</label>
+            <label className="mb-1.5 block text-sm font-semibold text-heading font-lato">Fecha de nacimiento</label>
             <input
               type="text"
               value={birthDate}
