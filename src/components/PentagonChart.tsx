@@ -11,11 +11,11 @@ interface Props {
 }
 
 const LABELS = [
-  { key: 'soul', label: 'Alma', angle: -90, hue: 210 },
-  { key: 'personality', label: 'Personalidad', angle: -18, hue: 260 },
-  { key: 'pastLife', label: 'Vida\nPasada', angle: 54, hue: 210 },
-  { key: 'gift', label: 'Don', angle: 126, hue: 210 },
-  { key: 'path', label: 'Camino', angle: 198, hue: 260 },
+  { key: 'soul', label: 'Alma', angle: -90, hue: 225 },
+  { key: 'personality', label: 'Personalidad', angle: -18, hue: 248 },
+  { key: 'pastLife', label: 'Vida\nPasada', angle: 54, hue: 225 },
+  { key: 'gift', label: 'Don', angle: 126, hue: 207 },
+  { key: 'path', label: 'Camino', angle: 198, hue: 248 },
 ] as const;
 
 export default function PentagonChart({ numbers }: Props) {
@@ -45,11 +45,11 @@ export default function PentagonChart({ numbers }: Props) {
             </radialGradient>
           ))}
           <radialGradient id="center-orb" cx="40%" cy="35%" r="60%">
-            <stop offset="0%" stopColor="hsl(25 90% 85%)" />
-            <stop offset="100%" stopColor="hsl(25 80% 75%)" />
+            <stop offset="0%" stopColor="hsl(16 100% 76%)" />
+            <stop offset="100%" stopColor="hsl(16 100% 66%)" />
           </radialGradient>
           <filter id="orb-shadow">
-            <feDropShadow dx="0" dy="3" stdDeviation="6" floodColor="hsl(225 40% 30%)" floodOpacity="0.15" />
+            <feDropShadow dx="0" dy="3" stdDeviation="6" floodColor="hsl(225 40% 20%)" floodOpacity="0.15" />
           </filter>
           <filter id="orb-inner-glow">
             <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur" />
@@ -67,7 +67,7 @@ export default function PentagonChart({ numbers }: Props) {
         <path
           d={pentagonPath}
           fill="none"
-          stroke="hsl(240 30% 82%)"
+          stroke="hsl(225 64% 80%)"
           strokeWidth="1.5"
           opacity="0.6"
         />
@@ -80,7 +80,7 @@ export default function PentagonChart({ numbers }: Props) {
             y1={cy}
             x2={p.x}
             y2={p.y}
-            stroke="hsl(240 30% 82%)"
+            stroke="hsl(225 64% 80%)"
             strokeWidth="1.2"
             opacity="0.5"
           />
