@@ -111,6 +111,10 @@
     background: var(--gradient-mystic);
   }
 
+  .gradient-dashboard {
+    background: var(--gradient-dashboard);
+  }
+
   .shadow-soft {
     box-shadow: var(--shadow-soft);
   }
