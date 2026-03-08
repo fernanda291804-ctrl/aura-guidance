@@ -80,7 +80,7 @@ export default function PentagonChart({ numbers }: Props) {
             y1={cy}
             x2={p.x}
             y2={p.y}
-            stroke="hsl(240 30% 82%)"
+            stroke="hsl(225 64% 80%)"
             strokeWidth="1.2"
             opacity="0.5"
           />
