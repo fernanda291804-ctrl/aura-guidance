@@ -44,42 +44,42 @@ export default function Learn() {
   );
 
   return (
-    <div className="min-h-screen bg-background pb-24 liquid-light grain-overlay">
-      <div className="gradient-aura px-6 pb-6 pt-12">
-        <h1 className="font-lora text-2xl font-bold text-heading">Aprender</h1>
-        <p className="mt-1 text-sm text-body font-lato">Profundiza tu conocimiento numerológico</p>
+    <div className="min-h-screen pb-24 gradient-dashboard grain-overlay">
+      <div className="px-6 pb-6 pt-12">
+        <h1 className="font-lora text-2xl font-bold text-white">Aprender</h1>
+        <p className="mt-1 text-sm text-white/80 font-lato">Profundiza tu conocimiento numerológico</p>
       </div>
 
       {/* Search bar */}
-      <div className="px-6 mt-4 mb-4">
-        <div className="glass flex items-center gap-3 rounded-xl px-4 py-3 shadow-soft">
+      <div className="px-6 mt-1 mb-4">
+        <div className="flex items-center gap-3 rounded-xl bg-white/90 backdrop-blur-md px-4 py-3 border border-white/50 shadow-soft">
           <Search className="h-4 w-4 text-muted-foreground shrink-0" />
           <input
             type="text"
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Buscar conceptos o números..."
-            className="w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none"
+            className="w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground outline-none font-lato"
           />
         </div>
       </div>
 
       {/* Numbers section */}
       <div className="px-6 mb-6">
-        <h2 className="font-lora text-base font-semibold text-heading mb-3">Los 10 números</h2>
+        <h2 className="font-lora text-base font-semibold text-white mb-3">Los 10 números</h2>
         <div className="space-y-2">
           {filteredNumbers.map(n => (
             <button
               key={n.number}
               onClick={() => navigate(`/learn/${n.number}`)}
-              className="glass flex w-full items-center gap-4 rounded-xl p-4 shadow-soft text-left transition-transform active:scale-[0.98]"
+              className="flex w-full items-center gap-4 rounded-xl bg-white/90 backdrop-blur-md p-4 border border-white/50 shadow-soft text-left transition-transform active:scale-[0.98]"
             >
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-secondary border border-primary/20">
                 <span className="font-lora text-lg font-bold text-primary">{n.number}</span>
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-lora text-sm font-bold text-heading">{n.title}</h3>
-                <p className="text-xs text-body truncate font-lato">{n.subtitles} · {n.energyType}</p>
+                <p className="text-xs text-muted-foreground truncate font-lato">{n.subtitles} · {n.energyType}</p>
               </div>
               <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
             </button>
@@ -90,12 +90,12 @@ export default function Learn() {
       {/* Concepts section */}
       {filteredLessons.length > 0 && (
         <div className="px-6">
-          <h2 className="font-lora text-base font-semibold text-heading mb-3">Conceptos</h2>
+          <h2 className="font-lora text-base font-semibold text-white mb-3">Conceptos</h2>
           <div className="space-y-3">
             {filteredLessons.map((l, i) => (
-              <div key={i} className="glass rounded-2xl p-5 shadow-soft">
+              <div key={i} className="rounded-2xl bg-white/90 backdrop-blur-md p-5 border border-white/50 shadow-soft">
                 <h3 className="font-lora text-sm font-bold text-heading">{l.title}</h3>
-                <p className="mt-1 text-xs leading-relaxed text-body font-lato">{l.preview}</p>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground font-lato">{l.preview}</p>
               </div>
             ))}
           </div>
@@ -104,8 +104,8 @@ export default function Learn() {
 
       {filteredNumbers.length === 0 && filteredLessons.length === 0 && (
         <div className="px-6">
-          <div className="glass rounded-2xl p-8 text-center shadow-soft">
-            <p className="text-sm text-muted-foreground">No se encontraron resultados</p>
+          <div className="rounded-2xl bg-white/20 backdrop-blur-sm p-8 text-center border border-white/20">
+            <p className="text-sm text-white/70 font-lato">No se encontraron resultados</p>
           </div>
         </div>
       )}
