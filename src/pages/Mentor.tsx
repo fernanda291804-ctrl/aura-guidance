@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useApp } from '@/context/AppContext';
 import { Navigate } from 'react-router-dom';
 import BottomNav from '@/components/BottomNav';
-import { Briefcase, MapPin, Heart, ArrowLeft, Send, Bookmark, Check, Sparkles } from 'lucide-react';
+import { Briefcase, MapPin, Heart, ArrowLeft, Send, Bookmark, Check } from 'lucide-react';
 import { NUMBER_PROFILES } from '@/data/numberMeanings';
 
 type Scenario = 'work' | 'relocation' | 'relationship';
