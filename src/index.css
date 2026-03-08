@@ -149,11 +149,11 @@
   }
 
   .text-heading {
-    color: hsl(225 50% 12%);
+    color: hsl(0 0% 0%);
   }
 
   .text-body {
-    color: hsl(220 15% 50%);
+    color: hsl(var(--muted-foreground));
   }
 
   @keyframes shimmer {
