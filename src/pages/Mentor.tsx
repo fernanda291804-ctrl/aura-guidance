@@ -14,9 +14,9 @@ interface ChatMessage {
 }
 
 const SCENARIOS = [
-  { id: 'work' as Scenario, icon: Briefcase, title: 'Trabajo', desc: 'Carrera y camino profesional' },
-  { id: 'relocation' as Scenario, icon: MapPin, title: 'Mudanza', desc: 'Cambios y nuevos comienzos' },
-  { id: 'relationship' as Scenario, icon: Heart, title: 'Relación', desc: 'Amor y conexiones' },
+  { id: 'work' as Scenario, icon: Briefcase, title: 'Trabajo', desc: 'Carrera y camino profesional', iconBg: undefined },
+  { id: 'relocation' as Scenario, icon: MapPin, title: 'Mudanza', desc: 'Cambios y nuevos comienzos', iconBg: '#9DA1D5' },
+  { id: 'relationship' as Scenario, icon: Heart, title: 'Relación', desc: 'Amor y conexiones', iconBg: '#DBC0C9' },
 ];
 
 const SCENARIO_LABELS: Record<Scenario, string> = {
