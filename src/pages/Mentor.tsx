@@ -49,50 +49,43 @@ const DETAIL_QUESTIONS: Record<Scenario, string> = {
   relationship: '¿Cómo describirías tu situación sentimental actual? ¿Buscas iniciar una relación, fortalecer una existente, o sanar de una experiencia pasada?',
 };
 
-function generateInsight(scenario: Scenario, pathNumber: number, userContext: string, userDetail: string) {
+function generateInsight(scenario: Scenario, pathNumber: number, userName: string, userContext: string, userDetail: string) {
   const profile = NUMBER_PROFILES[pathNumber];
+  const name = userName.split(' ')[0];
+  const situationRef = userDetail || userContext || 'lo que estás atravesando';
+  const shortSituation = situationRef.slice(0, 60);
+
   if (!profile) {
     return {
-      analysis: 'Percibo un momento de transformación profunda en tu energía. Algo dentro de ti ya sabe hacia dónde ir.',
-      suggestions: [
-        'Tu frecuencia sugiere que este es un gran momento para detenerte y escuchar lo que tu cuerpo te dice.',
-        'Pregúntate: _¿Qué decisión estoy postergando por miedo a equivocarme?_',
-      ],
-      action: '**Hoy:** Escribe en una hoja una sola palabra que represente lo que necesitas soltar. Guárdala donde no la veas hasta la próxima semana.',
+      validation: `Te entiendo, ${name}. Lo que sientes es real y tiene sentido.`,
+      connection: `Tu frecuencia vibra en un momento de transformación. La incomodidad que sientes no es un error — es tu brújula interna recalibrándose.`,
+      advice: `**Tu siguiente paso:** Detente hoy 5 minutos. Escribe una sola palabra que represente lo que necesitas soltar. Guárdala donde no la veas hasta la próxima semana.`,
+      question: `¿Qué decisión estás postergando hoy por miedo a equivocarte?`,
     };
   }
 
-  const situationRef = userDetail || userContext || 'lo que estás atravesando';
-  const strengthVerb = profile.luz.split(':')[0].toLowerCase().replace(/^\s+/, '');
-  const shadowNoun = profile.sombra.split(':')[0].toLowerCase().replace(/^\s+/, '');
-
-  const frameworks: Record<Scenario, { empathy: string; validation: string; guide: string; task: string }> = {
+  const frameworks: Record<Scenario, { validation: string; connection: string; advice: string; question: string }> = {
     work: {
-      empathy: `Entiendo lo que sientes. El terreno laboral puede generar una presión silenciosa que no siempre es fácil de nombrar, y lo que describes sobre "${situationRef.slice(0, 50)}…" lo confirma.`,
-      validation: `Tu frecuencia **${pathNumber}** — la de **${profile.title}** — resuena con esto de una forma muy específica: esa capacidad tuya de ${strengthVerb} es exactamente lo que este momento profesional necesita. No es coincidencia que estés aquí preguntándote esto ahora.`,
-      guide: `Tu frecuencia sugiere que este es un gran momento para dejar de planificar en silencio y **dar el primer paso visible**. Ojo con la tendencia hacia ${shadowNoun} — a veces se disfraza de prudencia.\n\n_¿Estás siendo estratégico o estás evitando el riesgo?_`,
-      task: '**Acción para hoy:** Identifica una decisión laboral que llevas posponiendo. Tómala antes de que termine el día — aunque sea imperfecta. El movimiento rompe la parálisis.',
+      validation: `Te entiendo, ${name}. Sé que esa presión silenciosa del trabajo es real, y lo que me cuentas sobre "${shortSituation}" lo confirma.`,
+      connection: `Como tu camino es el **${pathNumber}** — **${profile.title}** —, el estancamiento profesional se siente como una jaula. Tu frecuencia está diseñada para evolucionar, no para repetir. Cuando algo ya no te reta, tu energía empieza a apagarse.`,
+      advice: `**Tu siguiente paso:** Identifica una decisión laboral que llevas posponiendo. Tómala hoy — aunque sea imperfecta. El movimiento rompe la parálisis. Agradece lo aprendido y deja todo en orden antes de avanzar.`,
+      question: `¿Qué te permitiría vivir este cambio profesional que hoy el miedo te prohíbe?`,
     },
     relocation: {
-      empathy: `Mudarse no es solo cambiar de dirección — es renegociar quién eres en un espacio nuevo. Lo que me cuentas sobre "${situationRef.slice(0, 50)}…" me dice que ya intuyes la respuesta, pero necesitas confirmación.`,
-      validation: `Como **${profile.title}**, tu energía ${pathNumber} está diseñada para ${strengthVerb}. Este cambio no te desestabiliza — te reposiciona. Tu frecuencia sugiere que este es un gran momento para confiar en esa brújula interna que ya está apuntando.`,
-      guide: `Solo cuida que ${shadowNoun} no se disfrace de "necesito más información". A veces, analizar de más es la forma elegante de no actuar.\n\n_¿Estás preparándote o estás postergando?_`,
-      task: '**Acción para hoy:** Cierra los ojos 5 minutos. Imagínate despertando en tu nuevo espacio. ¿Qué ves, qué hueles, qué sientes? Escríbelo. Eso te dirá más que cualquier lista de pros y contras.',
+      validation: `Te entiendo, ${name}. Mudarse no es solo cambiar de dirección — es renegociar quién eres. Lo que me cuentas sobre "${shortSituation}" me dice que ya intuyes la respuesta.`,
+      connection: `Como tu camino es el **${pathNumber}** — **${profile.title}** —, necesitas que tu espacio exterior refleje tu evolución interior. Cuando el lugar donde vives ya no resuena contigo, tu frecuencia te empuja a buscar un nuevo punto de anclaje.`,
+      advice: `**Tu siguiente paso:** Cierra los ojos 5 minutos. Imagínate despertando en tu nuevo espacio. ¿Qué ves, qué hueles, qué sientes? Escríbelo. Eso te dirá más que cualquier lista de pros y contras.`,
+      question: `¿Qué te da más miedo: quedarte donde estás o atreverte a ese nuevo comienzo?`,
     },
     relationship: {
-      empathy: `Lo que me compartes sobre "${situationRef.slice(0, 50)}…" me dice que hay algo que ya sabes pero que quizás no te has permitido decir en voz alta. Eso requiere valentía, y aquí estoy para acompañarte.`,
-      validation: `Tu frecuencia **${pathNumber}** — **${profile.title}** — tiene un don natural para ${strengthVerb}, y eso es magnético en las relaciones. Pero solo cuando lo ejerces desde la autenticidad, no desde la performance. La persona correcta necesita tu versión real, no tu mejor versión.`,
-      guide: `Tu punto ciego aquí podría ser ${shadowNoun}. En lo emocional, esto a veces se manifiesta como construir muros que parecen "estándares altos".\n\n_¿Estás protegiendo tu corazón o lo estás aislando?_`,
-      task: '**Acción para hoy:** Envía un mensaje genuino a alguien importante. No tiene que ser profundo — "pensé en ti hoy" es suficiente. El vínculo se nutre de presencia, no de grandes gestos.',
+      validation: `Te entiendo, ${name}. Lo que sientes en este terreno emocional es real, y lo que me compartes sobre "${shortSituation}" me dice que ya sabes algo que no te has permitido decir en voz alta.`,
+      connection: `Como tu camino es el **${pathNumber}** — **${profile.title}** —, tu forma de amar tiene una profundidad que no todo el mundo comprende. Eso puede generar desencuentros, pero también conexiones extraordinarias cuando encuentras a alguien que vibra en tu misma frecuencia.`,
+      advice: `**Tu siguiente paso:** Envía un mensaje genuino a alguien importante hoy. No tiene que ser profundo — "pensé en ti" es suficiente. El vínculo se nutre de presencia, no de grandes gestos.`,
+      question: `¿Estás protegiendo tu corazón o lo estás aislando?`,
     },
   };
 
-  const fw = frameworks[scenario];
-  return {
-    analysis: `${fw.empathy}\n\n${fw.validation}`,
-    suggestions: [fw.guide],
-    action: fw.task,
-  };
+  return frameworks[scenario];
 }
 
 function RichText({ text }: { text: string }) {
