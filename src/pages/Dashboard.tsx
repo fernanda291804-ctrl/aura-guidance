@@ -38,10 +38,10 @@ export default function Dashboard() {
         </div>
 
         {consultations.length === 0 ? (
-          <div className="glass rounded-2xl p-8 text-center shadow-soft">
-            <Inbox className="mx-auto h-10 w-10 text-muted-foreground/50" />
-            <p className="mt-3 text-sm text-muted-foreground">Aún no hay consultas</p>
-            <p className="text-xs text-muted-foreground/70">Toca el botón Mentor para comenzar tu viaje</p>
+          <div className="rounded-2xl bg-white/20 backdrop-blur-sm p-8 text-center border border-white/20">
+            <Inbox className="mx-auto h-10 w-10 text-white/40" />
+            <p className="mt-3 text-sm text-white/70 font-lato">Aún no hay consultas</p>
+            <p className="text-xs text-white/50 font-lato">Toca el botón KYROS para comenzar tu viaje</p>
           </div>
         ) : (
           <div className="space-y-3">
