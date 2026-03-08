@@ -43,7 +43,7 @@ export default function Profile() {
                 <div>
                   <p className="text-sm font-semibold text-heading font-lato">{n.label}</p>
                   <p className="text-[11px] text-muted-foreground font-lato">{NUMBER_DESCRIPTIONS[n.key]}</p>
-                  {profile && <p className="text-xs font-medium text-primary font-lato mt-0.5">{profile.title}</p>}
+                  {profile && <p className="text-xs font-medium text-accent font-lato mt-0.5">{profile.title}</p>}
                 </div>
               </div>
             );
