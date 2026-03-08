@@ -51,6 +51,16 @@
     --gradient-mystic: linear-gradient(180deg, hsl(225 100% 93%), hsl(280 60% 92%), hsl(25 95% 74% / 0.2));
     --gradient-loading: linear-gradient(270deg, hsl(25 95% 74% / 0.4), hsl(225 100% 93%), hsl(280 60% 90% / 0.5), hsl(25 95% 74% / 0.4));
 
+    /* Dashboard ambient */
+    --gradient-dashboard: linear-gradient(
+      180deg,
+      hsl(20 70% 82%) 0%,
+      hsl(25 60% 80%) 15%,
+      hsl(240 40% 85%) 45%,
+      hsl(240 35% 80%) 70%,
+      hsl(240 30% 78%) 100%
+    );
+
     /* Shadows */
     --shadow-soft: 0 4px 24px -4px hsl(225 50% 12% / 0.08);
     --shadow-glow: 0 0 30px hsl(25 95% 74% / 0.25);
@@ -99,6 +109,10 @@
 
   .gradient-mystic {
     background: var(--gradient-mystic);
+  }
+
+  .gradient-dashboard {
+    background: var(--gradient-dashboard);
   }
 
   .shadow-soft {

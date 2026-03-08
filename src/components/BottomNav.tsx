@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Hash, User, Sparkles, BookOpen, Bookmark } from 'lucide-react';
+import { Home, User, Sparkles, BookOpen, Bookmark } from 'lucide-react';
 
 const NAV_ITEMS = [
-  { icon: Hash, label: 'Números', path: '/dashboard' },
+  { icon: Home, label: 'Inicio', path: '/dashboard' },
   { icon: User, label: 'Perfil', path: '/profile' },
   { icon: Sparkles, label: 'KYROS', path: '/mentor', center: true },
   { icon: BookOpen, label: 'Aprender', path: '/learn' },
@@ -14,8 +14,8 @@ export default function BottomNav() {
   const navigate = useNavigate();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 glass border-t border-border">
-      <div className="mx-auto flex max-w-md items-end justify-around px-2 pb-2 pt-1">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-white/60 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
+      <div className="mx-auto flex max-w-md items-end justify-around px-2 pb-3 pt-1.5">
         {NAV_ITEMS.map(item => {
           const active = location.pathname === item.path;
           if (item.center) {
