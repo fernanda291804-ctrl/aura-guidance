@@ -11,57 +11,157 @@ interface Props {
 }
 
 const LABELS = [
-  { key: 'soul', label: 'Alma', angle: -90 },
-  { key: 'personality', label: 'Personalidad', angle: -18 },
-  { key: 'pastLife', label: 'Vida Pasada', angle: 54 },
-  { key: 'gift', label: 'Don', angle: 126 },
-  { key: 'path', label: 'Camino', angle: 198 },
+  { key: 'soul', label: 'Alma', angle: -90, hue: 210 },
+  { key: 'personality', label: 'Personalidad', angle: -18, hue: 260 },
+  { key: 'pastLife', label: 'Vida\nPasada', angle: 54, hue: 210 },
+  { key: 'gift', label: 'Don', angle: 126, hue: 210 },
+  { key: 'path', label: 'Camino', angle: 198, hue: 260 },
 ] as const;
 
 export default function PentagonChart({ numbers }: Props) {
   const navigate = useNavigate();
-  const cx = 150;
-  const cy = 150;
-  const r = 100;
-  const circleR = 28;
+  const cx = 160;
+  const cy = 160;
+  const r = 110;
+  const circleR = 36;
 
-  const points = LABELS.map(({ key, label, angle }) => {
+  const points = LABELS.map(({ key, label, angle, hue }) => {
     const rad = (angle * Math.PI) / 180;
     const x = cx + r * Math.cos(rad);
     const y = cy + r * Math.sin(rad);
-    return { key, label, x, y, value: numbers[key] };
+    return { key, label, x, y, value: numbers[key], hue };
   });
 
   const pentagonPath = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ') + ' Z';
 
   return (
     <div className="flex justify-center">
-      <svg width="300" height="300" viewBox="0 0 300 300">
-        <path d={pentagonPath} fill="none" stroke="hsl(225 25% 88%)" strokeWidth="1" strokeDasharray="4 4" />
-        
-        {points.map(p => (
-          <line key={p.key} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke="hsl(225 25% 88%)" strokeWidth="1" strokeDasharray="4 4" />
-        ))}
-
-        <circle cx={cx} cy={cy} r={16} fill="hsl(25 95% 74% / 0.15)" stroke="hsl(25 95% 74% / 0.4)" strokeWidth="1" />
-
-        {points.map(p => (
-          <g key={p.key} className="cursor-pointer" onClick={() => navigate(`/number/${p.key}`)}>
-            <circle cx={p.x} cy={p.y} r={circleR} className="fill-card" stroke="hsl(225 100% 93%)" strokeWidth="2" filter="url(#glow)" />
-            <text x={p.x} y={p.y - 4} textAnchor="middle" className="fill-foreground font-lora text-lg font-bold" dominantBaseline="middle" fontSize="18">
-              {p.value}
-            </text>
-            <text x={p.x} y={p.y + 14} textAnchor="middle" className="fill-muted-foreground font-lato" fontSize="8" fontWeight="600">
-              {p.label}
-            </text>
-          </g>
-        ))}
-
+      <svg width="320" height="320" viewBox="0 0 320 320">
         <defs>
-          <filter id="glow">
-            <feDropShadow dx="0" dy="2" stdDeviation="4" floodColor="hsl(25 95% 74%)" floodOpacity="0.2" />
+          {points.map(p => (
+            <radialGradient key={`grad-${p.key}`} id={`orb-${p.key}`} cx="40%" cy="35%" r="65%">
+              <stop offset="0%" stopColor={`hsl(${p.hue} 60% 82%)`} />
+              <stop offset="100%" stopColor={`hsl(${p.hue} 50% 68%)`} />
+            </radialGradient>
+          ))}
+          <radialGradient id="center-orb" cx="40%" cy="35%" r="60%">
+            <stop offset="0%" stopColor="hsl(25 90% 85%)" />
+            <stop offset="100%" stopColor="hsl(25 80% 75%)" />
+          </radialGradient>
+          <filter id="orb-shadow">
+            <feDropShadow dx="0" dy="3" stdDeviation="6" floodColor="hsl(225 40% 30%)" floodOpacity="0.15" />
+          </filter>
+          <filter id="orb-inner-glow">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur" />
+            <feOffset dx="0" dy="-1" result="offsetBlur" />
+            <feFlood floodColor="white" floodOpacity="0.35" result="color" />
+            <feComposite in="color" in2="offsetBlur" operator="in" result="glow" />
+            <feMerge>
+              <feMergeNode in="SourceGraphic" />
+              <feMergeNode in="glow" />
+            </feMerge>
           </filter>
         </defs>
+
+        {/* Pentagon outline */}
+        <path
+          d={pentagonPath}
+          fill="none"
+          stroke="hsl(240 30% 82%)"
+          strokeWidth="1.5"
+          opacity="0.6"
+        />
+
+        {/* Connection lines to center */}
+        {points.map(p => (
+          <line
+            key={`line-${p.key}`}
+            x1={cx}
+            y1={cy}
+            x2={p.x}
+            y2={p.y}
+            stroke="hsl(240 30% 82%)"
+            strokeWidth="1.2"
+            opacity="0.5"
+          />
+        ))}
+
+        {/* Center orb */}
+        <circle cx={cx} cy={cy} r={12} fill="url(#center-orb)" filter="url(#orb-shadow)" />
+        <circle cx={cx} cy={cy} r={12} fill="none" stroke="white" strokeWidth="0.5" opacity="0.4" />
+
+        {/* Number orbs */}
+        {points.map(p => (
+          <g
+            key={p.key}
+            className="cursor-pointer"
+            onClick={() => navigate(`/number/${p.key}`)}
+            role="button"
+            tabIndex={0}
+          >
+            {/* Main orb */}
+            <circle
+              cx={p.x}
+              cy={p.y}
+              r={circleR}
+              fill={`url(#orb-${p.key})`}
+              filter="url(#orb-shadow)"
+            />
+            {/* Glass highlight */}
+            <ellipse
+              cx={p.x - 4}
+              cy={p.y - circleR * 0.35}
+              rx={circleR * 0.45}
+              ry={circleR * 0.25}
+              fill="white"
+              opacity="0.25"
+            />
+            {/* Number */}
+            <text
+              x={p.x}
+              y={p.y - 5}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fill="white"
+              fontFamily="Lora, serif"
+              fontWeight="700"
+              fontSize="20"
+            >
+              {p.value}
+            </text>
+            {/* Label */}
+            {p.label.includes('\n') ? (
+              p.label.split('\n').map((line, i) => (
+                <text
+                  key={i}
+                  x={p.x}
+                  y={p.y + 12 + i * 11}
+                  textAnchor="middle"
+                  fill="white"
+                  fontFamily="Lato, sans-serif"
+                  fontWeight="500"
+                  fontSize="9"
+                  opacity="0.9"
+                >
+                  {line}
+                </text>
+              ))
+            ) : (
+              <text
+                x={p.x}
+                y={p.y + 14}
+                textAnchor="middle"
+                fill="white"
+                fontFamily="Lato, sans-serif"
+                fontWeight="500"
+                fontSize="9"
+                opacity="0.9"
+              >
+                {p.label}
+              </text>
+            )}
+          </g>
+        ))}
       </svg>
     </div>
   );
