@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useApp } from '@/context/AppContext';
 import { ArrowLeft, ChevronDown, Sparkles, Sun, ShieldAlert, Compass } from 'lucide-react';
-import { NUMBER_MEANINGS, NUMBER_LABELS } from '@/data/numberMeanings';
+import { NUMBER_MEANINGS, NUMBER_LABELS, NUMBER_DESCRIPTIONS, NUMBER_PROFILES } from '@/data/numberMeanings';
 import BottomNav from '@/components/BottomNav';
 
 const SECTIONS: { key: 'energy' | 'positive' | 'negative' | 'learning'; label: string; icon: React.ElementType }[] = [
@@ -24,9 +24,10 @@ export default function NumberDetail() {
   const value = user.numbers[type as keyof typeof user.numbers];
   const meaning = NUMBER_MEANINGS[value];
   const label = NUMBER_LABELS[type] || type;
+  const description = NUMBER_DESCRIPTIONS[type] || '';
+  const profile = NUMBER_PROFILES[value];
 
   if (!meaning) return <Navigate to="/dashboard" replace />;
-
   const toggle = (key: string) => setOpenSection(prev => (prev === key ? null : key));
 
   return (
@@ -36,13 +37,16 @@ export default function NumberDetail() {
           <ArrowLeft className="h-4 w-4" /> Volver
         </button>
         <h1 className="font-lora text-3xl font-bold text-white text-center">{label}</h1>
-        <p className="mt-1 text-sm text-white/80 text-center font-lato">{meaning.name}</p>
+        <p className="mt-1 text-sm text-white/70 text-center font-lato">{description}</p>
 
         <div className="mt-6 flex justify-center">
           <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm shadow-glow animate-pulse-glow border-2 border-white/40">
-            <span className="font-lora text-4xl font-bold text-white">{value}</span>
+           <span className="font-lora text-4xl font-bold text-white">{value}</span>
           </div>
         </div>
+        {profile && (
+          <p className="mt-3 text-center text-sm font-semibold text-white/90 font-lato">{profile.title}</p>
+        )}
       </div>
 
       <div className="mx-6 space-y-3">

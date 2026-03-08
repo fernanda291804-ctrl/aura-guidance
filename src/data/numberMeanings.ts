@@ -131,3 +131,11 @@ export const NUMBER_LABELS: Record<string, string> = {
   gift: 'Don',
   path: 'Camino',
 };
+
+export const NUMBER_DESCRIPTIONS: Record<string, string> = {
+  soul: 'Representa tu esencia',
+  personality: 'Número reto: te inclinas más a lo negativo de este número',
+  gift: 'Número entregado por tus ancestros',
+  pastLife: 'Energía que predomina lo positivo en ti',
+  path: 'Número reto: vienes a aprender lo positivo del mismo',
+};
