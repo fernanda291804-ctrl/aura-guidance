@@ -14,9 +14,9 @@ interface ChatMessage {
 }
 
 const SCENARIOS = [
-  { id: 'work' as Scenario, icon: Briefcase, title: 'Trabajo', desc: 'Carrera y camino profesional' },
-  { id: 'relocation' as Scenario, icon: MapPin, title: 'Mudanza', desc: 'Cambios y nuevos comienzos' },
-  { id: 'relationship' as Scenario, icon: Heart, title: 'Relación', desc: 'Amor y conexiones' },
+  { id: 'work' as Scenario, icon: Briefcase, title: 'Trabajo', desc: 'Carrera y camino profesional', iconBg: undefined },
+  { id: 'relocation' as Scenario, icon: MapPin, title: 'Mudanza', desc: 'Cambios y nuevos comienzos', iconBg: '#9DA1D5' },
+  { id: 'relationship' as Scenario, icon: Heart, title: 'Relación', desc: 'Amor y conexiones', iconBg: '#DBC0C9' },
 ];
 
 const SCENARIO_LABELS: Record<Scenario, string> = {
@@ -352,8 +352,11 @@ export default function Mentor() {
             onClick={() => handleSelect(s.id)}
             className="flex w-full items-center gap-4 rounded-2xl bg-white/90 backdrop-blur-md p-5 border border-white/50 shadow-soft text-left transition-transform active:scale-[0.98] hover:shadow-card"
           >
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary">
-              <s.icon className="h-6 w-6 text-secondary-foreground" />
+            <div
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
+              style={{ background: s.iconBg || 'hsl(var(--secondary))' }}
+            >
+              <s.icon className="h-6 w-6 text-white" />
             </div>
             <div>
               <h3 className="font-lora text-base font-semibold text-heading">{s.title}</h3>
