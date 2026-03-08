@@ -55,8 +55,6 @@ const DETAIL_QUESTIONS: Record<Scenario, (name: string, pathNumber: number, prof
 function generateInsight(scenario: Scenario, pathNumber: number, userName: string, userContext: string, userDetail: string) {
   const profile = NUMBER_PROFILES[pathNumber];
   const name = userName.split(' ')[0];
-  const situationRef = userDetail || userContext || 'lo que estás atravesando';
-  const shortSituation = situationRef.slice(0, 60);
 
   if (!profile) {
     return {
@@ -89,6 +87,30 @@ function generateInsight(scenario: Scenario, pathNumber: number, userName: strin
   };
 
   return frameworks[scenario];
+}
+
+function generateRelocationFirstResponse(pathNumber: number, userName: string) {
+  const profile = NUMBER_PROFILES[pathNumber];
+  const name = userName.split(' ')[0];
+  if (!profile) {
+    return `Te escucho, ${name}. Cruzar una frontera es un acto de transformación profunda. Tu frecuencia vibra con la necesidad de expandirte y encontrar un espacio que resuene con quien te estás convirtiendo.\n\nPara que este gran salto sea exitoso, mi mejor consejo es que limpies tu energía soltando lo que ya no te nutre antes de cerrar la maleta. Viaja ligero; tu capacidad de adaptación es tu mayor superpoder, pero necesitas espacio vacío para recibir lo que ese nuevo lugar tiene para ti.\n\nAntes de que empieces con la logística, dime: ¿Qué parte de tu esencia esperas que despierte en ese nuevo destino que hoy sientes que está dormida?`;
+  }
+  return `Te escucho, ${name}. Cruzar una frontera es el acto de libertad más puro que puedes vivir, y para tu frecuencia **${pathNumber}** — **${profile.title}** —, este movimiento es la respuesta de tu alma a una necesidad de aire nuevo y expansión que ya no cabe donde estás.\n\nPara que este gran salto sea exitoso, mi mejor consejo es que limpies tu energía soltando lo que ya no te nutre antes de cerrar la maleta. Viaja ligero; tu capacidad de adaptación es tu mayor superpoder, pero necesitas espacio vacío para recibir lo que ese nuevo lugar tiene para ti.\n\nAntes de que empieces con la logística, dime: ¿Qué parte de tu esencia esperas que despierte en ese nuevo destino que hoy sientes que está dormida?`;
+}
+
+function generateRelocationSecondResponse(pathNumber: number, userName: string) {
+  const profile = NUMBER_PROFILES[pathNumber];
+  const name = userName.split(' ')[0];
+  if (!profile) {
+    return {
+      insight: `Es natural que el ruido de la logística intente apagar tu entusiasmo, ${name}, pero recuerda: el cambio es tu estado natural de crecimiento, aunque el caos a veces te haga sentir que pierdes el control.\n\nPara que no te satures, yo te sugiero este primer paso: suelta la lista completa y elige solo una cosa que resolver hoy. Tu energía brilla cuando fluye, no cuando se angustia por el futuro. Enfocarte en lo inmediato calmará tu sistema y te devolverá la claridad para dar el siguiente paso.\n\nAntes de que sigas con los pendientes, dime: Si hoy pudieras resolver una sola cosa que te diera paz absoluta, ¿qué sería?`,
+      farewell: `He compartido mi visión por hoy. Ahora te dejo este espacio para que integres lo que hablamos; la calma llega cuando dejas de correr. Estaré aquí mañana para escucharte de nuevo.`,
+    };
+  }
+  return {
+    insight: `Es natural que el ruido de la logística intente apagar tu entusiasmo, ${name}, pero recuerda: para tu frecuencia **${pathNumber}** — **${profile.title}** —, el cambio es tu estado natural de crecimiento, aunque el caos a veces te haga sentir que pierdes el control.\n\nPara que no te satures, yo te sugiero este primer paso: suelta la lista completa y elige solo una cosa que resolver hoy. Tu energía brilla cuando fluye, no cuando se angustia por el futuro. Enfocarte en lo inmediato calmará tu sistema y te devolverá la claridad para dar el siguiente paso.\n\nAntes de que sigas con los pendientes, dime: Si hoy pudieras resolver una sola cosa que te diera paz absoluta, ¿qué sería?`,
+    farewell: `He compartido mi visión por hoy. Ahora te dejo este espacio para que integres lo que hablamos; la calma llega cuando dejas de correr. Estaré aquí mañana para escucharte de nuevo.`,
+  };
 }
 
 function RichText({ text }: { text: string }) {
