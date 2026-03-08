@@ -37,7 +37,7 @@ export default function NumberDetail() {
           <ArrowLeft className="h-4 w-4" /> Volver
         </button>
         <h1 className="font-lora text-3xl font-bold text-white text-center">{label}</h1>
-        <p className="mt-1 text-sm text-white/80 text-center font-lato">{meaning.name}</p>
+        <p className="mt-1 text-sm text-white/70 text-center font-lato">{description}</p>
 
         <div className="mt-6 flex justify-center">
           <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm shadow-glow animate-pulse-glow border-2 border-white/40">
