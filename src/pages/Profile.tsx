@@ -9,11 +9,11 @@ export default function Profile() {
   if (!user) return <Navigate to="/" replace />;
 
   const numberList = [
-    { label: 'Alma', value: user.numbers.soul, desc: 'Tus deseos internos' },
-    { label: 'Personalidad', value: user.numbers.personality, desc: 'Cómo te perciben los demás' },
-    { label: 'Vida Pasada', value: user.numbers.pastLife, desc: 'Lecciones kármicas' },
-    { label: 'Don', value: user.numbers.gift, desc: 'Tus talentos naturales' },
-    { label: 'Camino', value: user.numbers.path, desc: 'Tu dirección de vida' },
+    { label: 'Alma', key: 'soul', value: user.numbers.soul },
+    { label: 'Personalidad', key: 'personality', value: user.numbers.personality },
+    { label: 'Don', key: 'gift', value: user.numbers.gift },
+    { label: 'Vida Pasada', key: 'pastLife', value: user.numbers.pastLife },
+    { label: 'Camino', key: 'path', value: user.numbers.path },
   ];
 
   return (
