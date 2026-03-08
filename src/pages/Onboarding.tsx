@@ -68,7 +68,7 @@ export default function Onboarding() {
 
         <div className="glass rounded-2xl p-6 shadow-card space-y-5">
           <div>
-            <label className="mb-1.5 block text-sm font-semibold text-heading font-lato">Tu Nombre</label>
+            <label className="mb-1.5 block text-sm font-semibold text-heading font-lato">Tu nombre</label>
             <input
               type="text"
               value={name}
@@ -81,7 +81,7 @@ export default function Onboarding() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-semibold text-heading font-lato">Fecha de Nacimiento</label>
+            <label className="mb-1.5 block text-sm font-semibold text-heading font-lato">Fecha de nacimiento</label>
             <input
               type="text"
               value={birthDate}
