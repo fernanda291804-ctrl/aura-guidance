@@ -205,7 +205,7 @@ export default function Mentor() {
   // Chat view
   if (step !== 'select' && scenario) {
     return (
-      <div className="flex min-h-screen flex-col grain-overlay" style={{ background: theme?.bg }}>
+      <div className="flex min-h-screen flex-col" style={{ background: '#FFFFFF' }}>
         {/* Header */}
         <div
           className="border-b px-4 pb-3 pt-10 flex items-center gap-3"
