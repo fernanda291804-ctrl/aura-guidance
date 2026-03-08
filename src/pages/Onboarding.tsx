@@ -69,8 +69,8 @@ export default function Onboarding() {
 
   if (phase === 'explain' && computedUser) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center px-6 gradient-dashboard grain-overlay">
-        <div className="relative z-10 w-full max-w-sm">
+      <div className="min-h-screen px-6 py-10 gradient-dashboard grain-overlay overflow-y-auto">
+        <div className="relative z-10 w-full max-w-sm mx-auto">
           <h1 className="text-center font-lora text-2xl font-bold text-on-gradient mb-1">
             Tus 5 números
           </h1>
