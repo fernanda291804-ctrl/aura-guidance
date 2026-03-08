@@ -43,10 +43,13 @@ const SCENARIO_THEMES: Record<Scenario, { bg: string; mentorBubble: string; acce
   },
 };
 
-const DETAIL_QUESTIONS: Record<Scenario, string> = {
-  work: '¿Podrías contarme más sobre tu situación laboral actual? ¿Buscas un cambio de carrera, un ascenso, o estás iniciando un nuevo proyecto?',
-  relocation: '¿Qué tipo de mudanza estás considerando? ¿Es un cambio de ciudad, de país, o simplemente un nuevo hogar? ¿Qué te motiva este cambio?',
-  relationship: '¿Cómo describirías tu situación sentimental actual? ¿Buscas iniciar una relación, fortalecer una existente, o sanar de una experiencia pasada?',
+const DETAIL_QUESTIONS: Record<Scenario, (name: string, pathNumber: number, profile: any) => string> = {
+  work: (name, pathNumber, profile) =>
+    `Entiendo perfectamente, ${name}. Para una frecuencia **${pathNumber}** como la tuya — **${profile?.title || 'tu vibración'}** —, el estancamiento suele sentirse como una jaula; tu esencia siempre te pedirá movimiento y expansión.\n\nPara ayudarte a encontrar esa claridad que buscas, cuéntame un poco más:\n\n• ¿Qué es lo que más te impulsa hoy a querer dar este paso?\n\n• ¿Cómo te hace sentir la idea de dejar lo que tienes ahora?\n\n• ¿Qué es lo que más necesitas aclarar hoy para tomar esta decisión con seguridad?\n\nAquí estoy para escucharte.`,
+  relocation: (name, pathNumber, profile) =>
+    `Te escucho, ${name}. Para una frecuencia **${pathNumber}** — **${profile?.title || 'tu vibración'}** —, el lugar donde vives necesita resonar con quien te estás convirtiendo.\n\nPara orientarte mejor, cuéntame:\n\n• ¿Qué te está pidiendo este cambio de espacio?\n\n• ¿Qué dejas atrás y qué esperas encontrar?\n\n• ¿Qué necesitas resolver hoy para dar este paso con confianza?\n\nAquí estoy para escucharte.`,
+  relationship: (name, pathNumber, profile) =>
+    `Te escucho, ${name}. Para una frecuencia **${pathNumber}** — **${profile?.title || 'tu vibración'}** —, las conexiones emocionales tienen una profundidad que no todos comprenden.\n\nPara acompañarte mejor, cuéntame:\n\n• ¿Qué es lo que más te inquieta hoy en este terreno?\n\n• ¿Cómo te sientes con lo que tienes ahora?\n\n• ¿Qué necesitas aclarar para avanzar con el corazón en paz?\n\nAquí estoy para escucharte.`,
 };
 
 function generateInsight(scenario: Scenario, pathNumber: number, userName: string, userContext: string, userDetail: string) {
