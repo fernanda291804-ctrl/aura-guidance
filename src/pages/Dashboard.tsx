@@ -20,7 +20,7 @@ export default function Dashboard() {
         <h1 className="font-lora text-2xl font-bold text-heading">
           ¡Hola, {user.name.split(' ')[0]}!
         </h1>
-        <p className="mt-1 text-sm text-body">Tu mapa numerológico te espera</p>
+        <p className="mt-1 text-sm text-body font-lato">Tu mapa numerológico te espera</p>
       </div>
 
       <div className="px-6 -mt-2">
