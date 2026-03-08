@@ -1,20 +1,22 @@
+import { useState } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useApp } from '@/context/AppContext';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ChevronDown } from 'lucide-react';
 import { NUMBER_PROFILES } from '@/data/numberMeanings';
 import BottomNav from '@/components/BottomNav';
 
-const SECTIONS: { key: 'aspectos' | 'positivo' | 'negativo' | 'mision'; label: string }[] = [
-  { key: 'aspectos', label: 'Aspectos principales' },
-  { key: 'positivo', label: 'Características positivas' },
-  { key: 'negativo', label: 'Características negativas' },
-  { key: 'mision', label: 'Misión' },
+const SECTIONS: { key: 'aspectos' | 'positivo' | 'negativo' | 'mision'; label: string; emoji: string }[] = [
+  { key: 'aspectos', label: 'Aspectos principales', emoji: '✦' },
+  { key: 'positivo', label: 'Características positivas', emoji: '✧' },
+  { key: 'negativo', label: 'Características negativas', emoji: '⚡' },
+  { key: 'mision', label: 'Misión', emoji: '🧭' },
 ];
 
 export default function LearnDetail() {
   const { num } = useParams<{ num: string }>();
   const { user } = useApp();
   const navigate = useNavigate();
+  const [openSection, setOpenSection] = useState<string | null>(null);
 
   if (!user) return <Navigate to="/" replace />;
 
@@ -22,6 +24,8 @@ export default function LearnDetail() {
   const profile = NUMBER_PROFILES[number];
 
   if (!profile) return <Navigate to="/learn" replace />;
+
+  const toggle = (key: string) => setOpenSection(prev => (prev === key ? null : key));
 
   return (
     <div className="min-h-screen pb-24 gradient-dashboard grain-overlay">
@@ -41,13 +45,34 @@ export default function LearnDetail() {
         <p className="mt-3 text-center text-xs font-semibold text-white/90 font-lato">{profile.energyType}</p>
       </div>
 
-      <div className="mx-6 rounded-2xl bg-white/90 backdrop-blur-md p-6 border border-white/50 shadow-card">
-        {SECTIONS.map((s, i) => (
-          <div key={s.key} className={`py-5 ${i < SECTIONS.length - 1 ? 'border-b' : ''}`} style={{ borderColor: 'hsla(225, 25%, 70%, 0.2)' }}>
-            <h3 className="font-lora text-sm font-bold text-heading mb-2">{s.label}</h3>
-            <p className="text-sm leading-relaxed text-muted-foreground font-lato">{profile[s.key]}</p>
-          </div>
-        ))}
+      <div className="mx-6 space-y-3">
+        {SECTIONS.map(s => {
+          const isOpen = openSection === s.key;
+          return (
+            <div key={s.key} className="rounded-2xl bg-white/90 backdrop-blur-md border border-white/50 shadow-card overflow-hidden transition-all">
+              <button
+                onClick={() => toggle(s.key)}
+                className="flex w-full items-center gap-3 px-5 py-4 text-left transition-colors active:bg-white/70"
+              >
+                <span className="text-base">{s.emoji}</span>
+                <span className="flex-1 font-lora text-sm font-bold text-heading">{s.label}</span>
+                <ChevronDown
+                  className={`h-4 w-4 text-muted-foreground shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                />
+              </button>
+              <div
+                className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+              >
+                <div className="overflow-hidden">
+                  <div className="px-5 pb-5 pt-0">
+                    <div className="h-px bg-border/30 mb-4" />
+                    <p className="text-sm leading-relaxed text-muted-foreground font-lato">{profile[s.key]}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       <BottomNav />
