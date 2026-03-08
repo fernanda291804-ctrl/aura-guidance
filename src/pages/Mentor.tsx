@@ -6,7 +6,7 @@ import { Briefcase, MapPin, Heart, ArrowLeft, Send, Bookmark, Check } from 'luci
 import { NUMBER_PROFILES } from '@/data/numberMeanings';
 
 type Scenario = 'work' | 'relocation' | 'relationship';
-type ChatStep = 'select' | 'greeting' | 'ask_situation' | 'ask_detail' | 'thinking' | 'insight' | 'closed';
+type ChatStep = 'select' | 'greeting' | 'ask_situation' | 'ask_detail' | 'thinking' | 'insight' | 'first_response' | 'second_thinking' | 'closed';
 
 interface ChatMessage {
   role: 'mentor' | 'user';
