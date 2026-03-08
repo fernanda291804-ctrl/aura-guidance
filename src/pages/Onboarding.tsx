@@ -1,13 +1,17 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Sparkles } from 'lucide-react';
-import { useApp, calculateNumbers } from '@/context/AppContext';
+import { useApp, calculateNumbers, UserProfile } from '@/context/AppContext';
+import PentagonChart from '@/components/PentagonChart';
+
+type Phase = 'form' | 'loading' | 'explain';
 
 export default function Onboarding() {
   const [name, setName] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [errors, setErrors] = useState<{ name?: string; birthDate?: string }>({});
-  const [loading, setLoading] = useState(false);
+  const [phase, setPhase] = useState<Phase>('form');
+  const [computedUser, setComputedUser] = useState<UserProfile | null>(null);
   const { setUser } = useApp();
   const navigate = useNavigate();
 
@@ -25,12 +29,20 @@ export default function Onboarding() {
 
   const handleSubmit = () => {
     if (!validate()) return;
-    setLoading(true);
+    setPhase('loading');
     const numbers = calculateNumbers(name, birthDate);
+    const profile: UserProfile = { name: name.trim(), birthDate, numbers };
     setTimeout(() => {
-      setUser({ name: name.trim(), birthDate, numbers });
-      navigate('/dashboard');
+      setComputedUser(profile);
+      setPhase('explain');
     }, 2500);
+  };
+
+  const handleContinue = () => {
+    if (computedUser) {
+      setUser(computedUser);
+      navigate('/dashboard');
+    }
   };
 
   const formatBirthInput = (val: string) => {
@@ -43,7 +55,7 @@ export default function Onboarding() {
     setBirthDate(formatted);
   };
 
-  if (loading) {
+  if (phase === 'loading') {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center px-6 bg-white">
         <div className="h-48 w-48 rounded-full animate-shimmer" style={{ background: 'linear-gradient(270deg, hsl(16 100% 66% / 0.5), hsl(248 54% 58% / 0.4), hsl(16 100% 66% / 0.5))', backgroundSize: '400% 100%' }} />
@@ -51,6 +63,54 @@ export default function Onboarding() {
           Calculando tus números...
         </p>
         <p className="mt-2 text-sm text-muted-foreground font-lato">Alineando energías cósmicas</p>
+      </div>
+    );
+  }
+
+  if (phase === 'explain' && computedUser) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center px-6 gradient-dashboard grain-overlay">
+        <div className="relative z-10 w-full max-w-sm">
+          <h1 className="text-center font-lora text-2xl font-bold text-on-gradient mb-1">
+            Tus 5 números
+          </h1>
+          <p className="text-center text-sm text-on-gradient-muted font-lato mb-4">
+            Cada uno representa un aspecto diferente de tu vida
+          </p>
+
+          <div className="rounded-2xl bg-white/90 backdrop-blur-md p-4 shadow-card border border-white/50 mb-5">
+            <PentagonChart numbers={computedUser.numbers} />
+          </div>
+
+          <div className="space-y-3 mb-6">
+            <div className="flex items-start gap-3 rounded-xl bg-white/90 backdrop-blur-md p-4 border border-white/50 shadow-soft">
+              <div className="mt-0.5 h-4 w-4 shrink-0 rounded-full" style={{ background: 'linear-gradient(135deg, hsl(225 60% 82%), hsl(207 50% 68%))' }} />
+              <div>
+                <p className="text-sm font-semibold text-heading font-lato">Números en azul — Tu esencia</p>
+                <p className="text-xs text-muted-foreground font-lato mt-0.5">
+                  La energía positiva predomina en estos números. Representan tus fortalezas naturales y dones innatos.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3 rounded-xl bg-white/90 backdrop-blur-md p-4 border border-white/50 shadow-soft">
+              <div className="mt-0.5 h-4 w-4 shrink-0 rounded-full" style={{ background: 'linear-gradient(135deg, hsl(248 60% 82%), hsl(248 50% 68%))' }} />
+              <div>
+                <p className="text-sm font-semibold text-heading font-lato">Números en morado — Tu reto</p>
+                <p className="text-xs text-muted-foreground font-lato mt-0.5">
+                  Predomina la energía negativa. Son tu desafío: vienes a aprender a vibrar en lo positivo de estos números.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <button
+            onClick={handleContinue}
+            className="w-full rounded-xl gradient-warm py-3.5 text-sm font-bold text-primary-foreground shadow-glow transition-transform active:scale-[0.98] font-lato"
+          >
+            Explorar mi mapa
+          </button>
+        </div>
       </div>
     );
   }
