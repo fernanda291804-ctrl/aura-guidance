@@ -220,8 +220,8 @@ export default function Mentor() {
             <ArrowLeft className="h-5 w-5" />
           </button>
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full" style={{ background: '#738DE1' }}>
-              <Briefcase className="h-4 w-4 text-white" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-full" style={{ background: scenario === 'work' ? '#738DE1' : scenario === 'relocation' ? '#9DA1D5' : '#DBC0C9' }}>
+              {scenario === 'work' ? <Briefcase className="h-4 w-4 text-white" /> : scenario === 'relocation' ? <MapPin className="h-4 w-4 text-white" /> : <Heart className="h-4 w-4 text-white" />}
             </div>
             <div>
               <p className="text-sm font-semibold text-heading font-lora">KYROS</p>
