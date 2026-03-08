@@ -45,8 +45,8 @@ export default function PentagonChart({ numbers }: Props) {
             </radialGradient>
           ))}
           <radialGradient id="center-orb" cx="40%" cy="35%" r="60%">
-            <stop offset="0%" stopColor="hsl(25 90% 85%)" />
-            <stop offset="100%" stopColor="hsl(25 80% 75%)" />
+            <stop offset="0%" stopColor="hsl(16 100% 76%)" />
+            <stop offset="100%" stopColor="hsl(16 100% 66%)" />
           </radialGradient>
           <filter id="orb-shadow">
             <feDropShadow dx="0" dy="3" stdDeviation="6" floodColor="hsl(225 40% 30%)" floodOpacity="0.15" />
