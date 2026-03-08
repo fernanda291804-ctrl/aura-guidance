@@ -47,10 +47,10 @@ export default function Onboarding() {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center px-6 bg-white">
         <div className="h-48 w-48 rounded-full animate-shimmer" style={{ background: 'linear-gradient(270deg, hsl(16 100% 66% / 0.5), hsl(248 54% 58% / 0.4), hsl(16 100% 66% / 0.5))', backgroundSize: '400% 100%' }} />
-        <p className="mt-8 font-lora text-xl text-on-gradient animate-pulse">
+        <p className="mt-8 font-lora text-xl text-foreground animate-pulse">
           Calculando tus números...
         </p>
-        <p className="mt-2 text-sm text-on-gradient-muted font-lato">Alineando energías cósmicas</p>
+        <p className="mt-2 text-sm text-muted-foreground font-lato">Alineando energías cósmicas</p>
       </div>
     );
   }
