@@ -69,22 +69,22 @@ function generateInsight(scenario: Scenario, pathNumber: number, userName: strin
 
   const frameworks: Record<Scenario, { validation: string; connection: string; advice: string; question: string }> = {
     work: {
-      validation: `Te entiendo, ${name}. Sé que esa presión silenciosa del trabajo es real, y lo que me cuentas sobre "${shortSituation}" lo confirma.`,
-      connection: `Como tu camino es el **${pathNumber}** — **${profile.title}** —, el estancamiento profesional se siente como una jaula. Tu frecuencia está diseñada para evolucionar, no para repetir. Cuando algo ya no te reta, tu energía empieza a apagarse.`,
-      advice: `**Tu siguiente paso:** Identifica una decisión laboral que llevas posponiendo. Tómala hoy — aunque sea imperfecta. El movimiento rompe la parálisis. Agradece lo aprendido y deja todo en orden antes de avanzar.`,
-      question: `¿Qué te permitiría vivir este cambio profesional que hoy el miedo te prohíbe?`,
+      validation: `Te escucho, ${name}.\nEntiendo ese miedo, pero no lo veas como un freno; para mí, es la señal de que tu ciclo ahí terminó y estás lista para algo más grande.`,
+      connection: `Como tu camino es el **${pathNumber}** — **${profile.title}** —, la incomodidad es tu brújula: te está avisando que ya no cabes en ese espacio y necesitas expandirte.`,
+      advice: `Para irte con las puertas abiertas, mi mejor consejo es que agradezcas honestamente lo aprendido y dejes todo en orden. Esa impecabilidad profesional es lo que te dará la libertad para saltar a lo nuevo sin pesos.`,
+      question: `Antes de dar el paso, quiero que lo veas desde aquí: ¿Qué es eso que este nuevo episodio te permitirá vivir que hoy el miedo te prohíbe?`,
     },
     relocation: {
-      validation: `Te entiendo, ${name}. Mudarse no es solo cambiar de dirección — es renegociar quién eres. Lo que me cuentas sobre "${shortSituation}" me dice que ya intuyes la respuesta.`,
+      validation: `Te escucho, ${name}.\nEntiendo esa mezcla de emoción y vértigo. Mudarse no es solo cambiar de dirección — es renegociar quién eres.`,
       connection: `Como tu camino es el **${pathNumber}** — **${profile.title}** —, necesitas que tu espacio exterior refleje tu evolución interior. Cuando el lugar donde vives ya no resuena contigo, tu frecuencia te empuja a buscar un nuevo punto de anclaje.`,
-      advice: `**Tu siguiente paso:** Cierra los ojos 5 minutos. Imagínate despertando en tu nuevo espacio. ¿Qué ves, qué hueles, qué sientes? Escríbelo. Eso te dirá más que cualquier lista de pros y contras.`,
-      question: `¿Qué te da más miedo: quedarte donde estás o atreverte a ese nuevo comienzo?`,
+      advice: `Mi consejo: cierra los ojos 5 minutos. Imagínate despertando en tu nuevo espacio. ¿Qué ves, qué hueles, qué sientes? Escríbelo. Eso te dirá más que cualquier lista de pros y contras.`,
+      question: `Quiero que te preguntes esto con honestidad: ¿Qué te da más miedo — quedarte donde estás o atreverte a ese nuevo comienzo?`,
     },
     relationship: {
-      validation: `Te entiendo, ${name}. Lo que sientes en este terreno emocional es real, y lo que me compartes sobre "${shortSituation}" me dice que ya sabes algo que no te has permitido decir en voz alta.`,
+      validation: `Te escucho, ${name}.\nLo que sientes en este terreno emocional es real, y lo que me compartes me dice que ya sabes algo que no te has permitido decir en voz alta.`,
       connection: `Como tu camino es el **${pathNumber}** — **${profile.title}** —, tu forma de amar tiene una profundidad que no todo el mundo comprende. Eso puede generar desencuentros, pero también conexiones extraordinarias cuando encuentras a alguien que vibra en tu misma frecuencia.`,
-      advice: `**Tu siguiente paso:** Envía un mensaje genuino a alguien importante hoy. No tiene que ser profundo — "pensé en ti" es suficiente. El vínculo se nutre de presencia, no de grandes gestos.`,
-      question: `¿Estás protegiendo tu corazón o lo estás aislando?`,
+      advice: `Mi consejo: envía un mensaje genuino a alguien importante hoy. No tiene que ser profundo — "pensé en ti" es suficiente. El vínculo se nutre de presencia, no de grandes gestos.`,
+      question: `Quiero que mires hacia adentro: ¿Estás protegiendo tu corazón o lo estás aislando?`,
     },
   };
 
