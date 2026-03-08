@@ -46,33 +46,41 @@ export default function LearnDetail() {
       </div>
 
       <div className="mx-6 space-y-3">
-        {SECTIONS.map(s => {
-          const isOpen = openSection === s.key;
-          return (
-            <div key={s.key} className="rounded-2xl bg-white/90 backdrop-blur-md border border-white/50 shadow-card overflow-hidden transition-all">
-              <button
-                onClick={() => toggle(s.key)}
-                className="flex w-full items-center gap-3 px-5 py-4 text-left transition-colors active:bg-white/70"
-              >
-                <s.icon className="h-4 w-4 text-accent shrink-0" />
-                <span className="flex-1 font-lora text-sm font-bold text-heading">{s.label}</span>
-                <ChevronDown
-                  className={`h-4 w-4 text-muted-foreground shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
-                />
-              </button>
-              <div
-                className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
-              >
-                <div className="overflow-hidden">
-                  <div className="px-5 pb-5 pt-0">
-                    <div className="h-px bg-border/30 mb-4" />
-                    <p className="text-sm leading-relaxed text-muted-foreground font-lato whitespace-pre-line">{profile[s.key]}</p>
+        {number === 0 ? (
+          <div className="rounded-2xl bg-white/90 backdrop-blur-md border border-white/50 shadow-card p-5">
+            <p className="text-sm leading-relaxed text-muted-foreground font-lato whitespace-pre-line">
+              Representa la HUMANIDAD y LA VIDA ETERNA. Éste sólo puede aparecer en el número de Don (1900, 2000) y si se tiene es un ser que maneja la energía de todos, de la humanidad pero si no vibra en armonía tiende a perderse en los deseos de todos y a irse con las masas con facilidad. Pierde totalmente su rumbo y su vida. Son seres que tiene claro el sentido del conjunto y de la evolución de la humanidad.
+            </p>
+          </div>
+        ) : (
+          SECTIONS.map(s => {
+            const isOpen = openSection === s.key;
+            return (
+              <div key={s.key} className="rounded-2xl bg-white/90 backdrop-blur-md border border-white/50 shadow-card overflow-hidden transition-all">
+                <button
+                  onClick={() => toggle(s.key)}
+                  className="flex w-full items-center gap-3 px-5 py-4 text-left transition-colors active:bg-white/70"
+                >
+                  <s.icon className="h-4 w-4 text-accent shrink-0" />
+                  <span className="flex-1 font-lora text-sm font-bold text-heading">{s.label}</span>
+                  <ChevronDown
+                    className={`h-4 w-4 text-muted-foreground shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                  />
+                </button>
+                <div
+                  className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="px-5 pb-5 pt-0">
+                      <div className="h-px bg-border/30 mb-4" />
+                      <p className="text-sm leading-relaxed text-muted-foreground font-lato whitespace-pre-line">{profile[s.key]}</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
 
       <BottomNav />
