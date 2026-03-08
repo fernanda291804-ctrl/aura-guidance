@@ -33,17 +33,21 @@ export default function Profile() {
           <Hash className="h-4 w-4 text-white/80" /> Tus números
         </h2>
         <div className="space-y-3">
-          {numberList.map(n => (
-            <div key={n.label} className="flex items-center gap-4 rounded-xl bg-white/90 backdrop-blur-md p-4 border border-white/50 shadow-soft">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-secondary font-lora text-lg font-bold text-primary">
-                {n.value}
+          {numberList.map(n => {
+            const profile = NUMBER_PROFILES[n.value];
+            return (
+              <div key={n.label} className="flex items-center gap-4 rounded-xl bg-white/90 backdrop-blur-md p-4 border border-white/50 shadow-soft">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-secondary font-lora text-lg font-bold text-primary">
+                  {n.value}
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-heading font-lato">{n.label}</p>
+                  <p className="text-[11px] text-muted-foreground font-lato">{NUMBER_DESCRIPTIONS[n.key]}</p>
+                  {profile && <p className="text-xs font-medium text-primary font-lato mt-0.5">{profile.title}</p>}
+                </div>
               </div>
-              <div>
-                <p className="text-sm font-semibold text-heading font-lato">{n.label}</p>
-                <p className="text-xs text-muted-foreground font-lato">{n.desc}</p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
