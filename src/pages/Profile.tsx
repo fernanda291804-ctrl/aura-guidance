@@ -2,6 +2,7 @@ import { useApp } from '@/context/AppContext';
 import { Navigate } from 'react-router-dom';
 import BottomNav from '@/components/BottomNav';
 import { User, Calendar, Hash } from 'lucide-react';
+import { NUMBER_DESCRIPTIONS, NUMBER_PROFILES } from '@/data/numberMeanings';
 
 export default function Profile() {
   const { user } = useApp();
