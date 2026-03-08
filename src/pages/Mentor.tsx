@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useApp } from '@/context/AppContext';
 import { Navigate } from 'react-router-dom';
 import BottomNav from '@/components/BottomNav';
-import { Briefcase, MapPin, Heart, ArrowLeft, Send, Bookmark, Check, Sparkles } from 'lucide-react';
+import { Briefcase, MapPin, Heart, ArrowLeft, Send, Bookmark, Check } from 'lucide-react';
 import { NUMBER_PROFILES } from '@/data/numberMeanings';
 
 type Scenario = 'work' | 'relocation' | 'relationship';
@@ -205,7 +205,7 @@ export default function Mentor() {
   // Chat view
   if (step !== 'select' && scenario) {
     return (
-      <div className="flex min-h-screen flex-col grain-overlay" style={{ background: theme?.bg }}>
+      <div className="flex min-h-screen flex-col" style={{ background: '#FFFFFF' }}>
         {/* Header */}
         <div
           className="border-b px-4 pb-3 pt-10 flex items-center gap-3"
@@ -220,8 +220,8 @@ export default function Mentor() {
             <ArrowLeft className="h-5 w-5" />
           </button>
           <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full gradient-warm">
-              <Sparkles className="h-4 w-4 text-foreground" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-full" style={{ background: '#738DE1' }}>
+              <Briefcase className="h-4 w-4 text-white" />
             </div>
             <div>
               <p className="text-sm font-semibold text-heading font-lora">KYROS</p>
@@ -247,11 +247,8 @@ export default function Mentor() {
                         color: 'hsl(var(--primary-foreground))',
                       }
                     : {
-                        background: theme?.mentorBubble || 'rgba(106, 90, 205, 0.08)',
-                        backdropFilter: 'blur(15px)',
-                        WebkitBackdropFilter: 'blur(15px)',
-                        border: '1px solid rgba(106, 90, 205, 0.12)',
-                        boxShadow: '0 2px 12px rgba(106, 90, 205, 0.06)',
+                        background: '#F8F9FE',
+                        border: '1px solid rgba(115, 141, 225, 0.12)',
                       }
                 }
               >
@@ -265,10 +262,8 @@ export default function Mentor() {
               <div
                 className="rounded-2xl rounded-bl-md px-4 py-3"
                 style={{
-                  background: theme?.mentorBubble || 'rgba(106, 90, 205, 0.08)',
-                  backdropFilter: 'blur(15px)',
-                  WebkitBackdropFilter: 'blur(15px)',
-                  border: '1px solid rgba(106, 90, 205, 0.12)',
+                  background: '#F8F9FE',
+                  border: '1px solid rgba(115, 141, 225, 0.12)',
                 }}
               >
                 <div className="flex items-center gap-2">
