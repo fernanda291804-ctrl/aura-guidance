@@ -26,7 +26,7 @@
 
     /* Muted */
     --muted: 225 20% 92%;
-    --muted-foreground: 220 10% 46%;
+    --muted-foreground: 220 12% 36%;
 
     /* Accent: Purple #6A5ACD */
     --accent: 248 54% 58%;
@@ -38,7 +38,7 @@
 
     /* Success: #73E17A */
     --success: 123 64% 67%;
-    --success-foreground: 0 0% 100%;
+    --success-foreground: 0 0% 10%;
 
     /* Info: #68A8D6 */
     --info: 207 56% 62%;
@@ -72,14 +72,14 @@
     --gradient-mystic: linear-gradient(180deg, hsl(225 64% 92%), hsl(248 54% 90%), hsl(16 100% 66% / 0.2));
     --gradient-loading: linear-gradient(270deg, hsl(16 100% 66% / 0.4), hsl(225 64% 92%), hsl(248 54% 90% / 0.5), hsl(16 100% 66% / 0.4));
 
-    /* Dashboard ambient — peach → lavender/blue */
+    /* Dashboard ambient — darkened for WCAG AA white text (4.5:1+) */
     --gradient-dashboard: linear-gradient(
       180deg,
-      hsl(16 80% 78%) 0%,
-      hsl(16 60% 80%) 15%,
-      hsl(225 50% 82%) 45%,
-      hsl(225 64% 78%) 70%,
-      hsl(248 40% 75%) 100%
+      hsl(16 55% 42%) 0%,
+      hsl(16 40% 40%) 15%,
+      hsl(225 40% 38%) 45%,
+      hsl(225 45% 35%) 70%,
+      hsl(248 35% 33%) 100%
     );
 
     /* Shadows */
