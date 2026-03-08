@@ -343,25 +343,25 @@ export default function Mentor() {
 
   // Scenario selector
   return (
-    <div className="min-h-screen bg-background pb-24 liquid-light grain-overlay">
-      <div className="gradient-aura px-6 pb-6 pt-12">
-        <h1 className="font-lora text-2xl font-bold text-heading">KYROS</h1>
-        <p className="mt-1 text-sm text-body font-lato">La voz que acompaña y aconseja</p>
+    <div className="min-h-screen pb-24 gradient-dashboard grain-overlay">
+      <div className="px-6 pb-6 pt-12">
+        <h1 className="font-lora text-2xl font-bold text-white">KYROS</h1>
+        <p className="mt-1 text-sm text-white/80 font-lato">La voz que acompaña y aconseja</p>
       </div>
 
-      <div className="space-y-4 px-6 mt-6">
+      <div className="space-y-4 px-6 mt-2">
         {SCENARIOS.map(s => (
           <button
             key={s.id}
             onClick={() => handleSelect(s.id)}
-            className="glass flex w-full items-center gap-4 rounded-2xl p-5 shadow-soft text-left transition-transform active:scale-[0.98] hover:shadow-card"
+            className="flex w-full items-center gap-4 rounded-2xl bg-white/90 backdrop-blur-md p-5 border border-white/50 shadow-soft text-left transition-transform active:scale-[0.98] hover:shadow-card"
           >
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary">
               <s.icon className="h-6 w-6 text-primary" />
             </div>
             <div>
               <h3 className="font-lora text-base font-semibold text-heading">{s.title}</h3>
-              <p className="text-xs text-body font-lato">{s.desc}</p>
+              <p className="text-xs text-muted-foreground font-lato">{s.desc}</p>
             </div>
           </button>
         ))}
