@@ -67,7 +67,7 @@ export default function PentagonChart({ numbers }: Props) {
         <path
           d={pentagonPath}
           fill="none"
-          stroke="hsl(240 30% 82%)"
+          stroke="hsl(225 64% 80%)"
           strokeWidth="1.5"
           opacity="0.6"
         />
