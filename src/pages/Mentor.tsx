@@ -278,7 +278,7 @@ export default function Mentor() {
             <div className="pt-2">
               {saved ? (
                 <div className="flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold" style={{ background: 'hsl(160 50% 50% / 0.12)', color: 'hsl(160 50% 40%)' }}>
-                  <Check className="h-4 w-4" /> Guardado en tu diario
+                  <Check className="h-4 w-4" /> Guardado en tu Bitácora
                 </div>
               ) : (
                 <button
