@@ -24,9 +24,10 @@ export default function NumberDetail() {
   const value = user.numbers[type as keyof typeof user.numbers];
   const meaning = NUMBER_MEANINGS[value];
   const label = NUMBER_LABELS[type] || type;
+  const description = NUMBER_DESCRIPTIONS[type] || '';
+  const profile = NUMBER_PROFILES[value];
 
   if (!meaning) return <Navigate to="/dashboard" replace />;
-
   const toggle = (key: string) => setOpenSection(prev => (prev === key ? null : key));
 
   return (
