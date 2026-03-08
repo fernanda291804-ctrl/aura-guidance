@@ -41,7 +41,7 @@ export default function Dashboard() {
           <div className="rounded-2xl bg-white/20 backdrop-blur-sm p-8 text-center border border-white/20">
             <Inbox className="mx-auto h-10 w-10 text-white/40" />
             <p className="mt-3 text-sm text-white/70 font-lato">Aún no hay consultas</p>
-            <p className="text-xs text-white/50 font-lato">Toca el botón KYROS para comenzar tu viaje</p>
+            <p className="text-xs text-white/60 font-lato">Toca el botón KYROS para comenzar tu viaje</p>
           </div>
         ) : (
           <div className="space-y-3">
