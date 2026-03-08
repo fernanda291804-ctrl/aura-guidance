@@ -66,7 +66,7 @@ export default function LearnDetail() {
                 <div className="overflow-hidden">
                   <div className="px-5 pb-5 pt-0">
                     <div className="h-px bg-border/30 mb-4" />
-                    <p className="text-sm leading-relaxed text-muted-foreground font-lato">{profile[s.key]}</p>
+                    <p className="text-sm leading-relaxed text-muted-foreground font-lato whitespace-pre-line">{profile[s.key]}</p>
                   </div>
                 </div>
               </div>
