@@ -26,9 +26,9 @@ export default function BottomNav() {
                 className="relative -mt-5 flex flex-col items-center"
               >
                 <div className="flex h-14 w-14 items-center justify-center rounded-full gradient-warm shadow-glow animate-pulse-glow">
-                  <item.icon className="h-6 w-6 text-foreground" />
+                  <item.icon className="h-6 w-6 text-primary-foreground" />
                 </div>
-                <span className="mt-1 text-[10px] font-bold tracking-wider text-primary">
+                <span className="mt-1 text-[10px] font-bold tracking-wider text-foreground">
                   {item.label}
                 </span>
               </button>
