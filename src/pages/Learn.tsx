@@ -66,7 +66,7 @@ export default function Learn() {
 
       {/* Numbers section */}
       <div className="px-6 mb-6">
-        <h2 className="font-lora text-base font-semibold text-heading mb-3">Los 10 Números</h2>
+        <h2 className="font-lora text-base font-semibold text-heading mb-3">Los 10 números</h2>
         <div className="space-y-2">
           {filteredNumbers.map(n => (
             <button
