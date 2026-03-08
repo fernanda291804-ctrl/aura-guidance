@@ -11,11 +11,11 @@ interface Props {
 }
 
 const LABELS = [
-  { key: 'soul', label: 'Alma', angle: -90, hue: 210 },
-  { key: 'personality', label: 'Personalidad', angle: -18, hue: 260 },
-  { key: 'pastLife', label: 'Vida\nPasada', angle: 54, hue: 210 },
-  { key: 'gift', label: 'Don', angle: 126, hue: 210 },
-  { key: 'path', label: 'Camino', angle: 198, hue: 260 },
+  { key: 'soul', label: 'Alma', angle: -90, hue: 225 },
+  { key: 'personality', label: 'Personalidad', angle: -18, hue: 248 },
+  { key: 'pastLife', label: 'Vida\nPasada', angle: 54, hue: 225 },
+  { key: 'gift', label: 'Don', angle: 126, hue: 207 },
+  { key: 'path', label: 'Camino', angle: 198, hue: 248 },
 ] as const;
 
 export default function PentagonChart({ numbers }: Props) {
