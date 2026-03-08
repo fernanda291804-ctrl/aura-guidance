@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useApp } from '@/context/AppContext';
-import { ArrowLeft, ChevronDown } from 'lucide-react';
+import { ArrowLeft, ChevronDown, Sparkles, Sun, ShieldAlert, Compass } from 'lucide-react';
 import { NUMBER_PROFILES } from '@/data/numberMeanings';
 import BottomNav from '@/components/BottomNav';
 
-const SECTIONS: { key: 'aspectos' | 'positivo' | 'negativo' | 'mision'; label: string; emoji: string }[] = [
-  { key: 'aspectos', label: 'Aspectos principales', emoji: '✦' },
-  { key: 'positivo', label: 'Características positivas', emoji: '✧' },
-  { key: 'negativo', label: 'Características negativas', emoji: '⚡' },
-  { key: 'mision', label: 'Misión', emoji: '🧭' },
+const SECTIONS: { key: 'aspectos' | 'positivo' | 'negativo' | 'mision'; label: string; icon: React.ElementType }[] = [
+  { key: 'aspectos', label: 'Aspectos principales', icon: Sparkles },
+  { key: 'positivo', label: 'Características positivas', icon: Sun },
+  { key: 'negativo', label: 'Características negativas', icon: ShieldAlert },
+  { key: 'mision', label: 'Misión', icon: Compass },
 ];
 
 export default function LearnDetail() {
