@@ -6,10 +6,10 @@ import { NUMBER_MEANINGS, NUMBER_LABELS } from '@/data/numberMeanings';
 import BottomNav from '@/components/BottomNav';
 
 const SECTIONS: { key: 'energy' | 'positive' | 'negative' | 'learning'; label: string; icon: React.ElementType }[] = [
-  { key: 'energy', label: 'Energía', icon: Flame },
-  { key: 'positive', label: 'Aspecto positivo', icon: Sun },
-  { key: 'negative', label: 'Aspecto negativo', icon: ShieldAlert },
-  { key: 'learning', label: 'Aprendizaje', icon: GraduationCap },
+  { key: 'energy', label: 'Esencia', icon: Sparkles },
+  { key: 'positive', label: 'Luz: Donde brillas', icon: Sun },
+  { key: 'negative', label: 'Sombra: Tu desafío', icon: ShieldAlert },
+  { key: 'learning', label: 'Misión', icon: Compass },
 ];
 
 export default function NumberDetail() {
