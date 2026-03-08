@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Hash, User, Sparkles, BookOpen, Bookmark } from 'lucide-react';
+import { Home, User, Sparkles, BookOpen, Bookmark } from 'lucide-react';
 
 const NAV_ITEMS = [
-  { icon: Hash, label: 'Números', path: '/dashboard' },
+  { icon: Home, label: 'Inicio', path: '/dashboard' },
   { icon: User, label: 'Perfil', path: '/profile' },
   { icon: Sparkles, label: 'KYROS', path: '/mentor', center: true },
   { icon: BookOpen, label: 'Aprender', path: '/learn' },
