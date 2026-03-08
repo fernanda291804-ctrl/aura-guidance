@@ -34,7 +34,7 @@ export default function Dashboard() {
       <div className="mt-6 px-6">
         <div className="flex items-center gap-2 mb-3">
           <Clock className="h-4 w-4 text-primary" />
-          <h3 className="font-lora text-base font-semibold text-heading">Consultas Recientes</h3>
+          <h3 className="font-lora text-base font-semibold text-heading">Consultas recientes</h3>
         </div>
 
         {consultations.length === 0 ? (
