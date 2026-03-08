@@ -107,15 +107,6 @@ export default function PentagonChart({ numbers }: Props) {
               fill={`url(#orb-${p.key})`}
               filter="url(#orb-shadow)"
             />
-            {/* Glass highlight */}
-            <ellipse
-              cx={p.x - 4}
-              cy={p.y - circleR * 0.35}
-              rx={circleR * 0.45}
-              ry={circleR * 0.25}
-              fill="white"
-              opacity="0.25"
-            />
             {/* Number */}
             <text
               x={p.x}
