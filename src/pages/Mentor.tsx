@@ -357,7 +357,7 @@ export default function Mentor() {
             className="flex w-full items-center gap-4 rounded-2xl bg-white/90 backdrop-blur-md p-5 border border-white/50 shadow-soft text-left transition-transform active:scale-[0.98] hover:shadow-card"
           >
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary">
-              <s.icon className="h-6 w-6 text-primary" />
+              <s.icon className="h-6 w-6 text-secondary-foreground" />
             </div>
             <div>
               <h3 className="font-lora text-base font-semibold text-heading">{s.title}</h3>

@@ -74,8 +74,8 @@ export default function Learn() {
               onClick={() => navigate(`/learn/${n.number}`)}
               className="flex w-full items-center gap-4 rounded-xl bg-white/90 backdrop-blur-md p-4 border border-white/50 shadow-soft text-left transition-transform active:scale-[0.98]"
             >
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-secondary border border-primary/20">
-                <span className="font-lora text-lg font-bold text-primary">{n.number}</span>
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-secondary border border-secondary/50">
+                <span className="font-lora text-lg font-bold text-secondary-foreground">{n.number}</span>
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-lora text-sm font-bold text-heading">{n.title}</h3>
