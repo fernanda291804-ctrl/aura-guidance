@@ -20,13 +20,13 @@ export default function Dashboard() {
         <h1 className="font-lora text-2xl font-bold text-heading">
           ¡Hola, {user.name.split(' ')[0]}!
         </h1>
-        <p className="mt-1 text-sm text-body">Tu mapa numerológico te espera</p>
+        <p className="mt-1 text-sm text-body font-lato">Tu mapa numerológico te espera</p>
       </div>
 
       <div className="px-6 -mt-2">
         <div className="glass rounded-2xl p-4 shadow-card">
-          <h2 className="mb-2 text-center font-lora text-lg font-semibold text-heading">Tus Números</h2>
-          <p className="mb-2 text-center text-xs text-body">Toca un número para ver su significado</p>
+          <h2 className="mb-2 text-center font-lora text-lg font-semibold text-heading">Tus números</h2>
+          <p className="mb-2 text-center text-xs text-body font-lato">Toca un número para ver su significado</p>
           <PentagonChart numbers={user.numbers} />
         </div>
       </div>
@@ -34,7 +34,7 @@ export default function Dashboard() {
       <div className="mt-6 px-6">
         <div className="flex items-center gap-2 mb-3">
           <Clock className="h-4 w-4 text-primary" />
-          <h3 className="font-lora text-base font-semibold text-heading">Consultas Recientes</h3>
+          <h3 className="font-lora text-base font-semibold text-heading">Consultas recientes</h3>
         </div>
 
         {consultations.length === 0 ? (
@@ -48,12 +48,12 @@ export default function Dashboard() {
             {consultations.slice(0, 3).map(c => (
               <div key={c.id} className="glass rounded-xl p-4 shadow-soft">
                 <div className="flex items-center justify-between">
-                  <span className="rounded-full bg-secondary px-3 py-1 text-xs font-semibold capitalize text-secondary-foreground">
+                  <span className="rounded-full bg-secondary px-3 py-1 text-xs font-semibold capitalize text-secondary-foreground font-lato">
                     {SCENARIO_LABELS[c.scenario] || c.scenario}
                   </span>
                   <span className="text-xs text-muted-foreground">{c.date}</span>
                 </div>
-                <p className="mt-2 text-sm text-body line-clamp-2">{c.insight.advice}</p>
+                <p className="mt-2 text-sm text-body line-clamp-2 font-lato">{c.insight.advice}</p>
               </div>
             ))}
           </div>

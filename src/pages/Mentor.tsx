@@ -230,7 +230,7 @@ export default function Mentor() {
           {messages.map((msg, i) => (
             <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
               <div
-                className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+                 className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed font-lato ${
                   msg.role === 'user'
                     ? 'rounded-br-md text-foreground'
                     : 'rounded-bl-md text-foreground'
@@ -346,7 +346,7 @@ export default function Mentor() {
     <div className="min-h-screen bg-background pb-24 liquid-light grain-overlay">
       <div className="gradient-aura px-6 pb-6 pt-12">
         <h1 className="font-lora text-2xl font-bold text-heading">KYROS</h1>
-        <p className="mt-1 text-sm text-body">La voz que acompaña y aconseja</p>
+        <p className="mt-1 text-sm text-body font-lato">La voz que acompaña y aconseja</p>
       </div>
 
       <div className="space-y-4 px-6 mt-6">
@@ -361,7 +361,7 @@ export default function Mentor() {
             </div>
             <div>
               <h3 className="font-lora text-base font-semibold text-heading">{s.title}</h3>
-              <p className="text-xs text-body">{s.desc}</p>
+              <p className="text-xs text-body font-lato">{s.desc}</p>
             </div>
           </button>
         ))}

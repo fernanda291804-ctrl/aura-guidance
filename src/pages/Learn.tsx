@@ -47,7 +47,7 @@ export default function Learn() {
     <div className="min-h-screen bg-background pb-24 liquid-light grain-overlay">
       <div className="gradient-aura px-6 pb-6 pt-12">
         <h1 className="font-lora text-2xl font-bold text-heading">Aprender</h1>
-        <p className="mt-1 text-sm text-body">Profundiza tu conocimiento numerológico</p>
+        <p className="mt-1 text-sm text-body font-lato">Profundiza tu conocimiento numerológico</p>
       </div>
 
       {/* Search bar */}
@@ -66,7 +66,7 @@ export default function Learn() {
 
       {/* Numbers section */}
       <div className="px-6 mb-6">
-        <h2 className="font-lora text-base font-semibold text-heading mb-3">Los 10 Números</h2>
+        <h2 className="font-lora text-base font-semibold text-heading mb-3">Los 10 números</h2>
         <div className="space-y-2">
           {filteredNumbers.map(n => (
             <button
@@ -79,7 +79,7 @@ export default function Learn() {
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-lora text-sm font-bold text-heading">{n.title}</h3>
-                <p className="text-xs text-body truncate">{n.subtitles} · {n.energyType}</p>
+                <p className="text-xs text-body truncate font-lato">{n.subtitles} · {n.energyType}</p>
               </div>
               <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
             </button>

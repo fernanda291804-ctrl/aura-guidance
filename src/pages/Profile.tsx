@@ -29,7 +29,7 @@ export default function Profile() {
 
       <div className="px-6 mt-4">
         <h2 className="mb-3 flex items-center gap-2 font-lora text-base font-semibold text-heading">
-          <Hash className="h-4 w-4 text-primary" /> Tus Números
+          <Hash className="h-4 w-4 text-primary" /> Tus números
         </h2>
         <div className="space-y-3">
           {numberList.map(n => (
@@ -38,8 +38,8 @@ export default function Profile() {
                 {n.value}
               </div>
               <div>
-                <p className="text-sm font-semibold text-heading">{n.label}</p>
-                <p className="text-xs text-body">{n.desc}</p>
+                <p className="text-sm font-semibold text-heading font-lato">{n.label}</p>
+                <p className="text-xs text-body font-lato">{n.desc}</p>
               </div>
             </div>
           ))}
