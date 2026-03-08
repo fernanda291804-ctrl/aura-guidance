@@ -138,7 +138,7 @@ export default function Mentor() {
     setScenario(s);
     setStep('greeting');
     const profile = NUMBER_PROFILES[user.numbers.path];
-    const greeting = `Hola, ${user.name.split(' ')[0]}. 🌟\n\nSoy **KYROS**, la voz que acompaña y aconseja. He leído tu mapa energético — tu Camino **${user.numbers.path}** vibra con la esencia de **${profile?.title || 'una frecuencia única'}**, y eso me da una perspectiva valiosa para acompañarte en **${SCENARIO_LABELS[s]}**.\n\nCuéntame: ¿qué situación específica te trae hoy?`;
+    const greeting = `Hola, ${user.name.split(' ')[0]}.\n\nSoy **KYROS**, la voz que acompaña y aconseja. He leído tu mapa energético — tu Camino **${user.numbers.path}** vibra con la esencia de **${profile?.title || 'una frecuencia única'}**, y eso me da una perspectiva valiosa para acompañarte en **${SCENARIO_LABELS[s]}**.\n\nCuéntame: ¿qué situación específica te trae hoy?`;
     setMessages([{ role: 'mentor', text: greeting }]);
   };
 
@@ -159,11 +159,11 @@ export default function Mentor() {
       setStep('thinking');
       setTimeout(() => {
         const insight = generateInsight(scenario, user.numbers.path, userContext, text);
-        const insightText = `✨ **Lo que percibo**\n\n${insight.analysis}\n\n🔮 **Consejo guía**\n\n${insight.suggestions.join('\n\n')}\n\n⚡ **Tu siguiente paso**\n\n${insight.action}`;
+        const insightText = `**Lo que percibo**\n\n${insight.analysis}\n\n**Consejo guía**\n\n${insight.suggestions.join('\n\n')}\n\n**Tu siguiente paso**\n\n${insight.action}`;
         addMessage('mentor', insightText);
         setStep('insight');
         setTimeout(() => {
-          addMessage('mentor', '🙏 Esta lectura ha terminado. Si algo resonó contigo, guárdalo — a veces releer un consejo en el momento justo lo cambia todo.\n\n_Confía en tu frecuencia._');
+          addMessage('mentor', 'Esta lectura ha terminado. Si algo resonó contigo, guárdalo — a veces releer un consejo en el momento justo lo cambia todo.\n\n_Confía en tu frecuencia._');
           setStep('closed');
         }, 1500);
       }, 2500);
