@@ -17,10 +17,10 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen pb-24 gradient-dashboard grain-overlay">
       <div className="px-6 pb-6 pt-12">
-        <h1 className="font-lora text-2xl font-bold text-white">
+        <h1 className="font-lora text-2xl font-bold text-on-gradient">
           ¡Hola, {user.name.split(' ')[0]}!
         </h1>
-        <p className="mt-1 text-sm font-lato text-white/70">Tu mapa numerológico te espera</p>
+        <p className="mt-1 text-sm font-lato text-on-gradient-muted">Tu mapa numerológico te espera</p>
       </div>
 
       <div className="px-6 -mt-2">
@@ -33,27 +33,27 @@ export default function Dashboard() {
 
       <div className="mt-6 px-6">
         <div className="flex items-center gap-2 mb-3">
-          <Clock className="h-4 w-4 text-white/80" />
-          <h3 className="font-lora text-base font-semibold text-white">Consultas recientes</h3>
+          <Clock className="h-4 w-4 text-on-gradient-muted" />
+          <h3 className="font-lora text-base font-semibold text-on-gradient">Consultas recientes</h3>
         </div>
 
         {consultations.length === 0 ? (
-          <div className="rounded-2xl bg-white/20 backdrop-blur-sm p-8 text-center border border-white/20">
-            <Inbox className="mx-auto h-10 w-10 text-white/40" />
-            <p className="mt-3 text-sm text-white/70 font-lato">Aún no hay consultas</p>
-            <p className="text-xs text-white/60 font-lato">Toca el botón KYROS para comenzar tu viaje</p>
+          <div className="rounded-2xl bg-white/30 backdrop-blur-sm p-8 text-center border border-white/40">
+            <Inbox className="mx-auto h-10 w-10 text-on-gradient-muted/60" />
+            <p className="mt-3 text-sm text-on-gradient-muted font-lato">Aún no hay consultas</p>
+            <p className="text-xs text-on-gradient-muted/80 font-lato">Toca el botón KYROS para comenzar tu viaje</p>
           </div>
         ) : (
           <div className="space-y-3">
             {consultations.slice(0, 3).map(c => (
-              <div key={c.id} className="rounded-xl bg-white/20 backdrop-blur-sm p-4 border border-white/20">
+              <div key={c.id} className="rounded-xl bg-white/30 backdrop-blur-sm p-4 border border-white/40">
                 <div className="flex items-center justify-between">
-                   <span className="rounded-full bg-white/30 px-3 py-1 text-xs font-semibold capitalize text-white font-lato">
+                   <span className="rounded-full bg-white/50 px-3 py-1 text-xs font-semibold capitalize text-on-gradient font-lato">
                     {SCENARIO_LABELS[c.scenario] || c.scenario}
                   </span>
-                  <span className="text-xs text-white/70 font-lato">{c.date}</span>
+                  <span className="text-xs text-on-gradient-muted font-lato">{c.date}</span>
                 </div>
-                <p className="mt-2 text-sm text-white/90 line-clamp-2 font-lato">{c.insight.advice}</p>
+                <p className="mt-2 text-sm text-on-gradient line-clamp-2 font-lato">{c.insight.advice}</p>
               </div>
             ))}
           </div>

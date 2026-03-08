@@ -46,8 +46,8 @@ export default function Learn() {
   return (
     <div className="min-h-screen pb-24 gradient-dashboard grain-overlay">
       <div className="px-6 pb-6 pt-12">
-        <h1 className="font-lora text-2xl font-bold text-white">Aprender</h1>
-        <p className="mt-1 text-sm text-white/80 font-lato">Profundiza tu conocimiento numerológico</p>
+        <h1 className="font-lora text-2xl font-bold text-on-gradient">Aprender</h1>
+        <p className="mt-1 text-sm text-on-gradient-muted font-lato">Profundiza tu conocimiento numerológico</p>
       </div>
 
       {/* Search bar */}
@@ -66,7 +66,7 @@ export default function Learn() {
 
       {/* Numbers section */}
       <div className="px-6 mb-6">
-        <h2 className="font-lora text-base font-semibold text-white mb-3">Los 10 números</h2>
+        <h2 className="font-lora text-base font-semibold text-on-gradient mb-3">Los 10 números</h2>
         <div className="space-y-2">
           {filteredNumbers.map(n => (
             <button
@@ -90,7 +90,7 @@ export default function Learn() {
       {/* Concepts section */}
       {filteredLessons.length > 0 && (
         <div className="px-6">
-          <h2 className="font-lora text-base font-semibold text-white mb-3">Conceptos</h2>
+          <h2 className="font-lora text-base font-semibold text-on-gradient mb-3">Conceptos</h2>
           <div className="space-y-3">
             {filteredLessons.map((l, i) => (
               <div key={i} className="rounded-2xl bg-white/90 backdrop-blur-md p-5 border border-white/50 shadow-soft">
@@ -104,8 +104,8 @@ export default function Learn() {
 
       {filteredNumbers.length === 0 && filteredLessons.length === 0 && (
         <div className="px-6">
-          <div className="rounded-2xl bg-white/20 backdrop-blur-sm p-8 text-center border border-white/20">
-            <p className="text-sm text-white/70 font-lato">No se encontraron resultados</p>
+          <div className="rounded-2xl bg-white/30 backdrop-blur-sm p-8 text-center border border-white/40">
+            <p className="text-sm text-on-gradient-muted font-lato">No se encontraron resultados</p>
           </div>
         </div>
       )}

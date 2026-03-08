@@ -28,24 +28,25 @@ export default function NumberDetail() {
   const profile = NUMBER_PROFILES[value];
 
   if (!meaning) return <Navigate to="/dashboard" replace />;
+
   const toggle = (key: string) => setOpenSection(prev => (prev === key ? null : key));
 
   return (
     <div className="min-h-screen pb-24 gradient-dashboard grain-overlay">
       <div className="px-6 pb-8 pt-12">
-        <button onClick={() => navigate('/dashboard')} className="mb-4 flex items-center gap-1 text-sm text-white/80 font-lato">
+        <button onClick={() => navigate('/dashboard')} className="mb-4 flex items-center gap-1 text-sm text-on-gradient-muted font-lato">
           <ArrowLeft className="h-4 w-4" /> Volver
         </button>
-        <h1 className="font-lora text-3xl font-bold text-white text-center">{label}</h1>
-        <p className="mt-1 text-sm text-white/70 text-center font-lato">{description}</p>
+        <h1 className="font-lora text-3xl font-bold text-on-gradient text-center">{label}</h1>
+        <p className="mt-1 text-sm text-on-gradient-muted text-center font-lato">{description}</p>
 
         <div className="mt-6 flex justify-center">
-          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm shadow-glow animate-pulse-glow border-2 border-white/40">
-           <span className="font-lora text-4xl font-bold text-white">{value}</span>
+          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white/30 backdrop-blur-sm shadow-glow animate-pulse-glow border-2 border-white/50">
+           <span className="font-lora text-4xl font-bold text-on-gradient">{value}</span>
           </div>
         </div>
         {profile && (
-          <p className="mt-3 text-center text-sm font-semibold text-white/90 font-lato">{profile.title}</p>
+          <p className="mt-3 text-center text-sm font-semibold text-on-gradient font-lato">{profile.title}</p>
         )}
       </div>
 
@@ -58,7 +59,7 @@ export default function NumberDetail() {
                 onClick={() => toggle(s.key)}
                 className="flex w-full items-center gap-3 px-5 py-4 text-left transition-colors active:bg-white/70"
               >
-                <s.icon className="h-4 w-4 text-primary shrink-0" />
+                <s.icon className="h-4 w-4 text-accent shrink-0" />
                 <span className="flex-1 font-lora text-sm font-bold text-heading">{s.label}</span>
                 <ChevronDown
                   className={`h-4 w-4 text-muted-foreground shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}

@@ -16,16 +16,16 @@ export default function Saved() {
   return (
     <div className="min-h-screen pb-24 gradient-dashboard grain-overlay">
       <div className="px-6 pb-6 pt-12">
-        <h1 className="font-lora text-2xl font-bold text-white">Guardado</h1>
-        <p className="mt-1 text-sm text-white/80 font-lato">Tu diario personal de insights</p>
+        <h1 className="font-lora text-2xl font-bold text-on-gradient">Guardado</h1>
+        <p className="mt-1 text-sm text-on-gradient-muted font-lato">Tu diario personal de insights</p>
       </div>
 
       <div className="px-6 mt-4">
         {consultations.length === 0 ? (
-          <div className="rounded-2xl bg-white/20 backdrop-blur-sm p-10 text-center border border-white/20">
-            <Inbox className="mx-auto h-12 w-12 text-white/40" />
-            <p className="mt-4 text-sm text-white/80 font-lato">Tu diario está vacío</p>
-            <p className="mt-1 text-xs text-white/60 font-lato">Las consultas guardadas aparecerán aquí</p>
+          <div className="rounded-2xl bg-white/30 backdrop-blur-sm p-10 text-center border border-white/40">
+            <Inbox className="mx-auto h-12 w-12 text-on-gradient-muted/60" />
+            <p className="mt-4 text-sm text-on-gradient-muted font-lato">Tu diario está vacío</p>
+            <p className="mt-1 text-xs text-on-gradient-muted/80 font-lato">Las consultas guardadas aparecerán aquí</p>
           </div>
         ) : (
           <div className="space-y-3">

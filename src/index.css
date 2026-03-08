@@ -72,15 +72,19 @@
     --gradient-mystic: linear-gradient(180deg, hsl(225 64% 92%), hsl(248 54% 90%), hsl(16 100% 66% / 0.2));
     --gradient-loading: linear-gradient(270deg, hsl(16 100% 66% / 0.4), hsl(225 64% 92%), hsl(248 54% 90% / 0.5), hsl(16 100% 66% / 0.4));
 
-    /* Dashboard ambient — darkened for WCAG AA white text (4.5:1+) */
+    /* Dashboard ambient — original peach → lavender (light) */
     --gradient-dashboard: linear-gradient(
       180deg,
-      hsl(16 55% 42%) 0%,
-      hsl(16 40% 40%) 15%,
-      hsl(225 40% 38%) 45%,
-      hsl(225 45% 35%) 70%,
-      hsl(248 35% 33%) 100%
+      hsl(16 70% 82%) 0%,
+      hsl(16 50% 80%) 15%,
+      hsl(225 45% 84%) 45%,
+      hsl(225 55% 80%) 70%,
+      hsl(248 35% 78%) 100%
     );
+
+    /* Dark text token for use on gradient backgrounds — AA compliant */
+    --on-gradient: 225 40% 20%;
+    --on-gradient-muted: 225 30% 35%;
 
     /* Shadows */
     --shadow-soft: 0 4px 24px -4px hsl(0 0% 0% / 0.08);
@@ -154,6 +158,14 @@
 
   .text-body {
     color: hsl(var(--muted-foreground));
+  }
+
+  .text-on-gradient {
+    color: hsl(var(--on-gradient));
+  }
+
+  .text-on-gradient-muted {
+    color: hsl(var(--on-gradient-muted));
   }
 
   @keyframes shimmer {
