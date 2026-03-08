@@ -79,7 +79,7 @@ export default function Learn() {
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-lora text-sm font-bold text-heading">{n.title}</h3>
-                <p className="text-xs text-body truncate">{n.subtitles} · {n.energyType}</p>
+                <p className="text-xs text-body truncate font-lato">{n.subtitles} · {n.energyType}</p>
               </div>
               <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
             </button>
