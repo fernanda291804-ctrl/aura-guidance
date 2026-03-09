@@ -6,11 +6,117 @@ import { Briefcase, MapPin, Heart, ArrowLeft, Send, Bookmark, Check } from 'luci
 import { NUMBER_PROFILES } from '@/data/numberMeanings';
 
 type Scenario = 'work' | 'relocation' | 'relationship';
-type ChatStep = 'select' | 'greeting' | 'ask_situation' | 'ask_detail' | 'thinking' | 'insight' | 'first_response' | 'second_thinking' | 'closed';
+type ChatStep = 'select' | 'greeting' | 'ask_situation' | 'ask_detail' | 'thinking' | 'insight' | 'first_response' | 'second_thinking' | 'rel_gathering' | 'rel_processing' | 'closed';
 
 interface ChatMessage {
   role: 'mentor' | 'user';
   text: string;
+  isRelBubble?: boolean; // relationship-themed bubble
+}
+
+interface RelationshipData {
+  vinculo: string | null;
+  birthDate: string | null;
+  conflicto: string | null;
+  otherNumber: number | null;
+}
+
+/** Reduce all digits of a date string to a single digit (1-9) */
+function reduceToSingle(n: number): number {
+  while (n > 9) {
+    n = String(n).split('').reduce((a, b) => a + parseInt(b), 0);
+  }
+  return n;
+}
+
+function calculateOtherNumber(dateStr: string): number {
+  const digits = dateStr.replace(/\D/g, '');
+  const sum = digits.split('').reduce((a, b) => a + parseInt(b), 0);
+  return reduceToSingle(sum);
+}
+
+/** Try to extract a date pattern from text (D/MM/YYYY, DD/MM/YYYY, DD-MM-YYYY, etc.) */
+function extractDate(text: string): string | null {
+  const match = text.match(/(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2,4})/);
+  return match ? match[0] : null;
+}
+
+/** Try to extract vínculo keywords */
+function extractVinculo(text: string): string | null {
+  const keywords = [
+    { pattern: /\b(mam[aá]|madre)\b/i, label: 'Mamá' },
+    { pattern: /\b(pap[aá]|padre)\b/i, label: 'Papá' },
+    { pattern: /\b(pareja|novio|novia|esposo|esposa|marido|mujer)\b/i, label: 'Pareja' },
+    { pattern: /\b(hermano|hermana)\b/i, label: 'Hermano/a' },
+    { pattern: /\b(amigo|amiga)\b/i, label: 'Amigo/a' },
+    { pattern: /\b(hijo|hija)\b/i, label: 'Hijo/a' },
+    { pattern: /\b(jefe|jefa)\b/i, label: 'Jefe/a' },
+    { pattern: /\b(socio|socia|compa[ñn]ero|compa[ñn]era)\b/i, label: 'Socio/a' },
+    { pattern: /\b(abuelo|abuela)\b/i, label: 'Abuelo/a' },
+    { pattern: /\b(t[ií]o|t[ií]a)\b/i, label: 'Tío/a' },
+    { pattern: /\b(primo|prima)\b/i, label: 'Primo/a' },
+    { pattern: /\b(suegro|suegra)\b/i, label: 'Suegro/a' },
+    { pattern: /\b(cu[ñn]ado|cu[ñn]ada)\b/i, label: 'Cuñado/a' },
+    { pattern: /\b(ex)\b/i, label: 'Ex' },
+  ];
+  for (const kw of keywords) {
+    if (kw.pattern.test(text)) return kw.label;
+  }
+  return null;
+}
+
+/** Extract conflicto: text minus the date and vinculo keyword */
+function extractConflicto(text: string, date: string | null, vinculo: string | null): string | null {
+  let cleaned = text;
+  if (date) cleaned = cleaned.replace(date, '').trim();
+  // Remove common vinculo words
+  cleaned = cleaned.replace(/\b(mi\s+)?(mam[aá]|madre|pap[aá]|padre|pareja|novio|novia|esposo|esposa|marido|mujer|hermano|hermana|amigo|amiga|hijo|hija|jefe|jefa|socio|socia|compa[ñn]ero|compa[ñn]era|abuelo|abuela|t[ií]o|t[ií]a|primo|prima|suegro|suegra|cu[ñn]ado|cu[ñn]ada|ex)\b/gi, '').trim();
+  // Clean up punctuation artifacts
+  cleaned = cleaned.replace(/^[\s,.\-;:]+|[\s,.\-;:]+$/g, '').trim();
+  return cleaned.length > 5 ? cleaned : null;
+}
+
+/** Generate the numerological compatibility insight */
+function generateRelationshipInsight(
+  userName: string,
+  userPathNumber: number,
+  vinculo: string,
+  otherNumber: number,
+  conflicto: string
+) {
+  const userProfile = NUMBER_PROFILES[userPathNumber];
+  const otherProfile = NUMBER_PROFILES[otherNumber];
+  const name = userName.split(' ')[0];
+
+  const userTitle = userProfile?.title || `vibración ${userPathNumber}`;
+  const otherTitle = otherProfile?.title || `vibración ${otherNumber}`;
+
+  // Dynamic tension analysis
+  const tensions: Record<string, string> = {
+    // Key archetype tensions
+    '1': 'liderazgo e independencia',
+    '2': 'protección y sensibilidad',
+    '3': 'expresión y creatividad',
+    '4': 'estructura y control',
+    '5': 'libertad y movimiento',
+    '6': 'amor incondicional y servicio',
+    '7': 'sabiduría y soledad',
+    '8': 'poder y seguridad',
+    '9': 'entrega y cierre de ciclos',
+  };
+
+  const userEnergy = tensions[String(userPathNumber)] || 'tu propia frecuencia';
+  const otherEnergy = tensions[String(otherNumber)] || 'su propia frecuencia';
+
+  const bubble1 = `Entiendo el peso de esa situación, ${name}.\n\nTu ${vinculo.toLowerCase()} vibra en la frecuencia del **${otherNumber}** — **${otherTitle}** —, lo que significa que su energía se mueve desde ${otherEnergy}. Tú, como un **${userPathNumber}** — **${userTitle}** —, te mueves desde ${userEnergy}.\n\nEsa diferencia de frecuencias es justo lo que crea la fricción que sientes.`;
+
+  const bubble2 = `Sobre lo que me compartes — _"${conflicto}"_ —, lo que yo veo es esto:\n\nTu ${vinculo.toLowerCase()}, desde su frecuencia **${otherNumber}**, necesita ${otherNumber === 8 ? 'sentir que tiene el control y la certeza de que todo estará bien' : otherNumber === 4 ? 'estabilidad y saber que las cosas siguen un orden' : otherNumber === 2 ? 'sentirse segura y protegida emocionalmente' : otherNumber === 6 ? 'sentir que el vínculo sigue intacto y que no se rompe la armonía' : otherNumber === 1 ? 'sentir que su opinión importa y que no pierde su lugar' : otherNumber === 9 ? 'soltar con amor, aunque eso le cueste profundamente' : otherNumber === 7 ? 'procesar internamente antes de aceptar un cambio' : otherNumber === 3 ? 'sentir conexión emocional y que la comunicación fluya' : 'comprender el cambio a su propio ritmo'}. Mientras que tú necesitas ${userPathNumber === 5 ? 'espacio para expandirte sin sentirte atrapado' : userPathNumber === 1 ? 'autonomía para tomar tus propias decisiones' : userPathNumber === 8 ? 'que respeten tu visión y tu autoridad' : userPathNumber === 4 ? 'certeza y un plan claro antes de actuar' : userPathNumber === 2 ? 'armonía sin perder tu propia voz' : userPathNumber === 6 ? 'dar amor sin sacrificarte' : userPathNumber === 3 ? 'expresarte libremente sin ser juzgado' : userPathNumber === 7 ? 'profundidad y honestidad en la conversación' : userPathNumber === 9 ? 'soltar sin culpa' : 'honrar tu propia frecuencia'}.\n\nEl puente entre ambos no es convencer, sino **traducir**: habla en el idioma de su frecuencia para que pueda escucharte.`;
+
+  const bubble3 = `Antes de actuar, quiero que te hagas esta pregunta con total honestidad:\n\n_¿Estás buscando que tu ${vinculo.toLowerCase()} te entienda, o estás buscando que te dé permiso?_\n\nPorque si es lo primero, la conversación se trata de **conexión**. Si es lo segundo, la conversación que necesitas tener primero es contigo.`;
+
+  const bubbleFarewell = `He compartido mi visión por hoy. Solo tenemos un encuentro al día para que tengas espacio de integrar esto.\n\nVuelve mañana.`;
+
+  return { bubble1, bubble2, bubble3, bubbleFarewell };
 }
 
 const SCENARIOS = [
