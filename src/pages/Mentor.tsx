@@ -588,7 +588,7 @@ export default function Mentor() {
           </div>
         )}
 
-        {step !== 'greeting' && step !== 'ask_detail' && <div className="pb-20" />}
+        {step !== 'greeting' && step !== 'ask_detail' && step !== 'rel_gathering' && <div className="pb-20" />}
         <BottomNav />
       </div>
     );
