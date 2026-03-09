@@ -407,17 +407,32 @@ export default function Mentor() {
 
   const handleSave = () => {
     if (!scenario) return;
-    const insight = generateInsight(scenario, user.numbers.path, user.name, userContext, '');
-    addConsultation({
-      id: Date.now().toString(),
-      scenario,
-      date: new Date().toLocaleDateString('es-ES'),
-      insight: {
-        reason: `${insight.validation} ${insight.connection}`,
-        advice: insight.advice,
-        actions: [insight.advice, insight.question],
-      },
-    });
+
+    if (scenario === 'relationship' && relData.vinculo && relData.otherNumber && relData.conflicto) {
+      const insight = generateRelationshipInsight(user.name, user.numbers.path, relData.vinculo, relData.otherNumber, relData.conflicto);
+      addConsultation({
+        id: Date.now().toString(),
+        scenario,
+        date: new Date().toLocaleDateString('es-ES'),
+        insight: {
+          reason: insight.bubble1,
+          advice: insight.bubble2,
+          actions: [insight.bubble3],
+        },
+      });
+    } else {
+      const insight = generateInsight(scenario, user.numbers.path, user.name, userContext, '');
+      addConsultation({
+        id: Date.now().toString(),
+        scenario,
+        date: new Date().toLocaleDateString('es-ES'),
+        insight: {
+          reason: `${insight.validation} ${insight.connection}`,
+          advice: insight.advice,
+          actions: [insight.advice, insight.question],
+        },
+      });
+    }
     setSaved(true);
   };
 
@@ -428,6 +443,7 @@ export default function Mentor() {
     setInput('');
     setUserContext('');
     setSaved(false);
+    setRelData({ vinculo: null, birthDate: null, conflicto: null, otherNumber: null });
   };
 
   const theme = scenario ? SCENARIO_THEMES[scenario] : null;
