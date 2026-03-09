@@ -510,7 +510,7 @@ export default function Mentor() {
             </div>
           ))}
 
-          {(step === 'thinking' || step === 'second_thinking') && (
+          {(step === 'thinking' || step === 'second_thinking' || step === 'rel_processing') && (
             <div className="flex justify-start">
               <div
                 className="rounded-2xl rounded-bl-md px-4 py-3"
