@@ -246,6 +246,7 @@ export default function Mentor() {
   const [input, setInput] = useState('');
   const [userContext, setUserContext] = useState('');
   const [saved, setSaved] = useState(false);
+  const [relData, setRelData] = useState<RelationshipData>({ vinculo: null, birthDate: null, conflicto: null, otherNumber: null });
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -254,20 +255,95 @@ export default function Mentor() {
 
   if (!user) return <Navigate to="/" replace />;
 
-  const addMessage = (role: ChatMessage['role'], text: string) => {
-    setMessages(prev => [...prev, { role, text }]);
+  const addMsg = (role: ChatMessage['role'], text: string, isRelBubble = false) => {
+    setMessages(prev => [...prev, { role, text, isRelBubble }]);
   };
+
+  // Keep backward compat
+  const addMessage = (role: ChatMessage['role'], text: string) => addMsg(role, text);
 
   const handleSelect = (s: Scenario) => {
     setScenario(s);
-    setStep('greeting');
     const name = user.name.split(' ')[0];
-    const greetings: Record<Scenario, string> = {
-      work: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en tu evolución profesional. Cuéntame, ¿en qué tema de tu trabajo o relacionado con él necesitas ayuda hoy?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en tu siguiente paso?`,
-      relocation: `Hola ${name}. Soy **KYROS** y estoy aquí para acompañarte en este cambio de espacio y energía.\n\nCuéntame, ¿en qué parte de tu mudanza o de tu nuevo hogar necesitas mi ayuda hoy? Dime, ¿cómo te puedo ayudar a sintonizar con tu nuevo centro?`,
-      relationship: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en el terreno más importante: tus vínculos. Cuéntame, ¿qué te trae hoy al espacio del corazón?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en tus conexiones?`,
-    };
-    setMessages([{ role: 'mentor', text: greetings[s] }]);
+
+    if (s === 'relationship') {
+      setStep('rel_gathering');
+      setRelData({ vinculo: null, birthDate: null, conflicto: null, otherNumber: null });
+      setMessages([{
+        role: 'mentor',
+        text: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en el terreno más importante: tus vínculos.\n\nPara darte una lectura profunda, necesito tres cosas:\n\n1. **¿Con quién es?** (ej. mamá, pareja, amigo)\n2. **Su fecha de nacimiento** (ej. 9/02/1968)\n3. **¿Qué está pasando?** (ej. 'no sé cómo decirle que me quiero mudar')\n\nPuedes decírmelo todo junto o paso a paso. Aquí estoy para escucharte.`,
+      }]);
+    } else {
+      setStep('greeting');
+      const greetings: Record<Scenario, string> = {
+        work: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en tu evolución profesional. Cuéntame, ¿en qué tema de tu trabajo o relacionado con él necesitas ayuda hoy?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en tu siguiente paso?`,
+        relocation: `Hola ${name}. Soy **KYROS** y estoy aquí para acompañarte en este cambio de espacio y energía.\n\nCuéntame, ¿en qué parte de tu mudanza o de tu nuevo hogar necesitas mi ayuda hoy? Dime, ¿cómo te puedo ayudar a sintonizar con tu nuevo centro?`,
+        relationship: '',
+      };
+      setMessages([{ role: 'mentor', text: greetings[s] }]);
+    }
+  };
+
+  /** Process relationship data gathering */
+  const handleRelationshipInput = (text: string) => {
+    const updated = { ...relData };
+    const foundDate = extractDate(text);
+    const foundVinculo = extractVinculo(text);
+    const foundConflicto = extractConflicto(text, foundDate, foundVinculo);
+
+    if (foundVinculo && !updated.vinculo) updated.vinculo = foundVinculo;
+    if (foundDate && !updated.birthDate) {
+      updated.birthDate = foundDate;
+      updated.otherNumber = calculateOtherNumber(foundDate);
+    }
+    if (foundConflicto && !updated.conflicto) updated.conflicto = foundConflicto;
+
+    setRelData(updated);
+
+    const name = user.name.split(' ')[0];
+
+    // Check what's still missing
+    const missing: string[] = [];
+    if (!updated.vinculo) missing.push('**el vínculo** (¿quién es esta persona para ti?)');
+    if (!updated.birthDate) missing.push('**su fecha de nacimiento** (día/mes/año)');
+    if (!updated.conflicto) missing.push('**la situación** que quieres resolver');
+
+    if (missing.length > 0) {
+      setTimeout(() => {
+        addMessage('mentor', `Gracias, ${name}. Para completar tu lectura, aún necesito:\n\n${missing.map((m, i) => `${i + 1}. ${m}`).join('\n')}\n\nTómate tu tiempo.`);
+      }, 600);
+    } else {
+      // All data gathered — process and send multi-bubble response
+      setStep('rel_processing');
+      const insight = generateRelationshipInsight(
+        user.name,
+        user.numbers.path,
+        updated.vinculo!,
+        updated.otherNumber!,
+        updated.conflicto!
+      );
+
+      // Bubble 1: Validation + number contrast
+      setTimeout(() => {
+        addMsg('mentor', insight.bubble1, true);
+
+        // Bubble 2: Logical advice
+        setTimeout(() => {
+          addMsg('mentor', insight.bubble2, true);
+
+          // Bubble 3: Reflection question
+          setTimeout(() => {
+            addMsg('mentor', insight.bubble3, true);
+
+            // Bubble 4: Daily limit + save
+            setTimeout(() => {
+              addMsg('mentor', insight.bubbleFarewell, false);
+              setStep('closed');
+            }, 1800);
+          }, 2000);
+        }, 2200);
+      }, 1500);
+    }
   };
 
   const handleSend = () => {
@@ -275,12 +351,18 @@ export default function Mentor() {
     const text = input.trim();
     setInput('');
 
+    // Relationship flow
+    if (scenario === 'relationship' && step === 'rel_gathering') {
+      addMessage('user', text);
+      handleRelationshipInput(text);
+      return;
+    }
+
     if (step === 'greeting') {
       addMessage('user', text);
       setUserContext(text);
 
       if (scenario === 'relocation') {
-        // Relocation: direct first insight (no bullet questions)
         setTimeout(() => {
           addMessage('mentor', generateRelocationFirstResponse(user.numbers.path, user.name));
           setStep('first_response');
@@ -294,7 +376,6 @@ export default function Mentor() {
         }, 800);
       }
     } else if (step === 'first_response' && scenario === 'relocation') {
-      // Relocation: second round
       addMessage('user', text);
       setStep('second_thinking');
       setTimeout(() => {
