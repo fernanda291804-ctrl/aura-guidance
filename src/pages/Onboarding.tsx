@@ -41,8 +41,12 @@ export default function Onboarding() {
   const handleContinue = () => {
     if (computedUser) {
       setUser(computedUser);
-      navigate('/dashboard');
+      setPhase('guide');
     }
+  };
+
+  const handleStartJourney = () => {
+    navigate('/dashboard');
   };
 
   const formatBirthInput = (val: string) => {
