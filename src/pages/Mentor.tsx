@@ -558,7 +558,7 @@ export default function Mentor() {
         </div>
 
         {/* Input */}
-        {(step === 'greeting' || step === 'ask_detail' || step === 'first_response') && (
+        {(step === 'greeting' || step === 'ask_detail' || step === 'first_response' || step === 'rel_gathering') && (
           <div
             className="border-t px-4 py-3 pb-20"
             style={{
