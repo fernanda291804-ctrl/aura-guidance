@@ -6,11 +6,117 @@ import { Briefcase, MapPin, Heart, ArrowLeft, Send, Bookmark, Check } from 'luci
 import { NUMBER_PROFILES } from '@/data/numberMeanings';
 
 type Scenario = 'work' | 'relocation' | 'relationship';
-type ChatStep = 'select' | 'greeting' | 'ask_situation' | 'ask_detail' | 'thinking' | 'insight' | 'first_response' | 'second_thinking' | 'closed';
+type ChatStep = 'select' | 'greeting' | 'ask_situation' | 'ask_detail' | 'thinking' | 'insight' | 'first_response' | 'second_thinking' | 'rel_gathering' | 'rel_processing' | 'closed';
 
 interface ChatMessage {
   role: 'mentor' | 'user';
   text: string;
+  isRelBubble?: boolean; // relationship-themed bubble
+}
+
+interface RelationshipData {
+  vinculo: string | null;
+  birthDate: string | null;
+  conflicto: string | null;
+  otherNumber: number | null;
+}
+
+/** Reduce all digits of a date string to a single digit (1-9) */
+function reduceToSingle(n: number): number {
+  while (n > 9) {
+    n = String(n).split('').reduce((a, b) => a + parseInt(b), 0);
+  }
+  return n;
+}
+
+function calculateOtherNumber(dateStr: string): number {
+  const digits = dateStr.replace(/\D/g, '');
+  const sum = digits.split('').reduce((a, b) => a + parseInt(b), 0);
+  return reduceToSingle(sum);
+}
+
+/** Try to extract a date pattern from text (D/MM/YYYY, DD/MM/YYYY, DD-MM-YYYY, etc.) */
+function extractDate(text: string): string | null {
+  const match = text.match(/(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{2,4})/);
+  return match ? match[0] : null;
+}
+
+/** Try to extract vínculo keywords */
+function extractVinculo(text: string): string | null {
+  const keywords = [
+    { pattern: /\b(mam[aá]|madre)\b/i, label: 'Mamá' },
+    { pattern: /\b(pap[aá]|padre)\b/i, label: 'Papá' },
+    { pattern: /\b(pareja|novio|novia|esposo|esposa|marido|mujer)\b/i, label: 'Pareja' },
+    { pattern: /\b(hermano|hermana)\b/i, label: 'Hermano/a' },
+    { pattern: /\b(amigo|amiga)\b/i, label: 'Amigo/a' },
+    { pattern: /\b(hijo|hija)\b/i, label: 'Hijo/a' },
+    { pattern: /\b(jefe|jefa)\b/i, label: 'Jefe/a' },
+    { pattern: /\b(socio|socia|compa[ñn]ero|compa[ñn]era)\b/i, label: 'Socio/a' },
+    { pattern: /\b(abuelo|abuela)\b/i, label: 'Abuelo/a' },
+    { pattern: /\b(t[ií]o|t[ií]a)\b/i, label: 'Tío/a' },
+    { pattern: /\b(primo|prima)\b/i, label: 'Primo/a' },
+    { pattern: /\b(suegro|suegra)\b/i, label: 'Suegro/a' },
+    { pattern: /\b(cu[ñn]ado|cu[ñn]ada)\b/i, label: 'Cuñado/a' },
+    { pattern: /\b(ex)\b/i, label: 'Ex' },
+  ];
+  for (const kw of keywords) {
+    if (kw.pattern.test(text)) return kw.label;
+  }
+  return null;
+}
+
+/** Extract conflicto: text minus the date and vinculo keyword */
+function extractConflicto(text: string, date: string | null, vinculo: string | null): string | null {
+  let cleaned = text;
+  if (date) cleaned = cleaned.replace(date, '').trim();
+  // Remove common vinculo words
+  cleaned = cleaned.replace(/\b(mi\s+)?(mam[aá]|madre|pap[aá]|padre|pareja|novio|novia|esposo|esposa|marido|mujer|hermano|hermana|amigo|amiga|hijo|hija|jefe|jefa|socio|socia|compa[ñn]ero|compa[ñn]era|abuelo|abuela|t[ií]o|t[ií]a|primo|prima|suegro|suegra|cu[ñn]ado|cu[ñn]ada|ex)\b/gi, '').trim();
+  // Clean up punctuation artifacts
+  cleaned = cleaned.replace(/^[\s,.\-;:]+|[\s,.\-;:]+$/g, '').trim();
+  return cleaned.length > 5 ? cleaned : null;
+}
+
+/** Generate the numerological compatibility insight */
+function generateRelationshipInsight(
+  userName: string,
+  userPathNumber: number,
+  vinculo: string,
+  otherNumber: number,
+  conflicto: string
+) {
+  const userProfile = NUMBER_PROFILES[userPathNumber];
+  const otherProfile = NUMBER_PROFILES[otherNumber];
+  const name = userName.split(' ')[0];
+
+  const userTitle = userProfile?.title || `vibración ${userPathNumber}`;
+  const otherTitle = otherProfile?.title || `vibración ${otherNumber}`;
+
+  // Dynamic tension analysis
+  const tensions: Record<string, string> = {
+    // Key archetype tensions
+    '1': 'liderazgo e independencia',
+    '2': 'protección y sensibilidad',
+    '3': 'expresión y creatividad',
+    '4': 'estructura y control',
+    '5': 'libertad y movimiento',
+    '6': 'amor incondicional y servicio',
+    '7': 'sabiduría y soledad',
+    '8': 'poder y seguridad',
+    '9': 'entrega y cierre de ciclos',
+  };
+
+  const userEnergy = tensions[String(userPathNumber)] || 'tu propia frecuencia';
+  const otherEnergy = tensions[String(otherNumber)] || 'su propia frecuencia';
+
+  const bubble1 = `Entiendo el peso de esa situación, ${name}.\n\nTu ${vinculo.toLowerCase()} vibra en la frecuencia del **${otherNumber}** — **${otherTitle}** —, lo que significa que su energía se mueve desde ${otherEnergy}. Tú, como un **${userPathNumber}** — **${userTitle}** —, te mueves desde ${userEnergy}.\n\nEsa diferencia de frecuencias es justo lo que crea la fricción que sientes.`;
+
+  const bubble2 = `Sobre lo que me compartes — _"${conflicto}"_ —, lo que yo veo es esto:\n\nTu ${vinculo.toLowerCase()}, desde su frecuencia **${otherNumber}**, necesita ${otherNumber === 8 ? 'sentir que tiene el control y la certeza de que todo estará bien' : otherNumber === 4 ? 'estabilidad y saber que las cosas siguen un orden' : otherNumber === 2 ? 'sentirse segura y protegida emocionalmente' : otherNumber === 6 ? 'sentir que el vínculo sigue intacto y que no se rompe la armonía' : otherNumber === 1 ? 'sentir que su opinión importa y que no pierde su lugar' : otherNumber === 9 ? 'soltar con amor, aunque eso le cueste profundamente' : otherNumber === 7 ? 'procesar internamente antes de aceptar un cambio' : otherNumber === 3 ? 'sentir conexión emocional y que la comunicación fluya' : 'comprender el cambio a su propio ritmo'}. Mientras que tú necesitas ${userPathNumber === 5 ? 'espacio para expandirte sin sentirte atrapado' : userPathNumber === 1 ? 'autonomía para tomar tus propias decisiones' : userPathNumber === 8 ? 'que respeten tu visión y tu autoridad' : userPathNumber === 4 ? 'certeza y un plan claro antes de actuar' : userPathNumber === 2 ? 'armonía sin perder tu propia voz' : userPathNumber === 6 ? 'dar amor sin sacrificarte' : userPathNumber === 3 ? 'expresarte libremente sin ser juzgado' : userPathNumber === 7 ? 'profundidad y honestidad en la conversación' : userPathNumber === 9 ? 'soltar sin culpa' : 'honrar tu propia frecuencia'}.\n\nEl puente entre ambos no es convencer, sino **traducir**: habla en el idioma de su frecuencia para que pueda escucharte.`;
+
+  const bubble3 = `Antes de actuar, quiero que te hagas esta pregunta con total honestidad:\n\n_¿Estás buscando que tu ${vinculo.toLowerCase()} te entienda, o estás buscando que te dé permiso?_\n\nPorque si es lo primero, la conversación se trata de **conexión**. Si es lo segundo, la conversación que necesitas tener primero es contigo.`;
+
+  const bubbleFarewell = `He compartido mi visión por hoy. Solo tenemos un encuentro al día para que tengas espacio de integrar esto.\n\nVuelve mañana.`;
+
+  return { bubble1, bubble2, bubble3, bubbleFarewell };
 }
 
 const SCENARIOS = [
@@ -140,6 +246,7 @@ export default function Mentor() {
   const [input, setInput] = useState('');
   const [userContext, setUserContext] = useState('');
   const [saved, setSaved] = useState(false);
+  const [relData, setRelData] = useState<RelationshipData>({ vinculo: null, birthDate: null, conflicto: null, otherNumber: null });
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -148,20 +255,95 @@ export default function Mentor() {
 
   if (!user) return <Navigate to="/" replace />;
 
-  const addMessage = (role: ChatMessage['role'], text: string) => {
-    setMessages(prev => [...prev, { role, text }]);
+  const addMsg = (role: ChatMessage['role'], text: string, isRelBubble = false) => {
+    setMessages(prev => [...prev, { role, text, isRelBubble }]);
   };
+
+  // Keep backward compat
+  const addMessage = (role: ChatMessage['role'], text: string) => addMsg(role, text);
 
   const handleSelect = (s: Scenario) => {
     setScenario(s);
-    setStep('greeting');
     const name = user.name.split(' ')[0];
-    const greetings: Record<Scenario, string> = {
-      work: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en tu evolución profesional. Cuéntame, ¿en qué tema de tu trabajo o relacionado con él necesitas ayuda hoy?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en tu siguiente paso?`,
-      relocation: `Hola ${name}. Soy **KYROS** y estoy aquí para acompañarte en este cambio de espacio y energía.\n\nCuéntame, ¿en qué parte de tu mudanza o de tu nuevo hogar necesitas mi ayuda hoy? Dime, ¿cómo te puedo ayudar a sintonizar con tu nuevo centro?`,
-      relationship: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en el terreno más importante: tus vínculos. Cuéntame, ¿qué te trae hoy al espacio del corazón?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en tus conexiones?`,
-    };
-    setMessages([{ role: 'mentor', text: greetings[s] }]);
+
+    if (s === 'relationship') {
+      setStep('rel_gathering');
+      setRelData({ vinculo: null, birthDate: null, conflicto: null, otherNumber: null });
+      setMessages([{
+        role: 'mentor',
+        text: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en el terreno más importante: tus vínculos.\n\nPara darte una lectura profunda, necesito tres cosas:\n\n1. **¿Con quién es?** (ej. mamá, pareja, amigo)\n2. **Su fecha de nacimiento** (ej. 9/02/1968)\n3. **¿Qué está pasando?** (ej. 'no sé cómo decirle que me quiero mudar')\n\nPuedes decírmelo todo junto o paso a paso. Aquí estoy para escucharte.`,
+      }]);
+    } else {
+      setStep('greeting');
+      const greetings: Record<Scenario, string> = {
+        work: `Hola ${name}, qué gusto saludarte.\n\nSoy **KYROS**, y estoy aquí para acompañarte en tu evolución profesional. Cuéntame, ¿en qué tema de tu trabajo o relacionado con él necesitas ayuda hoy?\n\nDime, ¿cómo te puedo ayudar a encontrar claridad en tu siguiente paso?`,
+        relocation: `Hola ${name}. Soy **KYROS** y estoy aquí para acompañarte en este cambio de espacio y energía.\n\nCuéntame, ¿en qué parte de tu mudanza o de tu nuevo hogar necesitas mi ayuda hoy? Dime, ¿cómo te puedo ayudar a sintonizar con tu nuevo centro?`,
+        relationship: '',
+      };
+      setMessages([{ role: 'mentor', text: greetings[s] }]);
+    }
+  };
+
+  /** Process relationship data gathering */
+  const handleRelationshipInput = (text: string) => {
+    const updated = { ...relData };
+    const foundDate = extractDate(text);
+    const foundVinculo = extractVinculo(text);
+    const foundConflicto = extractConflicto(text, foundDate, foundVinculo);
+
+    if (foundVinculo && !updated.vinculo) updated.vinculo = foundVinculo;
+    if (foundDate && !updated.birthDate) {
+      updated.birthDate = foundDate;
+      updated.otherNumber = calculateOtherNumber(foundDate);
+    }
+    if (foundConflicto && !updated.conflicto) updated.conflicto = foundConflicto;
+
+    setRelData(updated);
+
+    const name = user.name.split(' ')[0];
+
+    // Check what's still missing
+    const missing: string[] = [];
+    if (!updated.vinculo) missing.push('**el vínculo** (¿quién es esta persona para ti?)');
+    if (!updated.birthDate) missing.push('**su fecha de nacimiento** (día/mes/año)');
+    if (!updated.conflicto) missing.push('**la situación** que quieres resolver');
+
+    if (missing.length > 0) {
+      setTimeout(() => {
+        addMessage('mentor', `Gracias, ${name}. Para completar tu lectura, aún necesito:\n\n${missing.map((m, i) => `${i + 1}. ${m}`).join('\n')}\n\nTómate tu tiempo.`);
+      }, 600);
+    } else {
+      // All data gathered — process and send multi-bubble response
+      setStep('rel_processing');
+      const insight = generateRelationshipInsight(
+        user.name,
+        user.numbers.path,
+        updated.vinculo!,
+        updated.otherNumber!,
+        updated.conflicto!
+      );
+
+      // Bubble 1: Validation + number contrast
+      setTimeout(() => {
+        addMsg('mentor', insight.bubble1, true);
+
+        // Bubble 2: Logical advice
+        setTimeout(() => {
+          addMsg('mentor', insight.bubble2, true);
+
+          // Bubble 3: Reflection question
+          setTimeout(() => {
+            addMsg('mentor', insight.bubble3, true);
+
+            // Bubble 4: Daily limit + save
+            setTimeout(() => {
+              addMsg('mentor', insight.bubbleFarewell, false);
+              setStep('closed');
+            }, 1800);
+          }, 2000);
+        }, 2200);
+      }, 1500);
+    }
   };
 
   const handleSend = () => {
@@ -169,12 +351,18 @@ export default function Mentor() {
     const text = input.trim();
     setInput('');
 
+    // Relationship flow
+    if (scenario === 'relationship' && step === 'rel_gathering') {
+      addMessage('user', text);
+      handleRelationshipInput(text);
+      return;
+    }
+
     if (step === 'greeting') {
       addMessage('user', text);
       setUserContext(text);
 
       if (scenario === 'relocation') {
-        // Relocation: direct first insight (no bullet questions)
         setTimeout(() => {
           addMessage('mentor', generateRelocationFirstResponse(user.numbers.path, user.name));
           setStep('first_response');
@@ -188,7 +376,6 @@ export default function Mentor() {
         }, 800);
       }
     } else if (step === 'first_response' && scenario === 'relocation') {
-      // Relocation: second round
       addMessage('user', text);
       setStep('second_thinking');
       setTimeout(() => {
@@ -220,17 +407,32 @@ export default function Mentor() {
 
   const handleSave = () => {
     if (!scenario) return;
-    const insight = generateInsight(scenario, user.numbers.path, user.name, userContext, '');
-    addConsultation({
-      id: Date.now().toString(),
-      scenario,
-      date: new Date().toLocaleDateString('es-ES'),
-      insight: {
-        reason: `${insight.validation} ${insight.connection}`,
-        advice: insight.advice,
-        actions: [insight.advice, insight.question],
-      },
-    });
+
+    if (scenario === 'relationship' && relData.vinculo && relData.otherNumber && relData.conflicto) {
+      const insight = generateRelationshipInsight(user.name, user.numbers.path, relData.vinculo, relData.otherNumber, relData.conflicto);
+      addConsultation({
+        id: Date.now().toString(),
+        scenario,
+        date: new Date().toLocaleDateString('es-ES'),
+        insight: {
+          reason: insight.bubble1,
+          advice: insight.bubble2,
+          actions: [insight.bubble3],
+        },
+      });
+    } else {
+      const insight = generateInsight(scenario, user.numbers.path, user.name, userContext, '');
+      addConsultation({
+        id: Date.now().toString(),
+        scenario,
+        date: new Date().toLocaleDateString('es-ES'),
+        insight: {
+          reason: `${insight.validation} ${insight.connection}`,
+          advice: insight.advice,
+          actions: [insight.advice, insight.question],
+        },
+      });
+    }
     setSaved(true);
   };
 
@@ -241,6 +443,7 @@ export default function Mentor() {
     setInput('');
     setUserContext('');
     setSaved(false);
+    setRelData({ vinculo: null, birthDate: null, conflicto: null, otherNumber: null });
   };
 
   const theme = scenario ? SCENARIO_THEMES[scenario] : null;
@@ -280,8 +483,8 @@ export default function Mentor() {
               <div
                  className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed font-lato ${
                   msg.role === 'user'
-                    ? 'rounded-br-md text-foreground'
-                    : 'rounded-bl-md text-foreground'
+                    ? 'rounded-br-md'
+                    : 'rounded-bl-md'
                 }`}
                 style={
                   msg.role === 'user'
@@ -289,9 +492,16 @@ export default function Mentor() {
                         background: 'hsl(var(--primary))',
                         color: 'hsl(var(--primary-foreground))',
                       }
+                    : msg.isRelBubble
+                    ? {
+                        background: '#4683DB',
+                        color: '#FFFFFF',
+                        border: 'none',
+                      }
                     : {
                         background: '#F8F9FE',
                         border: '1px solid rgba(115, 141, 225, 0.12)',
+                        color: 'hsl(var(--foreground))',
                       }
                 }
               >
@@ -300,7 +510,7 @@ export default function Mentor() {
             </div>
           ))}
 
-          {(step === 'thinking' || step === 'second_thinking') && (
+          {(step === 'thinking' || step === 'second_thinking' || step === 'rel_processing') && (
             <div className="flex justify-start">
               <div
                 className="rounded-2xl rounded-bl-md px-4 py-3"
@@ -348,7 +558,7 @@ export default function Mentor() {
         </div>
 
         {/* Input */}
-        {(step === 'greeting' || step === 'ask_detail' || step === 'first_response') && (
+        {(step === 'greeting' || step === 'ask_detail' || step === 'first_response' || step === 'rel_gathering') && (
           <div
             className="border-t px-4 py-3 pb-20"
             style={{
@@ -378,7 +588,7 @@ export default function Mentor() {
           </div>
         )}
 
-        {step !== 'greeting' && step !== 'ask_detail' && <div className="pb-20" />}
+        {step !== 'greeting' && step !== 'ask_detail' && step !== 'rel_gathering' && <div className="pb-20" />}
         <BottomNav />
       </div>
     );
