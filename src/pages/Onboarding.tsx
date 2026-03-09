@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Briefcase, Home, Heart } from 'lucide-react';
 import { useApp, calculateNumbers, UserProfile } from '@/context/AppContext';
 import PentagonChart from '@/components/PentagonChart';
 
-type Phase = 'form' | 'loading' | 'explain';
+type Phase = 'form' | 'loading' | 'explain' | 'guide';
 
 export default function Onboarding() {
   const [name, setName] = useState('');
@@ -41,8 +41,12 @@ export default function Onboarding() {
   const handleContinue = () => {
     if (computedUser) {
       setUser(computedUser);
-      navigate('/dashboard');
+      setPhase('guide');
     }
+  };
+
+  const handleStartJourney = () => {
+    navigate('/dashboard');
   };
 
   const formatBirthInput = (val: string) => {
@@ -109,6 +113,77 @@ export default function Onboarding() {
             className="w-full rounded-xl gradient-warm py-3.5 text-sm font-bold text-primary-foreground shadow-glow transition-transform active:scale-[0.98] font-lato"
           >
             Explorar mi mapa
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (phase === 'guide') {
+    const territories = [
+      {
+        icon: Briefcase,
+        title: 'Trabajo',
+        color: 'hsl(210 60% 55%)',
+        text: 'Para tus grandes decisiones como cambiar de empleo o emprender, yo utilizaré tu Número de Camino. Es mi forma de asegurar que tu evolución profesional resuene con tu misión de vida.',
+      },
+      {
+        icon: Home,
+        title: 'Mudanza',
+        color: 'hsl(25 90% 60%)',
+        text: 'Ya sea un cambio de casa o de país, yo te daré consejos basados en tu Número de Camino. Te ayudaré a sintonizar con tu nuevo entorno para que el movimiento sea fluido.',
+      },
+      {
+        icon: Heart,
+        title: 'Relaciones',
+        color: 'hsl(330 50% 65%)',
+        text: 'Aquí la dinámica cambia. Para darte soluciones lógicas y profundas sobre tus vínculos, te pediré la fecha de nacimiento de la otra persona. Así, yo podré analizar su compatibilidad y frecuencia juntos.',
+      },
+    ];
+
+    return (
+      <div
+        className="min-h-screen px-6 py-10 overflow-y-auto animate-fade-in"
+        style={{ background: 'linear-gradient(160deg, #3B3161, #4F4FC1)' }}
+      >
+        <div className="relative z-10 w-full max-w-sm mx-auto">
+          <h1 className="text-center font-lora text-2xl font-bold text-white mb-2">
+            Mis 3 Territorios de Guía
+          </h1>
+          <p className="text-center text-sm text-white/70 font-lato mb-8">
+            En cada conversación, yo te acompañaré de una forma única
+          </p>
+
+          <div className="space-y-4 mb-8">
+            {territories.map((t) => (
+              <div
+                key={t.title}
+                className="rounded-2xl bg-white/10 backdrop-blur-md p-5 border border-white/20 shadow-lg transition-transform active:scale-[0.98]"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div
+                    className="flex h-10 w-10 items-center justify-center rounded-xl"
+                    style={{ background: t.color }}
+                  >
+                    <t.icon className="h-5 w-5 text-white" />
+                  </div>
+                  <h2 className="font-lora text-lg font-semibold text-white">
+                    {t.title}
+                  </h2>
+                </div>
+                <p className="text-sm leading-relaxed text-white/80 font-lato">
+                  {t.text}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <button
+            onClick={handleStartJourney}
+            className="w-full rounded-xl py-3.5 text-sm font-bold text-white shadow-glow transition-transform active:scale-[0.98] font-lato"
+            style={{ background: 'linear-gradient(135deg, #4683DB, #6A5ACD)' }}
+          >
+            Comenzar mi camino
           </button>
         </div>
       </div>
