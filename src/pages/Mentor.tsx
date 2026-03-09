@@ -483,8 +483,8 @@ export default function Mentor() {
               <div
                  className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed font-lato ${
                   msg.role === 'user'
-                    ? 'rounded-br-md text-foreground'
-                    : 'rounded-bl-md text-foreground'
+                    ? 'rounded-br-md'
+                    : 'rounded-bl-md'
                 }`}
                 style={
                   msg.role === 'user'
@@ -492,9 +492,16 @@ export default function Mentor() {
                         background: 'hsl(var(--primary))',
                         color: 'hsl(var(--primary-foreground))',
                       }
+                    : msg.isRelBubble
+                    ? {
+                        background: '#4683DB',
+                        color: '#FFFFFF',
+                        border: 'none',
+                      }
                     : {
                         background: '#F8F9FE',
                         border: '1px solid rgba(115, 141, 225, 0.12)',
+                        color: 'hsl(var(--foreground))',
                       }
                 }
               >
