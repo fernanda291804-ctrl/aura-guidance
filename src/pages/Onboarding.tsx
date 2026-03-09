@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Briefcase, Home, Heart } from 'lucide-react';
 import { useApp, calculateNumbers, UserProfile } from '@/context/AppContext';
 import PentagonChart from '@/components/PentagonChart';
 
-type Phase = 'form' | 'loading' | 'explain';
+type Phase = 'form' | 'loading' | 'explain' | 'guide';
 
 export default function Onboarding() {
   const [name, setName] = useState('');
