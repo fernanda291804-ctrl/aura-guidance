@@ -144,7 +144,7 @@ export default function Onboarding() {
     ];
 
     return (
-      <div className="min-h-screen px-6 py-10 overflow-y-auto animate-fade-in gradient-dashboard grain-overlay">
+      <div className="min-h-screen px-6 py-10 overflow-y-auto animate-fade-in gradient-dashboard grain-overlay liquid-light">
         <div className="relative z-10 w-full max-w-sm mx-auto">
           <h1 className="text-center font-lora text-2xl font-bold text-on-gradient mb-2">
             Mis 3 Territorios de Guía
