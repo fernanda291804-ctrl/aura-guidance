@@ -131,21 +131,27 @@ const SCENARIO_LABELS: Record<Scenario, string> = {
   relationship: 'Relación',
 };
 
-const SCENARIO_THEMES: Record<Scenario, { bg: string; mentorBubble: string; accent: string }> = {
+const SCENARIO_THEMES: Record<Scenario, { bg: string; mentorBubble: string; accent: string; userBubble: string; userText: string }> = {
   work: {
     bg: 'linear-gradient(180deg, hsl(220 100% 96%) 0%, hsl(195 80% 95%) 100%)',
     mentorBubble: 'rgba(106, 90, 205, 0.08)',
     accent: 'hsl(195 100% 50%)',
+    userBubble: 'hsl(225 64% 67%)',   // --secondary (#738DE1)
+    userText: 'hsl(0 0% 100%)',
   },
   relocation: {
     bg: 'linear-gradient(180deg, hsl(230 30% 92%) 0%, hsl(233 35% 85%) 100%)',
     mentorBubble: 'rgba(157, 161, 213, 0.15)',
     accent: '#9DA1D5',
+    userBubble: 'hsl(248 54% 58%)',   // --accent (#6A5ACD)
+    userText: 'hsl(0 0% 100%)',
   },
   relationship: {
     bg: 'linear-gradient(180deg, hsl(340 40% 96%) 0%, hsl(330 30% 94%) 100%)',
     mentorBubble: 'rgba(219, 192, 201, 0.25)',
     accent: 'hsl(340 30% 80%)',
+    userBubble: 'hsl(336 22% 81%)',   // --pink (#DBC0C9)
+    userText: 'hsl(0 0% 10%)',
   },
 };
 
@@ -489,14 +495,8 @@ export default function Mentor() {
                 style={
                   msg.role === 'user'
                     ? {
-                        background: 'hsl(var(--primary))',
-                        color: 'hsl(var(--primary-foreground))',
-                      }
-                    : msg.isRelBubble
-                    ? {
-                        background: '#4683DB',
-                        color: '#FFFFFF',
-                        border: 'none',
+                        background: theme.userBubble,
+                        color: theme.userText,
                       }
                     : {
                         background: '#F8F9FE',
