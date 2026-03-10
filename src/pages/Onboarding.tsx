@@ -102,8 +102,8 @@ export default function Onboarding() {
             <div className="flex items-start gap-3 rounded-2xl bg-white/20 backdrop-blur-sm p-4 border border-white/30">
               <div className="mt-0.5 h-4 w-4 shrink-0 rounded-full" style={{ background: 'linear-gradient(135deg, hsl(248 60% 82%), hsl(248 50% 68%))' }} />
               <div>
-                <p className="text-sm font-semibold text-heading font-lato">Números en morado — Tu reto</p>
-                <p className="text-xs text-muted-foreground font-lato mt-0.5">
+                <p className="text-sm font-semibold text-on-gradient font-lato">Números en morado — Tu reto</p>
+                <p className="text-xs text-on-gradient-muted font-lato mt-0.5">
                   Predomina la energía negativa. Son tu desafío: vienes a aprender a vibrar en lo positivo de estos números.
                 </p>
               </div>
