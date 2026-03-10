@@ -84,7 +84,7 @@ export default function Onboarding() {
             Cada uno representa un aspecto diferente de tu vida
           </p>
 
-          <div className="rounded-2xl bg-white/90 backdrop-blur-md p-4 shadow-card border border-white/50 mb-5">
+          <div className="rounded-3xl bg-white/20 backdrop-blur-sm p-4 border border-white/30 mb-5">
             <PentagonChart numbers={computedUser.numbers} />
           </div>
 
