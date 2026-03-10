@@ -4,10 +4,10 @@ import PentagonChart from '@/components/PentagonChart';
 import BottomNav from '@/components/BottomNav';
 import { Clock, Inbox } from 'lucide-react';
 
-const SCENARIO_LABELS: Record<string, string> = {
-  work: 'Trabajo',
-  relocation: 'Mudanza',
-  relationship: 'Relación',
+const SCENARIO_CONFIG: Record<string, { label: string; bg: string; text: string }> = {
+  work: { label: 'Trabajo', bg: 'hsl(225 64% 67%)', text: 'hsl(0 0% 100%)' },
+  relocation: { label: 'Mudanza', bg: 'hsl(234 18% 73%)', text: 'hsl(0 0% 100%)' },
+  relationship: { label: 'Relación', bg: 'hsl(336 22% 81%)', text: 'hsl(225 40% 20%)' },
 };
 
 export default function Dashboard() {
@@ -48,9 +48,15 @@ export default function Dashboard() {
             {consultations.slice(0, 3).map(c => (
               <div key={c.id} className="rounded-xl bg-white/30 backdrop-blur-sm p-4 border border-white/40">
                 <div className="flex items-center justify-between">
-                   <span className="rounded-full bg-white/50 px-3 py-1 text-xs font-semibold capitalize text-on-gradient font-lato">
-                    {SCENARIO_LABELS[c.scenario] || c.scenario}
-                  </span>
+                   <span
+                     className="rounded-full px-3 py-1 text-xs font-semibold capitalize font-lato"
+                     style={{
+                       background: SCENARIO_CONFIG[c.scenario]?.bg || 'hsl(var(--secondary))',
+                       color: SCENARIO_CONFIG[c.scenario]?.text || 'hsl(0 0% 100%)',
+                     }}
+                   >
+                    {SCENARIO_CONFIG[c.scenario]?.label || c.scenario}
+                   </span>
                   <span className="text-xs text-on-gradient-muted font-lato">{c.date}</span>
                 </div>
                 <p className="mt-2 text-sm text-on-gradient line-clamp-2 font-lato">{c.insight.advice}</p>
