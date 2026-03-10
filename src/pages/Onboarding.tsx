@@ -179,7 +179,7 @@ export default function Onboarding() {
 
           <button
             onClick={handleStartJourney}
-            className="w-full rounded-xl gradient-warm py-3.5 text-sm font-bold text-primary-foreground shadow-glow transition-transform active:scale-[0.98] font-lato"
+            className="w-full rounded-2xl gradient-warm py-3.5 text-sm font-bold text-primary-foreground shadow-glow transition-transform active:scale-[0.98] font-lato"
           >
             Comenzar mi camino
           </button>
