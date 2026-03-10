@@ -157,7 +157,7 @@ export default function Onboarding() {
             {territories.map((t) => (
               <div
                 key={t.title}
-                className="rounded-2xl bg-white/90 backdrop-blur-md p-5 border border-white/50 shadow-card transition-transform active:scale-[0.98]"
+                className="rounded-2xl bg-white/20 backdrop-blur-sm p-5 border border-white/30 transition-transform active:scale-[0.98]"
               >
                 <div className="flex items-center gap-3 mb-3">
                   <div
