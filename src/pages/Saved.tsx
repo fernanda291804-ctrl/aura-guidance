@@ -32,8 +32,14 @@ export default function Saved() {
             {consultations.map(c => (
               <div key={c.id} className="rounded-2xl bg-white/90 backdrop-blur-md p-5 border border-white/50 shadow-soft">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1 text-xs font-semibold capitalize text-secondary-foreground font-lato">
-                    <Bookmark className="h-3 w-3" /> {SCENARIO_LABELS[c.scenario] || c.scenario}
+                  <span
+                    className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold capitalize font-lato"
+                    style={{
+                      background: SCENARIO_CONFIG[c.scenario]?.bg || 'hsl(var(--secondary))',
+                      color: SCENARIO_CONFIG[c.scenario]?.text || 'hsl(0 0% 100%)',
+                    }}
+                  >
+                    <Bookmark className="h-3 w-3" /> {SCENARIO_CONFIG[c.scenario]?.label || c.scenario}
                   </span>
                   <span className="text-xs text-muted-foreground font-lato">{c.date}</span>
                 </div>
