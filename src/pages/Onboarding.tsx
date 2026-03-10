@@ -170,7 +170,7 @@ export default function Onboarding() {
                     {t.title}
                   </h2>
                 </div>
-                <p className="text-sm leading-relaxed text-muted-foreground font-lato">
+                <p className="text-sm leading-relaxed text-on-gradient-muted font-lato">
                   {t.text}
                 </p>
               </div>
