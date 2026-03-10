@@ -3,10 +3,10 @@ import { Navigate } from 'react-router-dom';
 import BottomNav from '@/components/BottomNav';
 import { Bookmark, Inbox } from 'lucide-react';
 
-const SCENARIO_LABELS: Record<string, string> = {
-  work: 'Trabajo',
-  relocation: 'Mudanza',
-  relationship: 'Relación',
+const SCENARIO_CONFIG: Record<string, { label: string; bg: string; text: string }> = {
+  work: { label: 'Trabajo', bg: 'hsl(225 64% 67%)', text: 'hsl(0 0% 100%)' },
+  relocation: { label: 'Mudanza', bg: 'hsl(234 18% 73%)', text: 'hsl(0 0% 100%)' },
+  relationship: { label: 'Relación', bg: 'hsl(336 22% 81%)', text: 'hsl(225 40% 20%)' },
 };
 
 export default function Saved() {
