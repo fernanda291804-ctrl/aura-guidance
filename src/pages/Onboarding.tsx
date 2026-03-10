@@ -61,12 +61,14 @@ export default function Onboarding() {
 
   if (phase === 'loading') {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center px-6 bg-white">
-        <div className="h-48 w-48 rounded-full animate-shimmer" style={{ background: 'linear-gradient(270deg, hsl(16 100% 66% / 0.5), hsl(248 54% 58% / 0.4), hsl(16 100% 66% / 0.5))', backgroundSize: '400% 100%' }} />
-        <p className="mt-8 font-lora text-xl text-foreground animate-pulse">
-          Calculando tus números...
-        </p>
-        <p className="mt-2 text-sm text-muted-foreground font-lato">Alineando energías cósmicas</p>
+      <div className="flex min-h-screen flex-col items-center justify-center px-6 gradient-dashboard grain-overlay liquid-light">
+        <div className="relative z-10 flex flex-col items-center">
+          <div className="h-40 w-40 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 animate-shimmer" style={{ background: 'linear-gradient(270deg, hsl(16 100% 66% / 0.3), hsl(248 54% 58% / 0.25), hsl(16 100% 66% / 0.3))', backgroundSize: '400% 100%' }} />
+          <p className="mt-8 font-lora text-xl text-on-gradient animate-pulse">
+            Calculando tus números...
+          </p>
+          <p className="mt-2 text-sm text-on-gradient-muted font-lato">Alineando energías cósmicas</p>
+        </div>
       </div>
     );
   }
@@ -82,26 +84,26 @@ export default function Onboarding() {
             Cada uno representa un aspecto diferente de tu vida
           </p>
 
-          <div className="rounded-2xl bg-white/90 backdrop-blur-md p-4 shadow-card border border-white/50 mb-5">
+          <div className="rounded-3xl bg-white/20 backdrop-blur-sm p-4 border border-white/30 mb-5">
             <PentagonChart numbers={computedUser.numbers} />
           </div>
 
           <div className="space-y-3 mb-6">
-            <div className="flex items-start gap-3 rounded-xl bg-white/90 backdrop-blur-md p-4 border border-white/50 shadow-soft">
+            <div className="flex items-start gap-3 rounded-2xl bg-white/20 backdrop-blur-sm p-4 border border-white/30">
               <div className="mt-0.5 h-4 w-4 shrink-0 rounded-full" style={{ background: 'linear-gradient(135deg, hsl(225 60% 82%), hsl(207 50% 68%))' }} />
               <div>
-                <p className="text-sm font-semibold text-heading font-lato">Números en azul — Tu esencia</p>
-                <p className="text-xs text-muted-foreground font-lato mt-0.5">
+                <p className="text-sm font-semibold text-on-gradient font-lato">Números en azul — Tu esencia</p>
+                <p className="text-xs text-on-gradient-muted font-lato mt-0.5">
                   La energía positiva predomina en estos números. Representan tus fortalezas naturales y dones innatos.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-start gap-3 rounded-xl bg-white/90 backdrop-blur-md p-4 border border-white/50 shadow-soft">
+            <div className="flex items-start gap-3 rounded-2xl bg-white/20 backdrop-blur-sm p-4 border border-white/30">
               <div className="mt-0.5 h-4 w-4 shrink-0 rounded-full" style={{ background: 'linear-gradient(135deg, hsl(248 60% 82%), hsl(248 50% 68%))' }} />
               <div>
-                <p className="text-sm font-semibold text-heading font-lato">Números en morado — Tu reto</p>
-                <p className="text-xs text-muted-foreground font-lato mt-0.5">
+                <p className="text-sm font-semibold text-on-gradient font-lato">Números en morado — Tu reto</p>
+                <p className="text-xs text-on-gradient-muted font-lato mt-0.5">
                   Predomina la energía negativa. Son tu desafío: vienes a aprender a vibrar en lo positivo de estos números.
                 </p>
               </div>
@@ -110,7 +112,7 @@ export default function Onboarding() {
 
           <button
             onClick={handleContinue}
-            className="w-full rounded-xl gradient-warm py-3.5 text-sm font-bold text-primary-foreground shadow-glow transition-transform active:scale-[0.98] font-lato"
+            className="w-full rounded-2xl gradient-warm py-3.5 text-sm font-bold text-primary-foreground shadow-glow transition-transform active:scale-[0.98] font-lato"
           >
             Explorar mi mapa
           </button>
@@ -142,7 +144,7 @@ export default function Onboarding() {
     ];
 
     return (
-      <div className="min-h-screen px-6 py-10 overflow-y-auto animate-fade-in gradient-dashboard grain-overlay">
+      <div className="min-h-screen px-6 py-10 overflow-y-auto animate-fade-in gradient-dashboard grain-overlay liquid-light">
         <div className="relative z-10 w-full max-w-sm mx-auto">
           <h1 className="text-center font-lora text-2xl font-bold text-on-gradient mb-2">
             Mis 3 Territorios de Guía
@@ -155,7 +157,7 @@ export default function Onboarding() {
             {territories.map((t) => (
               <div
                 key={t.title}
-                className="rounded-2xl bg-white/90 backdrop-blur-md p-5 border border-white/50 shadow-card transition-transform active:scale-[0.98]"
+                className="rounded-2xl bg-white/20 backdrop-blur-sm p-5 border border-white/30 transition-transform active:scale-[0.98]"
               >
                 <div className="flex items-center gap-3 mb-3">
                   <div
@@ -164,11 +166,11 @@ export default function Onboarding() {
                   >
                     <t.icon className="h-5 w-5 text-primary-foreground" />
                   </div>
-                  <h2 className="font-lora text-lg font-semibold text-foreground">
+                  <h2 className="font-lora text-lg font-semibold text-on-gradient">
                     {t.title}
                   </h2>
                 </div>
-                <p className="text-sm leading-relaxed text-muted-foreground font-lato">
+                <p className="text-sm leading-relaxed text-on-gradient-muted font-lato">
                   {t.text}
                 </p>
               </div>
@@ -177,7 +179,7 @@ export default function Onboarding() {
 
           <button
             onClick={handleStartJourney}
-            className="w-full rounded-xl gradient-warm py-3.5 text-sm font-bold text-primary-foreground shadow-glow transition-transform active:scale-[0.98] font-lato"
+            className="w-full rounded-2xl gradient-warm py-3.5 text-sm font-bold text-primary-foreground shadow-glow transition-transform active:scale-[0.98] font-lato"
           >
             Comenzar mi camino
           </button>
