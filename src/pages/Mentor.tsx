@@ -495,14 +495,8 @@ export default function Mentor() {
                 style={
                   msg.role === 'user'
                     ? {
-                        background: 'hsl(var(--primary))',
-                        color: 'hsl(var(--primary-foreground))',
-                      }
-                    : msg.isRelBubble
-                    ? {
-                        background: '#4683DB',
-                        color: '#FFFFFF',
-                        border: 'none',
+                        background: theme.userBubble,
+                        color: theme.userText,
                       }
                     : {
                         background: '#F8F9FE',
