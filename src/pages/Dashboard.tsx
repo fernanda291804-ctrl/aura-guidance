@@ -48,9 +48,15 @@ export default function Dashboard() {
             {consultations.slice(0, 3).map(c => (
               <div key={c.id} className="rounded-xl bg-white/30 backdrop-blur-sm p-4 border border-white/40">
                 <div className="flex items-center justify-between">
-                   <span className="rounded-full bg-white/50 px-3 py-1 text-xs font-semibold capitalize text-on-gradient font-lato">
-                    {SCENARIO_LABELS[c.scenario] || c.scenario}
-                  </span>
+                   <span
+                     className="rounded-full px-3 py-1 text-xs font-semibold capitalize font-lato"
+                     style={{
+                       background: SCENARIO_CONFIG[c.scenario]?.bg || 'hsl(var(--secondary))',
+                       color: SCENARIO_CONFIG[c.scenario]?.text || 'hsl(0 0% 100%)',
+                     }}
+                   >
+                    {SCENARIO_CONFIG[c.scenario]?.label || c.scenario}
+                   </span>
                   <span className="text-xs text-on-gradient-muted font-lato">{c.date}</span>
                 </div>
                 <p className="mt-2 text-sm text-on-gradient line-clamp-2 font-lato">{c.insight.advice}</p>
