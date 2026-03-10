@@ -24,9 +24,9 @@ export default function Dashboard() {
       </div>
 
       <div className="px-6 -mt-2">
-        <div className="rounded-2xl bg-white/90 backdrop-blur-md p-4 shadow-card border border-white/50">
-          <h2 className="mb-2 text-center font-lora text-lg font-semibold text-heading">Tus números</h2>
-          <p className="mb-2 text-center text-xs text-body font-lato">Toca un número para ver su significado</p>
+        <div className="rounded-3xl bg-white/20 backdrop-blur-sm p-5 border border-white/30">
+          <h2 className="mb-1 text-center font-lora text-lg font-semibold text-on-gradient">Tus números</h2>
+          <p className="mb-2 text-center text-xs text-on-gradient-muted font-lato">Toca un número para ver su significado</p>
           <PentagonChart numbers={user.numbers} />
         </div>
       </div>
