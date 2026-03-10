@@ -92,8 +92,8 @@ export default function Onboarding() {
             <div className="flex items-start gap-3 rounded-2xl bg-white/20 backdrop-blur-sm p-4 border border-white/30">
               <div className="mt-0.5 h-4 w-4 shrink-0 rounded-full" style={{ background: 'linear-gradient(135deg, hsl(225 60% 82%), hsl(207 50% 68%))' }} />
               <div>
-                <p className="text-sm font-semibold text-heading font-lato">Números en azul — Tu esencia</p>
-                <p className="text-xs text-muted-foreground font-lato mt-0.5">
+                <p className="text-sm font-semibold text-on-gradient font-lato">Números en azul — Tu esencia</p>
+                <p className="text-xs text-on-gradient-muted font-lato mt-0.5">
                   La energía positiva predomina en estos números. Representan tus fortalezas naturales y dones innatos.
                 </p>
               </div>
