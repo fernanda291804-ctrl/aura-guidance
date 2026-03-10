@@ -187,48 +187,57 @@ export default function Onboarding() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-6 gradient-dashboard grain-overlay">
+    <div className="flex min-h-screen flex-col items-center justify-center px-6 gradient-dashboard grain-overlay liquid-light">
       <div className="relative z-10 w-full max-w-sm">
-        <div className="mb-10 flex flex-col items-center gap-3">
-          <h1 className="font-lora text-3xl font-bold text-on-gradient">KYROS</h1>
+        {/* Brand */}
+        <div className="mb-12 flex flex-col items-center gap-2">
+          <div className="h-16 w-16 rounded-full bg-white/25 backdrop-blur-sm border border-white/40 flex items-center justify-center mb-2">
+            <Sparkles className="h-7 w-7 text-on-gradient" />
+          </div>
+          <h1 className="font-lora text-4xl font-bold text-on-gradient tracking-tight">KYROS</h1>
           <p className="text-on-gradient-muted text-center text-sm font-lato">Descubre tu esencia numerológica</p>
         </div>
 
-        <div className="rounded-2xl bg-white/90 backdrop-blur-md p-6 shadow-card border border-white/50 space-y-5">
+        {/* Inputs — floating, no card box */}
+        <div className="space-y-5">
           <div>
-            <label className="mb-1.5 block text-sm font-semibold text-heading font-lato">Tu nombre</label>
+            <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-on-gradient-muted font-lato">
+              Tu nombre
+            </label>
             <input
               type="text"
               value={name}
               onChange={e => { setName(e.target.value); setErrors(prev => ({ ...prev, name: undefined })); }}
               placeholder="Ingresa tu nombre completo"
               maxLength={100}
-              className={`w-full rounded-xl border bg-white/60 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-all focus:ring-2 focus:ring-primary/50 font-lato ${errors.name ? 'border-destructive' : 'border-border'}`}
+              className={`w-full rounded-2xl border bg-white/30 backdrop-blur-sm px-5 py-4 text-sm text-on-gradient placeholder:text-on-gradient-muted/60 outline-none transition-all focus:bg-white/50 focus:ring-2 focus:ring-white/40 font-lato ${errors.name ? 'border-destructive' : 'border-white/30'}`}
             />
-            {errors.name && <p className="mt-1 text-xs text-destructive font-lato">{errors.name}</p>}
+            {errors.name && <p className="mt-1.5 text-xs text-destructive font-lato">{errors.name}</p>}
           </div>
 
           <div>
-            <label className="mb-1.5 block text-sm font-semibold text-heading font-lato">Fecha de nacimiento</label>
+            <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-on-gradient-muted font-lato">
+              Fecha de nacimiento
+            </label>
             <input
               type="text"
               value={birthDate}
               onChange={e => { formatBirthInput(e.target.value); setErrors(prev => ({ ...prev, birthDate: undefined })); }}
               placeholder="DD/MM/AAAA"
-              className={`w-full rounded-xl border bg-white/60 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground outline-none transition-all focus:ring-2 focus:ring-primary/50 font-lato ${errors.birthDate ? 'border-destructive' : 'border-border'}`}
+              className={`w-full rounded-2xl border bg-white/30 backdrop-blur-sm px-5 py-4 text-sm text-on-gradient placeholder:text-on-gradient-muted/60 outline-none transition-all focus:bg-white/50 focus:ring-2 focus:ring-white/40 font-lato ${errors.birthDate ? 'border-destructive' : 'border-white/30'}`}
             />
-            {errors.birthDate && <p className="mt-1 text-xs text-destructive font-lato">{errors.birthDate}</p>}
+            {errors.birthDate && <p className="mt-1.5 text-xs text-destructive font-lato">{errors.birthDate}</p>}
           </div>
 
           <button
             onClick={handleSubmit}
-            className="w-full rounded-xl gradient-warm py-3.5 text-sm font-bold text-primary-foreground shadow-glow transition-transform active:scale-[0.98] font-lato"
+            className="w-full rounded-2xl gradient-warm py-4 text-sm font-bold text-primary-foreground shadow-glow transition-transform active:scale-[0.98] font-lato mt-2"
           >
             Conocer mis números
           </button>
         </div>
 
-        <p className="mt-6 text-center text-xs text-on-gradient-muted/80 font-lato">
+        <p className="mt-8 text-center text-xs text-on-gradient-muted/70 font-lato">
           Tus datos permanecen privados en tu dispositivo
         </p>
       </div>
