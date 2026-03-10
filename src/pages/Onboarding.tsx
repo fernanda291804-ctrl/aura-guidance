@@ -166,7 +166,7 @@ export default function Onboarding() {
                   >
                     <t.icon className="h-5 w-5 text-primary-foreground" />
                   </div>
-                  <h2 className="font-lora text-lg font-semibold text-foreground">
+                  <h2 className="font-lora text-lg font-semibold text-on-gradient">
                     {t.title}
                   </h2>
                 </div>
