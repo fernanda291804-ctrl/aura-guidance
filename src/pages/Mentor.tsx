@@ -4,7 +4,6 @@ import { Navigate } from 'react-router-dom';
 import BottomNav from '@/components/BottomNav';
 import { Briefcase, MapPin, Heart, ArrowLeft, Send, Bookmark, Check } from 'lucide-react';
 import { NUMBER_PROFILES } from '@/data/numberMeanings';
- import { supabase } from '@/integrations/supabase/client';
 
 type Scenario = 'work' | 'relocation' | 'relationship';
 type ChatStep = 'select' | 'greeting' | 'ask_situation' | 'ask_detail' | 'thinking' | 'insight' | 'first_response' | 'second_thinking' | 'rel_gathering' | 'rel_processing' | 'closed';
@@ -76,24 +75,6 @@ function extractConflicto(text: string, date: string | null, vinculo: string | n
   cleaned = cleaned.replace(/^[\s,.\-;:]+|[\s,.\-;:]+$/g, '').trim();
   return cleaned.length > 5 ? cleaned : null;
 }
-
-/** Llama a Claude vía Edge Function */
-  async function callKyros(
-    userProfile: { name: string; path: number; soul: number; personality: number; gift:
-  number; pastLife: number },
-    scenario: Scenario,
-    step: string,
-    userMessage: string,
-    history: { role: string; content: string }[],
-    relationshipData?: { vinculo: string; otherNumber: number; conflicto: string } | null
-  ): Promise<string> {
-    const { data, error } = await supabase.functions.invoke('kyros-chat', {
-      body: { userProfile, scenario, step, userMessage, history, relationshipData },
-    });
-    if (error) throw new Error(error.message);
-    return data.message as string;
-  }
-
 
 /** Generate the numerological compatibility insight */
 function generateRelationshipInsight(
@@ -309,149 +290,126 @@ export default function Mentor() {
     }
   };
 
- /** Process relationship data gathering */
-    const handleRelationshipInput = async (text: string) => {
-      const updated = { ...relData };
-      const foundDate = extractDate(text);
-      const foundVinculo = extractVinculo(text);
-      const foundConflicto = extractConflicto(text, foundDate, foundVinculo);
+  /** Process relationship data gathering */
+  const handleRelationshipInput = (text: string) => {
+    const updated = { ...relData };
+    const foundDate = extractDate(text);
+    const foundVinculo = extractVinculo(text);
+    const foundConflicto = extractConflicto(text, foundDate, foundVinculo);
 
-      if (foundVinculo && !updated.vinculo) updated.vinculo = foundVinculo;
-      if (foundDate && !updated.birthDate) {
-        updated.birthDate = foundDate;
-        updated.otherNumber = calculateOtherNumber(foundDate);
-      }
-      if (foundConflicto && !updated.conflicto) updated.conflicto = foundConflicto;
-      setRelData(updated);
+    if (foundVinculo && !updated.vinculo) updated.vinculo = foundVinculo;
+    if (foundDate && !updated.birthDate) {
+      updated.birthDate = foundDate;
+      updated.otherNumber = calculateOtherNumber(foundDate);
+    }
+    if (foundConflicto && !updated.conflicto) updated.conflicto = foundConflicto;
 
-      const name = user.name.split(' ')[0];
-      const missing: string[] = [];
-      if (!updated.vinculo) missing.push('**el vínculo** (¿quién es esta persona para ti?)');
-      if (!updated.birthDate) missing.push('**su fecha de nacimiento** (día/mes/año)');
-      if (!updated.conflicto) missing.push('**la situación** que quieres resolver');
+    setRelData(updated);
 
-      if (missing.length > 0) {
+    const name = user.name.split(' ')[0];
+
+    // Check what's still missing
+    const missing: string[] = [];
+    if (!updated.vinculo) missing.push('**el vínculo** (¿quién es esta persona para ti?)');
+    if (!updated.birthDate) missing.push('**su fecha de nacimiento** (día/mes/año)');
+    if (!updated.conflicto) missing.push('**la situación** que quieres resolver');
+
+    if (missing.length > 0) {
+      setTimeout(() => {
+        addMessage('mentor', `Gracias, ${name}. Para completar tu lectura, aún necesito:\n\n${missing.map((m, i) => `${i + 1}. ${m}`).join('\n')}\n\nTómate tu tiempo.`);
+      }, 600);
+    } else {
+      // All data gathered — process and send multi-bubble response
+      setStep('rel_processing');
+      const insight = generateRelationshipInsight(
+        user.name,
+        user.numbers.path,
+        updated.vinculo!,
+        updated.otherNumber!,
+        updated.conflicto!
+      );
+
+      // Bubble 1: Validation + number contrast
+      setTimeout(() => {
+        addMsg('mentor', insight.bubble1, true);
+
+        // Bubble 2: Logical advice
         setTimeout(() => {
-          addMessage('mentor', `Gracias, ${name}. Para completar tu lectura, aún
-  necesito:\n\n${missing.map((m, i) => `${i + 1}. ${m}`).join('\n')}\n\nTómate tu tiempo.`);
-        }, 600);
-      } else {
-        setStep('rel_processing');
-        const history = messages.map(m => ({ role: m.role === 'mentor' ? 'assistant' : 'user',
-   content: m.text }));
-        try {
-          const response = await callKyros(
-            { name: user.name, path: user.numbers.path, soul: user.numbers.soul, personality:
-  user.numbers.personality, gift: user.numbers.gift, pastLife: user.numbers.pastLife },
-            'relationship', 'relationship_insight', text, history,
-            { vinculo: updated.vinculo!, otherNumber: updated.otherNumber!, conflicto:
-  updated.conflicto! }
-          );
-          const bubbles = response.split('---BUBBLE---').map(b => b.trim()).filter(Boolean);
-          const bubble1 = bubbles[0] ?? response;
-          const bubble2 = bubbles[1] ?? '';
-          const bubble3 = bubbles[2] ?? '';
-          const farewellText = 'He compartido mi visión por hoy. Solo tenemos un encuentro al
-  día para que tengas espacio de integrar esto.\n\nVuelve mañana.';
+          addMsg('mentor', insight.bubble2, true);
+
+          // Bubble 3: Reflection question
           setTimeout(() => {
-            addMsg('mentor', bubble1, true);
+            addMsg('mentor', insight.bubble3, true);
+
+            // Bubble 4: Daily limit + save
             setTimeout(() => {
-              if (bubble2) addMsg('mentor', bubble2, true);
-              setTimeout(() => {
-                if (bubble3) addMsg('mentor', bubble3, true);
-                setTimeout(() => {
-                  addMsg('mentor', farewellText, false);
-                  setStep('closed');
-                }, 1800);
-              }, 2000);
-            }, 2200);
-          }, 1500);
-        } catch {
-          addMsg('mentor', 'Hubo un problema al procesar tu lectura. Por favor intenta de
-  nuevo.', false);
-          setStep('rel_gathering');
-        }
-      }
-    };
+              addMsg('mentor', insight.bubbleFarewell, false);
+              setStep('closed');
+            }, 1800);
+          }, 2000);
+        }, 2200);
+      }, 1500);
+    }
+  };
 
- const handleSend = async () => {
-      if (!input.trim() || !scenario) return;
-      const text = input.trim();
-      setInput('');
+  const handleSend = () => {
+    if (!input.trim() || !scenario) return;
+    const text = input.trim();
+    setInput('');
 
-      if (scenario === 'relationship' && step === 'rel_gathering') {
-        addMessage('user', text);
-        await handleRelationshipInput(text);
-        return;
-      }
+    // Relationship flow
+    if (scenario === 'relationship' && step === 'rel_gathering') {
+      addMessage('user', text);
+      handleRelationshipInput(text);
+      return;
+    }
 
-      const history = messages.map(m => ({ role: m.role === 'mentor' ? 'assistant' : 'user',
-  content: m.text }));
-      const profile = { name: user.name, path: user.numbers.path, soul: user.numbers.soul,
-  personality: user.numbers.personality, gift: user.numbers.gift, pastLife:
-  user.numbers.pastLife };
+    if (step === 'greeting') {
+      addMessage('user', text);
+      setUserContext(text);
 
-      if (step === 'greeting') {
-        addMessage('user', text);
-        setUserContext(text);
-
-        if (scenario === 'relocation') {
-          setStep('thinking');
-          try {
-            const response = await callKyros(profile, scenario, 'relocation_first', text,
-  history);
-            addMessage('mentor', response);
-            setStep('first_response');
-          } catch {
-            addMessage('mentor', 'Hubo un problema. Por favor intenta de nuevo.');
-            setStep('greeting');
-          }
-        } else {
-          setStep('thinking');
-          try {
-            const response = await callKyros(profile, scenario, 'ask_detail', text, history);
-            addMessage('mentor', response);
-            setStep('ask_detail');
-          } catch {
-            addMessage('mentor', 'Hubo un problema. Por favor intenta de nuevo.');
-            setStep('greeting');
-          }
-        }
-
-      } else if (step === 'first_response' && scenario === 'relocation') {
-        addMessage('user', text);
-        setStep('second_thinking');
-        try {
-          const response = await callKyros(profile, scenario, 'relocation_second', text,
-  [...history, { role: 'user', content: text }]);
-          addMessage('mentor', response);
-          setStep('closed');
-        } catch {
-          addMessage('mentor', 'Hubo un problema. Por favor intenta de nuevo.');
+      if (scenario === 'relocation') {
+        setTimeout(() => {
+          addMessage('mentor', generateRelocationFirstResponse(user.numbers.path, user.name));
           setStep('first_response');
-        }
-
-      } else if (step === 'ask_detail') {
-        addMessage('user', text);
-        setStep('thinking');
-        try {
-          const response = await callKyros(profile, scenario, 'insight', text, [...history, {
-  role: 'user', content: text }]);
-          addMessage('mentor', response);
-          setStep('insight');
-          setTimeout(() => {
-            addMessage('mentor', 'He compartido contigo lo que mi visión ve por hoy. Para que
-  nuestro trabajo sea profundo, solo tenemos un encuentro al día.\n\nEstaré aquí mañana para
-  escucharte de nuevo.');
-            setStep('closed');
-          }, 1200);
-        } catch {
-          addMessage('mentor', 'Hubo un problema. Por favor intenta de nuevo.');
+        }, 800);
+      } else {
+        const profile = NUMBER_PROFILES[user.numbers.path];
+        const name = user.name.split(' ')[0];
+        setTimeout(() => {
+          addMessage('mentor', DETAIL_QUESTIONS[scenario](name, user.numbers.path, profile));
           setStep('ask_detail');
-        }
+        }, 800);
       }
-    };
-
+    } else if (step === 'first_response' && scenario === 'relocation') {
+      addMessage('user', text);
+      setStep('second_thinking');
+      setTimeout(() => {
+        const response = generateRelocationSecondResponse(user.numbers.path, user.name);
+        addMessage('mentor', response.insight);
+        setStep('closed');
+        setTimeout(() => {
+          addMessage('mentor', response.farewell);
+        }, 1200);
+      }, 2500);
+    } else if (step === 'ask_detail') {
+      addMessage('user', text);
+      setStep('thinking');
+      setTimeout(() => {
+        const insight = generateInsight(scenario, user.numbers.path, user.name, userContext, text);
+        const insightText = `${insight.validation}\n\n${insight.connection}\n\n${insight.advice}`;
+        addMessage('mentor', insightText);
+        setStep('insight');
+        setTimeout(() => {
+          addMessage('mentor', `_${insight.question}_`);
+          setStep('closed');
+          setTimeout(() => {
+            addMessage('mentor', 'He compartido contigo lo que mi visión ve por hoy. Ahora, la parte más importante es que dejes que estas palabras se asienten en ti.\n\nPara que nuestro trabajo sea profundo y real, solo tenemos un encuentro al día. Esto te asegura el espacio necesario para integrar lo que hablamos antes de dar el siguiente paso.\n\nEstaré aquí mañana para escucharte de nuevo si lo necesitas.');
+          }, 1200);
+        }, 1500);
+      }, 2500);
+    }
+  };
 
   const handleSave = () => {
     if (!scenario) return;
