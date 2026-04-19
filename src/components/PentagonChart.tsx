@@ -14,7 +14,7 @@ const LABELS = [
   { key: 'soul', label: 'Alma', angle: -90, hue: 225 },
   { key: 'personality', label: 'Personalidad', angle: -18, hue: 248 },
   { key: 'pastLife', label: 'Vida\nPasada', angle: 54, hue: 225 },
-  { key: 'gift', label: 'Don', angle: 126, hue: 207 },
+  { key: 'gift', label: 'Don', angle: 126, hue: 225 },
   { key: 'path', label: 'Camino', angle: 198, hue: 248 },
 ] as const;
 
@@ -96,8 +96,10 @@ export default function PentagonChart({ numbers }: Props) {
             key={p.key}
             className="cursor-pointer"
             onClick={() => navigate(`/number/${p.key}`)}
+            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(`/number/${p.key}`); } }}
             role="button"
             tabIndex={0}
+            aria-label={`Ver detalles de ${p.label.replace('\n', ' ')}: número ${p.value}`}
           >
             {/* Main orb */}
             <circle

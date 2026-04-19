@@ -3,7 +3,6 @@ import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useApp } from '@/context/AppContext';
 import { ArrowLeft, ChevronDown, Sparkles, Sun, ShieldAlert, Compass } from 'lucide-react';
 import { NUMBER_PROFILES } from '@/data/numberMeanings';
-import BottomNav from '@/components/BottomNav';
 
 const SECTIONS: { key: 'esencia' | 'luz' | 'sombra' | 'mision'; label: string; icon: React.ElementType }[] = [
   { key: 'esencia', label: 'Esencia', icon: Sparkles },
@@ -28,13 +27,13 @@ export default function LearnDetail() {
   const toggle = (key: string) => setOpenSection(prev => (prev === key ? null : key));
 
   return (
-    <div className="min-h-screen pb-24 gradient-dashboard grain-overlay">
+    <div className="min-h-screen pb-24 md:pb-8 gradient-dashboard grain-overlay">
       <div className="px-6 pb-8 pt-12">
         <button onClick={() => navigate('/learn')} className="mb-4 flex items-center gap-1 text-sm text-on-gradient-muted font-lato">
           <ArrowLeft className="h-4 w-4" /> Volver
         </button>
-        <h1 className="font-lora text-2xl font-bold text-on-gradient text-center">{profile.title}</h1>
-        <p className="mt-1 text-sm text-on-gradient-muted text-center font-lato">{profile.subtitles}</p>
+        <h1 className="font-lora text-2xl font-bold text-on-gradient">{profile.title}</h1>
+        <p className="mt-1 text-sm text-on-gradient-muted font-lato">{profile.subtitles}</p>
 
         <div className="mt-6 flex justify-center">
           <div className="flex h-24 w-24 items-center justify-center rounded-full bg-white/30 backdrop-blur-sm shadow-glow animate-pulse-glow border-2 border-white/50">
@@ -73,7 +72,25 @@ export default function LearnDetail() {
                   <div className="overflow-hidden">
                     <div className="px-5 pb-5 pt-0">
                       <div className="h-px bg-border/30 mb-4" />
-                      <p className="text-sm leading-relaxed text-muted-foreground font-lato whitespace-pre-line">{profile[s.key]}</p>
+                      <div className="space-y-2">
+                        {profile[s.key].split('\n\n').map((chunk, i) => {
+                          const colonIdx = chunk.indexOf(':');
+                          if (colonIdx > 0 && colonIdx < 40) {
+                            const heading = chunk.slice(0, colonIdx);
+                            const body = chunk.slice(colonIdx + 1).trim();
+                            return (
+                              <p key={i} className="text-sm leading-relaxed text-muted-foreground font-lato">
+                                <span className="font-bold text-foreground">{heading}:</span> {body}
+                              </p>
+                            );
+                          }
+                          return (
+                            <p key={i} className="text-sm leading-relaxed text-muted-foreground font-lato">
+                              {chunk}
+                            </p>
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -83,7 +100,6 @@ export default function LearnDetail() {
         )}
       </div>
 
-      <BottomNav />
     </div>
   );
 }

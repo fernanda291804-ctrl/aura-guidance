@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { Session, User } from '@supabase/supabase-js';
+import { supabase, ConsultationRow } from '@/lib/supabase';
 
 export interface UserProfile {
   name: string;
@@ -16,6 +18,7 @@ export interface Consultation {
   id: string;
   scenario: 'work' | 'relocation' | 'relationship';
   date: string;
+  conversationId?: string;
   insight: {
     reason: string;
     advice: string;
@@ -24,10 +27,19 @@ export interface Consultation {
 }
 
 interface AppState {
+  // Auth
+  session: Session | null;
+  authUser: User | null;
+  authLoading: boolean;
+  // Profile
   user: UserProfile | null;
+  // Consultations
   consultations: Consultation[];
+  // Actions
   setUser: (user: UserProfile) => void;
-  addConsultation: (c: Consultation) => void;
+  addConsultation: (c: Consultation) => Promise<boolean>;
+  loadConsultations: () => Promise<void>;
+  signOut: () => Promise<void>;
 }
 
 const AppContext = createContext<AppState | undefined>(undefined);
@@ -73,16 +85,139 @@ export function calculateNumbers(_name: string, birthDate: string) {
   return { soul, personality, pastLife, gift, path };
 }
 
+function rowToConsultation(row: ConsultationRow): Consultation {
+  return {
+    id: row.id,
+    scenario: row.scenario,
+    date: new Date(row.created_at).toLocaleDateString('es-ES'),
+    conversationId: row.conversation_id ?? undefined,
+    insight: {
+      reason: row.insight_reason || '',
+      advice: row.insight_advice || '',
+      actions: row.insight_actions || [],
+    },
+  };
+}
+
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<UserProfile | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [authUser, setAuthUser] = useState<User | null>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  const [user, setUserState] = useState<UserProfile | null>(null);
   const [consultations, setConsultations] = useState<Consultation[]>([]);
 
-  const addConsultation = (c: Consultation) => {
-    setConsultations(prev => [c, ...prev]);
+  // Initialize auth session
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setAuthUser(session?.user ?? null);
+      setAuthLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setAuthUser(session?.user ?? null);
+      setAuthLoading(false);
+      // Clear local state on sign out
+      if (!session) {
+        setUserState(null);
+        setConsultations([]);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  // Load profile when auth user changes
+  useEffect(() => {
+    if (!authUser) return;
+    supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', authUser.id)
+      .single()
+      .then(({ data }) => {
+        if (data) {
+          const parts = data.birth_date.split('T')[0].split('-'); // YYYY-MM-DD
+          const birthDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+          setUserState({
+            name: data.name,
+            birthDate,
+            numbers: {
+              soul: data.soul,
+              personality: data.personality,
+              pastLife: data.past_life,
+              gift: data.gift,
+              path: data.path,
+            },
+          });
+        }
+      });
+  }, [authUser]);
+
+  const setUser = (profile: UserProfile) => {
+    setUserState(profile);
+  };
+
+  const addConsultation = async (c: Consultation): Promise<boolean> => {
+    if (authUser) {
+      // Only include conversation_id if the column exists (migration 002)
+      const insertPayload: Record<string, unknown> = {
+        user_id: authUser.id,
+        scenario: c.scenario,
+        insight_reason: c.insight.reason,
+        insight_advice: c.insight.advice,
+        insight_actions: c.insight.actions,
+      };
+      if (c.conversationId) insertPayload.conversation_id = c.conversationId;
+
+      const { error } = await supabase.from('consultations').insert(insertPayload);
+      if (error) {
+        console.error('Error saving consultation:', error.message);
+        return false;
+      }
+      // Reload from DB
+      const { data } = await supabase
+        .from('consultations')
+        .select('*')
+        .eq('user_id', authUser.id)
+        .order('created_at', { ascending: false });
+      if (data) setConsultations(data.map(rowToConsultation));
+      return true;
+    } else {
+      setConsultations(prev => [c, ...prev]);
+      return true;
+    }
+  };
+
+  const loadConsultations = async () => {
+    if (!authUser) return;
+    const { data } = await supabase
+      .from('consultations')
+      .select('*')
+      .eq('user_id', authUser.id)
+      .order('created_at', { ascending: false });
+    if (data) {
+      setConsultations(data.map(rowToConsultation));
+    }
+  };
+
+  const signOut = async () => {
+    await supabase.auth.signOut();
   };
 
   return (
-    <AppContext.Provider value={{ user, consultations, setUser, addConsultation }}>
+    <AppContext.Provider value={{
+      session,
+      authUser,
+      authLoading,
+      user,
+      consultations,
+      setUser,
+      addConsultation,
+      loadConsultations,
+      signOut,
+    }}>
       {children}
     </AppContext.Provider>
   );

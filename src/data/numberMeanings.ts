@@ -19,8 +19,8 @@ export interface NumberProfile {
 
 export const NUMBER_PROFILES: Record<number, NumberProfile> = {
   0: {
-    title: 'La Humanidad',
-    subtitles: 'La Vida Eterna, El Conjunto',
+    title: 'La humanidad',
+    subtitles: 'La vida eterna, el conjunto',
     energyType: 'Energía Universal',
     esencia: 'El cero representa la HUMANIDAD y LA VIDA ETERNA. Este número solo puede aparecer en el número de Don (años como 1900 o 2000). Si lo posees, eres un ser que maneja la energía de todos, de la humanidad entera. Son seres que tienen claro el sentido del conjunto y de la evolución de la humanidad.',
     luz: 'Conexión universal: Posees la capacidad de sintonizar con la energía colectiva de toda la humanidad, comprendiendo el pulso del conjunto.\n\nVisión evolutiva: Tu perspectiva trasciende lo individual; puedes percibir hacia dónde se dirige la humanidad y actuar en consecuencia.\n\nCanal de la vida eterna: Representas el ciclo infinito, el punto donde todo comienza y todo retorna, otorgándote una comprensión profunda de la existencia.',
@@ -28,8 +28,8 @@ export const NUMBER_PROFILES: Record<number, NumberProfile> = {
     mision: 'Tu tarea fundamental es canalizar la energía de la humanidad con consciencia y propósito. Vienes a comprender que eres parte de un todo mayor y que tu evolución personal está íntimamente ligada a la evolución colectiva. Tu maestría se alcanza cuando logras mantener tu identidad mientras sirves al conjunto, siendo un faro que ilumina el camino de la humanidad sin perderse en él.',
   },
   1: {
-    title: 'El Creador',
-    subtitles: 'El Pionero, El Independiente',
+    title: 'El creador',
+    subtitles: 'El pionero, el independiente',
     energyType: 'Energía Yang',
     esencia: 'Tu vibración es la fuerza pura del inicio y la energía Yang en su máxima expresión. Eres un alma diseñada para abrir caminos donde antes no existía nada, poseyendo una independencia y una determinación naturales que te impulsan a avanzar siempre hacia adelante.',
     luz: 'Liderazgo visionario: Posees una capacidad innata para guiar a otros mediante tu ejemplo de valentía y autonomía.\n\nOriginalidad sin límites: Tu mente es un manantial de ideas nuevas; tienes el don de encontrar soluciones creativas donde otros solo ven muros.\n\nValentía para iniciar: No temes al riesgo de ser el primero en dar el paso en nuevos proyectos, mudanzas o rumbos de vida significativos.',
@@ -37,8 +37,8 @@ export const NUMBER_PROFILES: Record<number, NumberProfile> = {
     mision: 'Tu tarea fundamental es aprender a liderar con conciencia plena. Vienes a abrir caminos desde la justicia y la libertad, demostrando que ser el primero es una oportunidad para servir de guía a quienes buscan su propio rastro. Tu evolución se alcanza cuando tu fuerza creadora no solo te eleva a ti, sino que ilumina el sendero para que otros también puedan caminar con seguridad.',
   },
   2: {
-    title: 'La Madre',
-    subtitles: 'La Protectora, La Diplomática',
+    title: 'La madre',
+    subtitles: 'La protectora, la diplomática',
     energyType: 'Energía Yin',
     esencia: 'Tu vibración es la del alma que percibe con absoluta claridad las mareas emocionales, acompañando siempre con ternura y una comprensión profunda. Eres la energía que promueve el equilibrio natural, calmando tensiones y mediando en conflictos con una nobleza que nace del perdón y el aprendizaje.',
     luz: 'Diplomacia serena: Tienes el don de escuchar y mediar con una empatía que te convierte en el puente perfecto entre visiones opuestas, buscando siempre la comprensión mutua.\n\nSoporte compasivo: Tu presencia suave no solo sostiene, sino que equilibra cualquier entorno, siendo un apoyo firme y amoroso que nace directamente del corazón.\n\nConfianza y fe: Posees una nobleza basada en la confianza en un orden superior, lo que te permite fluir con serenidad y seguridad en el camino de la vida.',
@@ -46,8 +46,8 @@ export const NUMBER_PROFILES: Record<number, NumberProfile> = {
     mision: 'Vienes a este mundo a sanar, acompañar y mediar con dulzura consciente. Tu tarea fundamental es cuidar desde el amor y facilitar la creación de relaciones sanas y entornos de paz. Tu evolución se alcanza cuando logras sostener sin dominar y unir sin imponer, recordando que tu mayor don es suavizar las tensiones del mundo con tu energía receptiva, sabia y protectora.',
   },
   3: {
-    title: 'El Artista',
-    subtitles: 'El Hijo, El Comunicador',
+    title: 'El artista',
+    subtitles: 'El hijo, el comunicador',
     energyType: 'Energía Yin/Yang',
     esencia: 'Tu vibración es la de la creatividad pura y la comunicación que nace del corazón. Posees el don de fluir a través del arte, la palabra y la emoción, contagiando un optimismo natural que ilumina cualquier espacio que habitas. Tu esencia es ver lo mejor en los demás y resolver los desafíos de la vida con una ligereza y buen humor que resultan sanadores.',
     luz: 'Creador por naturaleza: Tu expresión es vital; posees la necesidad y el don de compartir tu mundo interior para inspirar a quienes te rodean.\n\nEntusiasmo contagioso: Tu presencia amable y carismática crea vínculos naturales, motivando a otros a través de una energía luminosa y encantadora.\n\nFlexibilidad y gracia: Tienes la capacidad de adaptarte con fluidez a diversos ambientes y personas, encontrando siempre el lado positivo de cada situación.',
@@ -55,8 +55,8 @@ export const NUMBER_PROFILES: Record<number, NumberProfile> = {
     mision: 'Vienes a este mundo a ser un canal de alegría y comunicación consciente. Tu tarea fundamental es compartir tu visión idealista y tu energía positiva, recordándole al mundo la belleza de la expresión creativa. Tu evolución se alcanza cuando aprendes a ser constante en tus esfuerzos y a equilibrar tu energía para que tu brillo nazca de una paz interior sólida y no de una búsqueda constante de estímulos externos.',
   },
   4: {
-    title: 'El Constructor',
-    subtitles: 'El Organizador, El Fundamento',
+    title: 'El constructor',
+    subtitles: 'El organizador, el fundamento',
     energyType: 'Energía Yang – Número Tierra',
     esencia: 'Tu vibración es la del alma que viene a manifestar orden y seguridad en el mundo tangible. Posees un enfoque práctico y una responsabilidad innata que te permite ser el cimiento sobre el cual se construyen grandes proyectos y relaciones. Eres la fuerza que trae estructura al caos, actuando con una honestidad y disciplina que generan confianza absoluta en quienes te rodean.',
     luz: 'Disciplina inquebrantable: Tienes una capacidad de trabajo y perseverancia admirables, lo que te permite concretar metas de largo aliento con precisión.\n\nGenerador de seguridad: Tu don natural es crear bases sólidas y entornos estables, ofreciendo un refugio de calma y orden en momentos de incertidumbre.\n\nIntegridad estructural: Eres una persona de palabra y principios claros, cuya honestidad actúa como la piedra angular de tu desarrollo personal.',
@@ -64,8 +64,8 @@ export const NUMBER_PROFILES: Record<number, NumberProfile> = {
     mision: 'Tu tarea fundamental es manifestar estabilidad y traer orden al caos con propósito. Vienes a aprender que la verdadera estructura no es una limitación, sino el soporte necesario para que tu espíritu pueda elevarse con libertad. Tu evolución se alcanza cuando logras construir estructuras sólidas para el futuro que sean, al mismo tiempo, espacios de crecimiento y apertura.',
   },
   5: {
-    title: 'El Libertador',
-    subtitles: 'El Explorador, El Viajero',
+    title: 'El libertador',
+    subtitles: 'El explorador, el viajero',
     energyType: 'Energía Yang',
     esencia: 'Tu vibración es la del espíritu que busca la libertad en todas sus formas y niveles. Posees una curiosidad insaciable y una capacidad de adaptación asombrosa que te permite fluir con los cambios de la vida como un navegante experto. Eres el puente entre lo conocido y lo nuevo, aportando una energía dinámica y versátil que impulsa la evolución constante.',
     luz: 'Versatilidad y adaptabilidad: Tienes el don de reinventarte rápidamente ante cualquier situación, convirtiendo los imprevistos en oportunidades de crecimiento.\n\nElocuencia inspiradora: Tu capacidad de comunicación es una herramienta poderosa para transmitir ideas nuevas y motivar a quienes te rodean a romper sus propias barreras.\n\nEspíritu libre: Tu naturaleza aventurera te permite vivir el presente con intensidad, trayendo frescura y vitalidad a cualquier entorno.',
@@ -73,8 +73,8 @@ export const NUMBER_PROFILES: Record<number, NumberProfile> = {
     mision: 'Tu tarea fundamental es aprender a equilibrar tu libertad personal con la responsabilidad consciente. Vienes a vivir el cambio no como una huida, sino como una evolución con propósito. Tu maestría se alcanza cuando logras ser libre en tu interior, permitiendo que tu curiosidad te guíe hacia experiencias que enriquezcan tu alma y la de los demás.',
   },
   6: {
-    title: 'El Amor',
-    subtitles: 'La Familia, El Servicio',
+    title: 'El amor',
+    subtitles: 'La familia, el servicio',
     energyType: 'Energía Yin',
     esencia: 'Tu vibración es la del amor incondicional y la protección profunda. Eres como un guía invisible que cuida, sostiene y crea hogar sin buscar protagonismo. Eres una alma capaz de transformar cualquier entorno en un espacio de paz y belleza, actuando siempre con una responsabilidad afectiva que nace de la humildad.',
     luz: 'Servicio genuino: Tienes el don de ayudar desde el silencio. Tu fortaleza no necesita aplausos porque tu propósito es el bienestar colectivo.\n\nConciliador del corazón: Posees una capacidad única para unir y perdonar, convirtiéndote en un canal de calma y equilibrio emocional para quienes te rodean.\n\nSensibilidad estética: Tu alta vibración te permite buscar y crear belleza en lo cotidiano, elevando la frecuencia de tu hogar y de tu comunidad.',
@@ -82,8 +82,8 @@ export const NUMBER_PROFILES: Record<number, NumberProfile> = {
     mision: 'Vienes a este mundo a aprender a amar sin perderte y a servir sin olvidarte. Tu tarea fundamental es construir vínculos nutritivos y equilibrados, empezando por el que tienes contigo mismo. Tu evolución se alcanza cuando logras distinguir el servicio amoroso del sacrificio por aprobación, encontrando un propósito propio que te permita brillar con luz propia mientras sostienes a los demás.',
   },
   7: {
-    title: 'El Sabio',
-    subtitles: 'El Solitario, El Místico',
+    title: 'El sabio',
+    subtitles: 'El solitario, el místico',
     energyType: 'Energía Yang',
     esencia: 'Tu vibración es la del investigador profundo y el místico analítico. Posees una conexión espiritual natural que te impulsa a comprender los misterios del universo más allá de lo evidente. Encuentras claridad en el silencio y la soledad elegida, donde tu mente reflexiva y tu intuición desarrollada se unen para observar el mundo con una serenidad y visión simbólica únicas.',
     luz: 'Aura y magnetismo: Posees una energía elevada e intensa que impone respeto e inspira calma, incluso desde tu naturaleza reservada.\n\nSabiduría que inspira: Eres un guía natural. Tu conocimiento fluye de forma genuina, permitiéndote enseñar a otros a través del ejemplo y la paz interior.\n\nVisión interior: Tienes la habilidad de alinear tu energía diariamente y conectar con símbolos profundos, lo que te permite actuar con una claridad que trasciende lo cotidiano.',
@@ -91,8 +91,8 @@ export const NUMBER_PROFILES: Record<number, NumberProfile> = {
     mision: 'Tu tarea fundamental es unir el cielo con la tierra. Vienes a encontrar el equilibrio perfecto entre tu profundidad espiritual y tu existencia humana. Tu evolución se alcanza cuando aprendes a confiar en los demás, abres tu mundo interior y compartes tu sabiduría con humildad y compasión, comprendiendo que el conocimiento es un regalo para inspirar al mundo, no para guardarlo en soledad.',
   },
   8: {
-    title: 'El Líder',
-    subtitles: 'El Poder, El Maestro del Mundo Material',
+    title: 'El líder',
+    subtitles: 'El poder, el maestro del mundo material',
     energyType: 'Energía Yang',
     esencia: 'Tu vibración es la del organizador y el constructor de grandes estructuras. Posees una fuerza interna capaz de asumir desafíos importantes y sostenerlos con visión a largo plazo. Eres un transformador nato que, como el Ave Fénix, tiene la habilidad de reconstruirse tras cada caída, convirtiendo las crisis en evolución y materializando ideas con una eficiencia que genera resultados tangibles y respeto en tu entorno.',
     luz: 'Equilibrio infinito: Representas el flujo constante entre dar y recibir, integrando con maestría el mundo espiritual con el material en un ciclo de crecimiento constante.\n\nDominio interior: Tu verdadera fuerza reside en gobernarte a ti mismo; cuando lideras desde esa conciencia, te conviertes en una figura sabia, confiable e inspiradora.\n\nClaridad y concreción: Eres un ejecutor de alto impacto. Tu capacidad de organización te permite liderar proyectos con un enfoque nítido, ética inquebrantable y un propósito superior.',
@@ -100,8 +100,8 @@ export const NUMBER_PROFILES: Record<number, NumberProfile> = {
     mision: 'Tu tarea fundamental es aprender a usar tu poder con conciencia y corazón. Estás llamado a demostrar que es posible construir y liderar desde la ética, equilibrando lo material con lo espiritual sin caer en el control. Tu evolución se alcanza cuando comprendes que tu verdadera grandeza no reside en lo que posees o en cuánto dominas, sino en cómo resurges de tus propias crisis y cómo guías a otros hacia su propia transformación desde tu dominio interior.',
   },
   9: {
-    title: 'El Humanitario',
-    subtitles: 'El Sabio, El Maestro Espiritual',
+    title: 'El humanitario',
+    subtitles: 'El sabio, el maestro espiritual',
     energyType: 'Energía Yin',
     esencia: 'Tu vibración es la del altruismo puro. Eres un alma que ha transformado su propia historia en una sabiduría intuitiva capaz de sanar y acompañar a otros. Tu presencia actúa como un vínculo entre lo sagrado y lo cotidiano, viendo en cada ser una igualdad profunda y una oportunidad para la generosidad.',
     luz: 'Guía natural: Tu sola presencia aporta calma y claridad; inspiras a los demás a través de tu ejemplo de entrega auténtica.\n\nConexión trascendente: Tienes la capacidad única de traducir lo espiritual en acciones humanas, funcionando como un puente entre dimensiones.\n\nEntrega sin aplausos: Das desde el alma, encontrando tu propósito más elevado en el acto de servir y amar desinteresadamente.',
@@ -109,8 +109,8 @@ export const NUMBER_PROFILES: Record<number, NumberProfile> = {
     mision: 'Tu tarea en esta vida es aprender a amar sin sacrificarte. Vienes a sanar tu propia historia y a cerrar ciclos con gratitud, comprendiendo que también mereces recibir, ser visto y ser cuidado. Tu evolución se completa cuando tu entrega a los demás no significa olvidarte de ti mismo.',
   },
   10: {
-    title: 'El Canal',
-    subtitles: 'El Líder de Nueva Era, El Iniciado',
+    title: 'El canal',
+    subtitles: 'El líder de nueva era, el iniciado',
     energyType: 'Energía Yin/Yang',
     esencia: 'Tu vibración es una danza perfecta entre la energía receptiva y la activa (Yin/Yang). No solo vienes a vivir la vida, vienes a transformarla mediante una maestría interior que te permite ver más allá de lo evidente. Eres un líder nato cuya visión trasciende lo común, actuando como un puente entre lo que se sueña y lo que se construye.',
     luz: 'Intuición superior: Posees una capacidad innata para recibir mensajes sutiles y convertirlos en sabiduría práctica.\n\nManifestación real: Tienes el don de conectar ideas elevadas con la realidad tangible, haciendo que lo "imposible" cobre forma.\n\nLiderazgo inspirador: Tu forma de guiar no impone, sino que despierta el potencial en los demás, convirtiéndote en un referente natural.',

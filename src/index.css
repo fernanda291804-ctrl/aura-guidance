@@ -16,9 +16,9 @@
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 0%;
 
-    /* Primary: #FF7F50 */
-    --primary: 16 100% 66%;
-    --primary-foreground: 0 0% 100%;
+    /* Primary: coral claro — pasa WCAG AA (8.4:1 vs texto oscuro) */
+    --primary: 16 100% 73%;
+    --primary-foreground: 225 40% 15%;
 
     /* Secondary: #738DE1 */
     --secondary: 225 64% 67%;
@@ -48,8 +48,8 @@
     --warning: 49 100% 66%;
     --warning-foreground: 0 0% 0%;
 
-    /* Pink: #DBC0C9 */
-    --pink: 336 22% 81%;
+    /* Pink: #C9A0AE */
+    --pink: 340 27% 71%;
 
     /* Disabled: #D8D8D8 */
     --disabled: 0 0% 85%;
@@ -57,7 +57,7 @@
 
     --border: 225 20% 88%;
     --input: 225 20% 88%;
-    --ring: 16 100% 66%;
+    --ring: 16 100% 73%;
 
     --radius: 1rem;
 
@@ -67,10 +67,10 @@
     --glass-blur: 20px;
 
     /* Gradients */
-    --gradient-aura: linear-gradient(135deg, hsl(16 100% 66% / 0.3), hsl(225 64% 67% / 0.3), hsl(248 54% 58% / 0.2));
-    --gradient-warm: linear-gradient(135deg, hsl(16 100% 66%), hsl(16 100% 58%));
+    --gradient-aura: linear-gradient(135deg, hsl(16 100% 73% / 0.3), hsl(225 64% 67% / 0.3), hsl(248 54% 58% / 0.2));
+    --gradient-warm: linear-gradient(135deg, hsl(16 100% 73%), hsl(16 100% 65%));
     --gradient-mystic: linear-gradient(180deg, hsl(225 64% 92%), hsl(248 54% 90%), hsl(16 100% 66% / 0.2));
-    --gradient-loading: linear-gradient(270deg, hsl(16 100% 66% / 0.4), hsl(225 64% 92%), hsl(248 54% 90% / 0.5), hsl(16 100% 66% / 0.4));
+    --gradient-loading: linear-gradient(270deg, hsl(16 100% 73% / 0.4), hsl(225 64% 92%), hsl(248 54% 90% / 0.5), hsl(16 100% 73% / 0.4));
 
     /* Dashboard ambient — original peach → lavender (light) */
     --gradient-dashboard: linear-gradient(
@@ -88,7 +88,7 @@
 
     /* Shadows */
     --shadow-soft: 0 4px 24px -4px hsl(0 0% 0% / 0.08);
-    --shadow-glow: 0 0 30px hsl(16 100% 66% / 0.25);
+    --shadow-glow: 0 0 30px hsl(16 100% 73% / 0.30);
     --shadow-card: 0 8px 32px -8px hsl(0 0% 0% / 0.1);
 
     --sidebar-background: 0 0% 98%;
@@ -189,8 +189,8 @@
   }
 
   @keyframes pulse-glow {
-    0%, 100% { box-shadow: 0 0 20px hsl(16 100% 66% / 0.2); }
-    50% { box-shadow: 0 0 40px hsl(16 100% 66% / 0.4); }
+    0%, 100% { box-shadow: 0 0 20px hsl(16 100% 73% / 0.25); }
+    50% { box-shadow: 0 0 40px hsl(16 100% 73% / 0.45); }
   }
 
   .animate-pulse-glow {
@@ -224,7 +224,7 @@
     width: 60%;
     height: 60%;
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-    background: radial-gradient(ellipse, hsl(16 100% 66% / 0.12), transparent 70%);
+    background: radial-gradient(ellipse, hsl(16 100% 73% / 0.12), transparent 70%);
     animation: morph 12s ease-in-out infinite;
     pointer-events: none;
   }

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useApp } from '@/context/AppContext';
 import { Navigate, useNavigate } from 'react-router-dom';
-import BottomNav from '@/components/BottomNav';
 import { Search, ChevronRight } from 'lucide-react';
 import { NUMBER_PROFILES } from '@/data/numberMeanings';
 
@@ -44,7 +43,7 @@ export default function Learn() {
   );
 
   return (
-    <div className="min-h-screen pb-24 gradient-dashboard grain-overlay">
+    <div className="min-h-screen pb-24 md:pb-8 gradient-dashboard grain-overlay">
       <div className="px-6 pb-6 pt-12">
         <h1 className="font-lora text-2xl font-bold text-on-gradient">Aprender</h1>
         <p className="mt-1 text-sm text-on-gradient-muted font-lato">Profundiza tu conocimiento numerológico</p>
@@ -110,7 +109,6 @@ export default function Learn() {
         </div>
       )}
 
-      <BottomNav />
     </div>
   );
 }
