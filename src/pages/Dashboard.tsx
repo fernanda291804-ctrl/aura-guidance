@@ -2,20 +2,15 @@ import { useEffect, useState } from 'react';
 import { useApp } from '@/context/AppContext';
 import { Navigate, useNavigate } from 'react-router-dom';
 import PentagonChart from '@/components/PentagonChart';
-import { Clock, Inbox, Briefcase, MapPin, Heart, Check } from 'lucide-react';
+import { Clock, Inbox, Sparkles, ChevronRight } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
 const SCENARIO_CONFIG: Record<string, { label: string; bg: string; text: string }> = {
   work: { label: 'Trabajo', bg: 'hsl(225 64% 67%)', text: 'hsl(0 0% 100%)' },
   relocation: { label: 'Mudanza', bg: 'hsl(234 18% 73%)', text: 'hsl(0 0% 100%)' },
   relationship: { label: 'Relación', bg: '#C9A0AE', text: 'hsl(0 0% 100%)' },
+  general: { label: 'Sesión', bg: 'hsl(var(--secondary))', text: 'hsl(0 0% 100%)' },
 };
-
-const KYROS_SCENARIOS = [
-  { id: 'work', label: 'Trabajo', icon: Briefcase, color: '#748DEA' },
-  { id: 'relocation', label: 'Mudanza', icon: MapPin, color: '#9DA1D5' },
-  { id: 'relationship', label: 'Relación', icon: Heart, color: '#C9A0AE' },
-];
 
 function DashboardHero() {
   const [visible, setVisible] = useState(true);
@@ -43,24 +38,23 @@ function DashboardHero() {
 export default function Dashboard() {
   const { user, authUser, consultations } = useApp();
   const navigate = useNavigate();
-  const [todayScenarios, setTodayScenarios] = useState<Set<string>>(new Set());
+  const [hasSessionToday, setHasSessionToday] = useState(false);
 
   useEffect(() => {
     if (!authUser) return;
     const since = new Date(Date.now() - 86400000).toISOString();
     supabase
       .from('conversations')
-      .select('scenario')
+      .select('id')
       .eq('user_id', authUser.id)
       .gte('created_at', since)
+      .limit(1)
       .then(({ data }) => {
-        if (data) setTodayScenarios(new Set(data.map(d => d.scenario as string)));
+        setHasSessionToday(Boolean(data && data.length > 0));
       });
   }, [authUser]);
 
   if (!user) return <Navigate to="/" replace />;
-
-  const anyConsultedToday = todayScenarios.size > 0;
 
   return (
     <div className="min-h-screen pb-24 md:pb-8 gradient-dashboard grain-overlay">
@@ -80,54 +74,29 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Today's KYROS status */}
+      {/* Today's KYROS session */}
       <div className="mt-5 px-6 md:max-w-2xl md:mx-auto">
-        <h3 className="font-lora text-base font-semibold text-on-gradient mb-3">
-          {anyConsultedToday ? 'Consultas de hoy' : 'Disponibles hoy con KYROS'}
-        </h3>
-        <div className="flex" style={{ gap: 8 }}>
-          {KYROS_SCENARIOS.map(s => {
-            const consulted = todayScenarios.has(s.id);
-            return (
-              <div
-                key={s.id}
-                className="flex flex-col items-center font-lato"
-                style={{
-                  flex: 1,
-                  background: 'rgba(255,255,255,0.5)',
-                  borderRadius: 16,
-                  padding: '14px 6px 12px',
-                  minHeight: 80,
-                  gap: 7,
-                  opacity: consulted ? 0.5 : 1,
-                  transition: 'opacity 0.2s',
-                }}
-              >
-                <div
-                  className="flex items-center justify-center shrink-0"
-                  style={{ width: 44, height: 44, borderRadius: 12, background: s.color }}
-                >
-                  <s.icon style={{ width: 20, height: 20, color: 'white', strokeWidth: 2.2 }} />
-                </div>
-                <p style={{ fontSize: 10, fontWeight: 700, color: '#1e1530', textAlign: 'center' }}>
-                  {s.label}
-                </p>
-                {consulted && (
-                  <span style={{
-                    fontSize: 7.5,
-                    fontWeight: 600,
-                    color: '#9a7060',
-                    background: 'rgba(180,120,100,0.15)',
-                    borderRadius: 20,
-                    padding: '2px 8px',
-                  }}>
-                    Consultado
-                  </span>
-                )}
-              </div>
-            );
-          })}
-        </div>
+        <h3 className="font-lora text-base font-semibold text-on-gradient mb-3">Tu sesión con KYROS</h3>
+        <button
+          onClick={() => navigate('/mentor')}
+          className="flex w-full items-center gap-4 rounded-2xl bg-white/90 backdrop-blur-md p-5 border border-white/50 shadow-soft text-left transition-transform active:scale-[0.98] hover:shadow-card"
+        >
+          <div
+            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
+            style={{ background: 'hsl(var(--secondary))' }}
+          >
+            <Sparkles className="h-6 w-6 text-white" />
+          </div>
+          <div className="flex-1">
+            <h4 className="font-lora text-lg font-semibold text-heading">
+              {hasSessionToday ? 'Continuar tu sesión de hoy' : 'Comenzar tu sesión de hoy'}
+            </h4>
+            <p className="text-sm text-muted-foreground font-lato">
+              {hasSessionToday ? 'Ya hablaste con KYROS hoy' : 'Un tema, una conversación, cada día'}
+            </p>
+          </div>
+          <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
+        </button>
       </div>
 
       <div className="mt-5 px-6 md:max-w-2xl md:mx-auto">

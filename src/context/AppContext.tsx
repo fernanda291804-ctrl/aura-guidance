@@ -2,9 +2,12 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { Session, User } from '@supabase/supabase-js';
 import { supabase, ConsultationRow } from '@/lib/supabase';
 
+export type Gender = 'femenino' | 'masculino' | 'neutro';
+
 export interface UserProfile {
   name: string;
   birthDate: string; // DD/MM/YYYY
+  gender: Gender;
   numbers: {
     soul: number;
     personality: number;
@@ -16,7 +19,7 @@ export interface UserProfile {
 
 export interface Consultation {
   id: string;
-  scenario: 'work' | 'relocation' | 'relationship';
+  scenario: 'work' | 'relocation' | 'relationship' | 'general';
   date: string;
   conversationId?: string;
   insight: {
@@ -143,6 +146,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           setUserState({
             name: data.name,
             birthDate,
+            gender: (data.gender as Gender) ?? 'neutro',
             numbers: {
               soul: data.soul,
               personality: data.personality,
@@ -161,17 +165,40 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const addConsultation = async (c: Consultation): Promise<boolean> => {
     if (authUser) {
-      // Only include conversation_id if the column exists (migration 002)
-      const insertPayload: Record<string, unknown> = {
-        user_id: authUser.id,
-        scenario: c.scenario,
+      const fields: Record<string, unknown> = {
         insight_reason: c.insight.reason,
         insight_advice: c.insight.advice,
         insight_actions: c.insight.actions,
       };
-      if (c.conversationId) insertPayload.conversation_id = c.conversationId;
 
-      const { error } = await supabase.from('consultations').insert(insertPayload);
+      // Upsert by conversation: a session updates the same row on every reply
+      // instead of only saving once a message-count threshold is reached.
+      let error;
+      if (c.conversationId) {
+        const { data: existing } = await supabase
+          .from('consultations')
+          .select('id')
+          .eq('conversation_id', c.conversationId)
+          .maybeSingle();
+
+        if (existing) {
+          ({ error } = await supabase.from('consultations').update(fields).eq('id', existing.id));
+        } else {
+          ({ error } = await supabase.from('consultations').insert({
+            ...fields,
+            user_id: authUser.id,
+            scenario: c.scenario,
+            conversation_id: c.conversationId,
+          }));
+        }
+      } else {
+        ({ error } = await supabase.from('consultations').insert({
+          ...fields,
+          user_id: authUser.id,
+          scenario: c.scenario,
+        }));
+      }
+
       if (error) {
         console.error('Error saving consultation:', error.message);
         return false;
@@ -185,7 +212,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
       if (data) setConsultations(data.map(rowToConsultation));
       return true;
     } else {
-      setConsultations(prev => [c, ...prev]);
+      setConsultations(prev => {
+        const idx = c.conversationId ? prev.findIndex(p => p.conversationId === c.conversationId) : -1;
+        if (idx >= 0) {
+          const next = [...prev];
+          next[idx] = c;
+          return next;
+        }
+        return [c, ...prev];
+      });
       return true;
     }
   };

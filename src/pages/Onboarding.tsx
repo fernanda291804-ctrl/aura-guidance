@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Briefcase, MapPin, Heart } from 'lucide-react';
-import { useApp, calculateNumbers, UserProfile } from '@/context/AppContext';
+import { useApp, calculateNumbers, UserProfile, Gender } from '@/context/AppContext';
 import PentagonChart from '@/components/PentagonChart';
 import { supabase } from '@/lib/supabase';
 
@@ -54,9 +53,22 @@ const INTRO_STEPS = [
   },
 ];
 
+function buildDemoExchange(profile: UserProfile) {
+  const first = profile.name.split(' ')[0];
+  const { path, soul } = profile.numbers;
+  return {
+    question: '¿Debería tomar esta decisión que tengo en mente?',
+    answer:
+      `${first}, tu camino ${path} te dice si algo vibra en paz y fascinación, o si genera resistencia.` +
+      ` Tu alma ${soul} sabe lo que deseas de verdad, más allá de lo que "deberías" hacer.\n\n` +
+      `Cuéntame la decisión completa y te ayudo a leerla desde tus números — nunca con consejos genéricos.`,
+  };
+}
+
 export default function Onboarding() {
   const [name, setName] = useState('');
   const [birthDate, setBirthDate] = useState('');
+  const [gender, setGender] = useState<Gender>('neutro');
   const [errors, setErrors] = useState<{ name?: string; birthDate?: string }>({});
   const [phase, setPhase] = useState<Phase>('choose');
   const [introStep, setIntroStep] = useState(0);
@@ -94,7 +106,7 @@ export default function Onboarding() {
     if (!validate()) return;
     setPhase('loading');
     const numbers = calculateNumbers(name, birthDate);
-    const profile: UserProfile = { name: name.trim(), birthDate, numbers };
+    const profile: UserProfile = { name: name.trim(), birthDate, gender, numbers };
     setTimeout(() => {
       setComputedUser(profile);
       setPhase('explain');
@@ -114,6 +126,7 @@ export default function Onboarding() {
         id: authUser.id,
         name: computedUser.name,
         birth_date: isoDate,
+        gender: computedUser.gender,
         soul: computedUser.numbers.soul,
         personality: computedUser.numbers.personality,
         past_life: computedUser.numbers.pastLife,
@@ -144,7 +157,7 @@ export default function Onboarding() {
 
   if (phase === 'choose') {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center px-6 gradient-dashboard grain-overlay liquid-light">
+      <div className="flex min-h-screen flex-col items-center justify-center px-6 gradient-dashboard grain-overlay liquid-light animate-in fade-in duration-300">
         <div className="relative z-10 w-full max-w-sm flex flex-col items-center">
           <div className="mb-12 flex flex-col items-center gap-2">
             <h1 className="font-lora text-4xl font-bold text-on-gradient tracking-tight">KYROS</h1>
@@ -180,7 +193,7 @@ export default function Onboarding() {
     const isLast = introStep === INTRO_STEPS.length - 1;
     return (
       <div
-        className="relative flex flex-col overflow-hidden"
+        className="relative flex flex-col overflow-hidden animate-in fade-in duration-300"
         style={{ background: '#FCFCFC', height: '100svh' }}
       >
         {/* ── Saltar — abs top-right, oculto en último slide ── */}
@@ -271,7 +284,7 @@ export default function Onboarding() {
 
   if (phase === 'loading') {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center px-6 gradient-dashboard grain-overlay liquid-light">
+      <div className="flex min-h-screen flex-col items-center justify-center px-6 gradient-dashboard grain-overlay liquid-light animate-in fade-in duration-300">
         <div className="relative z-10 flex flex-col items-center">
           <div className="h-40 w-40 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 animate-shimmer" style={{ background: 'linear-gradient(270deg, hsl(16 100% 66% / 0.3), hsl(248 54% 58% / 0.25), hsl(16 100% 66% / 0.3))', backgroundSize: '400% 100%' }} />
           <p className="mt-8 font-lora text-xl text-on-gradient animate-pulse">
@@ -318,7 +331,7 @@ export default function Onboarding() {
     ];
 
     return (
-      <div className="min-h-screen px-6 py-10 gradient-dashboard grain-overlay overflow-y-auto">
+      <div className="min-h-screen px-6 py-10 gradient-dashboard grain-overlay overflow-y-auto animate-in fade-in duration-300">
         <div className="relative z-10 w-full max-w-sm mx-auto">
           <h1 className="text-center font-lora text-2xl font-bold text-on-gradient mb-1">
             Tus 5 números
@@ -399,38 +412,18 @@ export default function Onboarding() {
     const GUIDE_META = [
       {
         title: 'Tu mentor está listo.',
-        body: 'Kyros es un chat interactivo donde puedes contar tus problemas y recibir consejo basado en tus números. Te acompaña en 3 grandes campos de tu vida.',
+        body: 'Kyros es un chat donde puedes traer cualquier tema — trabajo, una relación, una mudanza, una decisión que te pesa — y recibir una guía basada en tus propios números. Nada de categorías: una sola conversación, cada día.',
         btnLabel: 'Siguiente',
       },
       {
-        title: null,
+        title: 'Así habla KYROS contigo.',
         body: null,
         btnLabel: 'Comenzar',
       },
     ];
 
-    const CATEGORIES = [
-      {
-        Icon: Briefcase,
-        color: '#748DEA',
-        label: 'Trabajo',
-        desc: '¿Cambiar de empleo? ¿Emprender? Te digo si ese paso resuena con tu propósito.',
-      },
-      {
-        Icon: MapPin,
-        color: '#9DA1D5',
-        label: 'Mudanza',
-        desc: 'Te ayudo a entender si ese nuevo lugar es donde tu energía puede florecer.',
-      },
-      {
-        Icon: Heart,
-        color: '#C9A0AE',
-        label: 'Relaciones',
-        desc: 'Comparo tu frecuencia con la de otra persona para explicarte qué vienen a aprender juntos.',
-      },
-    ];
-
     const meta = GUIDE_META[guideStep];
+    const demo = computedUser ? buildDemoExchange(computedUser) : null;
 
     const renderUpper = () => {
       if (guideStep === 0) {
@@ -446,31 +439,21 @@ export default function Onboarding() {
           </div>
         );
       }
-      if (guideStep === 1) {
+      if (guideStep === 1 && demo) {
         return (
-          <div className="flex flex-col justify-center px-6 gap-3" style={{ flex: 1 }}>
-            {CATEGORIES.map(({ Icon, color, label, desc }) => (
-              <div
-                key={label}
-                className="flex items-center gap-3"
-                style={{ background: 'rgba(255,255,255,0.45)', borderRadius: 14, padding: '12px 14px' }}
-              >
-                <div
-                  className="flex shrink-0 items-center justify-center"
-                  style={{ width: 44, height: 44, borderRadius: 12, background: color }}
-                >
-                  <Icon style={{ width: 20, height: 20, color: 'white', strokeWidth: 2.2 }} />
-                </div>
-                <div>
-                  <p className="font-lato" style={{ fontSize: 12, fontWeight: 700, color: '#1e1530', marginBottom: 2 }}>
-                    {label}
-                  </p>
-                  <p className="font-lato" style={{ fontSize: 11, color: '#5a4e7a', lineHeight: 1.4 }}>
-                    {desc}
-                  </p>
-                </div>
-              </div>
-            ))}
+          <div className="flex flex-col justify-center px-6 gap-3 w-full max-w-md mx-auto" style={{ flex: 1 }}>
+            <div
+              className="self-end max-w-[85%] rounded-2xl rounded-br-md px-4 py-3 text-sm font-lato break-words"
+              style={{ background: 'hsl(var(--secondary))', color: '#fff' }}
+            >
+              {demo.question}
+            </div>
+            <div
+              className="self-start max-w-[85%] rounded-2xl rounded-bl-md px-4 py-3 text-sm font-lato whitespace-pre-line break-words"
+              style={{ background: '#F8F9FE', border: '1px solid rgba(115, 141, 225, 0.12)', color: '#2a2035', lineHeight: 1.5 }}
+            >
+              {demo.answer}
+            </div>
           </div>
         );
       }
@@ -478,7 +461,7 @@ export default function Onboarding() {
 
     return (
       <div
-        className={`relative flex flex-col overflow-hidden ${guideStep === 0 ? '' : 'gradient-dashboard grain-overlay liquid-light'}`}
+        className={`relative flex flex-col overflow-hidden animate-in fade-in duration-300 ${guideStep === 0 ? '' : 'gradient-dashboard grain-overlay liquid-light'}`}
         style={{ height: '100svh', background: guideStep === 0 ? '#FCFCFC' : undefined }}
       >
         {/* Saltar — oculto en slide 3 */}
@@ -515,7 +498,7 @@ export default function Onboarding() {
 
           {meta.title && (
             <h2
-              className="font-lora text-center mb-3"
+              className={`font-lora text-center ${meta.body ? 'mb-3' : 'mb-8'}`}
               style={{ fontSize: 22, fontWeight: 700, color: '#1e1530', lineHeight: 1.3 }}
             >
               {meta.title}
@@ -544,7 +527,7 @@ export default function Onboarding() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-6 gradient-dashboard grain-overlay liquid-light">
+    <div className="flex min-h-screen flex-col items-center justify-center px-6 gradient-dashboard grain-overlay liquid-light animate-in fade-in duration-300">
       <div className="relative z-10 w-full max-w-sm">
         {/* Brand */}
         <div className="mb-12 flex flex-col items-center gap-2">
@@ -581,6 +564,32 @@ export default function Onboarding() {
               className={`w-full rounded-2xl border bg-white/30 backdrop-blur-sm px-5 py-4 text-sm text-on-gradient placeholder:text-on-gradient-muted/60 outline-none transition-all focus:bg-white/50 focus:ring-2 focus:ring-white/40 font-lato ${errors.birthDate ? 'border-destructive' : 'border-white/30'}`}
             />
             {errors.birthDate && <p className="mt-1.5 text-xs text-destructive font-lato">{errors.birthDate}</p>}
+          </div>
+
+          <div>
+            <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-on-gradient-muted font-lato">
+              ¿Cómo te hablo?
+            </label>
+            <div className="flex gap-2">
+              {([
+                { value: 'femenino', label: 'Femenino' },
+                { value: 'masculino', label: 'Masculino' },
+                { value: 'neutro', label: 'Neutro' },
+              ] as { value: Gender; label: string }[]).map(opt => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => setGender(opt.value)}
+                  className={`flex-1 rounded-2xl border py-3 text-xs font-semibold font-lato transition-all ${
+                    gender === opt.value
+                      ? 'gradient-warm text-primary-foreground border-transparent'
+                      : 'bg-white/30 border-white/30 text-on-gradient backdrop-blur-sm'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           <button

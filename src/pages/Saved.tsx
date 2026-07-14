@@ -9,11 +9,17 @@ const SCENARIO_CONFIG: Record<string, { label: string; bg: string; text: string 
   work: { label: 'Trabajo', bg: 'hsl(225 64% 67%)', text: 'hsl(0 0% 100%)' },
   relocation: { label: 'Mudanza', bg: 'hsl(234 18% 73%)', text: 'hsl(0 0% 100%)' },
   relationship: { label: 'Relación', bg: '#C9A0AE', text: 'hsl(0 0% 100%)' },
+  general: { label: 'Sesión', bg: 'hsl(var(--secondary))', text: 'hsl(0 0% 100%)' },
 };
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
+}
+
+function truncate(text: string, max: number): string {
+  const clean = text.trim();
+  return clean.length > max ? `${clean.slice(0, max).trim()}…` : clean;
 }
 
 function ConsultationCard({ c }: { c: Consultation }) {
@@ -36,19 +42,24 @@ function ConsultationCard({ c }: { c: Consultation }) {
   };
 
   const cfg = SCENARIO_CONFIG[c.scenario];
+  // Older entries were bucketed into a scenario category; new sessions are all
+  // 'general', so lead with the topic the person actually brought instead.
+  const title = c.scenario !== 'general' && cfg
+    ? cfg.label
+    : c.insight.reason
+      ? truncate(c.insight.reason, 48)
+      : 'Sesión con KYROS';
 
   return (
     <div className="rounded-2xl bg-white/90 backdrop-blur-md border border-white/50 shadow-soft overflow-hidden flex flex-col">
       {/* Card header */}
       <div className="p-5 md:p-6 flex-1">
-        <div className="flex items-center justify-between mb-3">
-          <span
-            className="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold font-lato"
-            style={{ background: cfg?.bg || 'hsl(var(--secondary))', color: cfg?.text || 'hsl(0 0% 100%)' }}
-          >
-            <Bookmark className="h-3 w-3" /> {cfg?.label || c.scenario}
+        <div className="flex items-start justify-between gap-3 mb-3">
+          <span className="flex items-center gap-1.5 min-w-0 text-sm font-semibold text-heading font-lato">
+            <Bookmark className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+            <span className="truncate">{title}</span>
           </span>
-          <span className="text-xs text-muted-foreground font-lato">{c.date}</span>
+          <span className="text-xs text-muted-foreground font-lato shrink-0">{c.date}</span>
         </div>
 
         <p className="text-sm md:text-base text-foreground leading-relaxed font-lato line-clamp-2">

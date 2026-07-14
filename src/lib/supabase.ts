@@ -5,12 +5,13 @@ const supabaseAnonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || import.meta.e
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-export type Scenario = 'work' | 'relocation' | 'relationship';
+export type Scenario = 'work' | 'relocation' | 'relationship' | 'general';
 
 export interface ProfileRow {
   id: string;
   name: string;
   birth_date: string;
+  gender: 'femenino' | 'masculino' | 'neutro';
   soul: number;
   personality: number;
   past_life: number;
@@ -24,6 +25,7 @@ export interface ConversationRow {
   user_id: string;
   scenario: Scenario;
   title: string | null;
+  concluded: boolean;
   created_at: string;
 }
 

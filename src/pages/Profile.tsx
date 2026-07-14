@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useApp, calculateNumbers } from '@/context/AppContext';
+import { useApp, calculateNumbers, Gender } from '@/context/AppContext';
 import { Navigate } from 'react-router-dom';
 import { User, Calendar, Hash, Pencil, Loader2, ChevronDown, ChevronUp, Sparkles, CloudLightning, Compass } from 'lucide-react';
 import { NUMBER_DESCRIPTIONS, NUMBER_PROFILES } from '@/data/numberMeanings';
@@ -11,6 +11,7 @@ export default function Profile() {
   const [editing, setEditing] = useState(false);
   const [nameInput, setNameInput] = useState('');
   const [birthInput, setBirthInput] = useState('');
+  const [genderInput, setGenderInput] = useState<Gender>('neutro');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [expandedKey, setExpandedKey] = useState<string | null>(null);
@@ -28,6 +29,7 @@ export default function Profile() {
   const openEdit = () => {
     setNameInput(user.name);
     setBirthInput(user.birthDate);
+    setGenderInput(user.gender);
     setError('');
     setEditing(true);
   };
@@ -68,7 +70,7 @@ export default function Profile() {
     setError('');
 
     const numbers = calculateNumbers(nameInput, birthInput);
-    const updatedProfile = { name: nameInput.trim(), birthDate: birthInput, numbers };
+    const updatedProfile = { name: nameInput.trim(), birthDate: birthInput, gender: genderInput, numbers };
 
     if (authUser) {
       const parts = birthInput.split('/');
@@ -77,6 +79,7 @@ export default function Profile() {
         id: authUser.id,
         name: updatedProfile.name,
         birth_date: isoDate,
+        gender: genderInput,
         soul: numbers.soul,
         personality: numbers.personality,
         past_life: numbers.pastLife,
@@ -125,6 +128,31 @@ export default function Profile() {
                 placeholder="DD/MM/AAAA"
                 className="w-full rounded-2xl border border-white/30 bg-white/30 backdrop-blur-sm px-4 py-3 text-sm text-on-gradient placeholder:text-on-gradient-muted/60 outline-none focus:bg-white/50 focus:ring-2 focus:ring-white/40 font-lato"
               />
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-gradient-muted font-lato">
+                ¿Cómo te habla KYROS?
+              </label>
+              <div className="flex gap-2">
+                {([
+                  { value: 'femenino', label: 'Femenino' },
+                  { value: 'masculino', label: 'Masculino' },
+                  { value: 'neutro', label: 'Neutro' },
+                ] as { value: Gender; label: string }[]).map(opt => (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => setGenderInput(opt.value)}
+                    className={`flex-1 rounded-2xl border py-2.5 text-xs font-semibold font-lato transition-all ${
+                      genderInput === opt.value
+                        ? 'gradient-warm text-primary-foreground border-transparent'
+                        : 'bg-white/30 border-white/30 text-on-gradient backdrop-blur-sm'
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
             </div>
             {error && <p className="text-xs text-destructive font-lato">{error}</p>}
             <div className="flex gap-2 pt-1">
