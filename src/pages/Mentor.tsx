@@ -276,6 +276,7 @@ export default function Mentor() {
         if (ok) setSaved(true);
       }
     } catch (err) {
+      console.error('Error calling KYROS chat:', (err as Error).message);
       setMessages(prev => {
         const next = [...prev];
         next[streamingIndex] = {
