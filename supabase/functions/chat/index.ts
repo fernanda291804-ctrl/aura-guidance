@@ -8,6 +8,51 @@ const SPLIT_TOKEN = "[[SPLIT]]";
 // The model adds this to its final bubble on turn 3, which always closes the session.
 const CONCLUDED_TOKEN = "[[CONCLUDED]]";
 
+// ─── Calculo deterministico de los numeros de un tercero ─────────────────────
+// El modelo es poco confiable haciendo aritmetica de varios pasos "de memoria"
+// dentro de una respuesta; por eso esto se calcula en codigo, igual que
+// calculateNumbers() en src/context/AppContext.tsx, y se le pasa ya resuelto.
+function reduceToSingleOr10(value: number): number {
+  let n = value;
+  while (n > 10) {
+    n = String(n).split("").reduce((s, d) => s + parseInt(d, 10), 0);
+  }
+  return n;
+}
+
+function calculateThirdPartyNumbers(day: number, month: number, year: number) {
+  const dayDigitSum = String(day).split("").reduce((s, d) => s + parseInt(d, 10), 0);
+  const soul = reduceToSingleOr10(dayDigitSum);
+
+  const personality = month >= 10
+    ? String(month).split("").reduce((s, d) => s + parseInt(d, 10), 0)
+    : month;
+
+  const lastTwo = year % 100;
+  const giftSum = String(lastTwo).split("").reduce((s, d) => s + parseInt(d, 10), 0);
+  const gift = reduceToSingleOr10(giftSum);
+
+  const yearSum = String(year).split("").reduce((s, d) => s + parseInt(d, 10), 0);
+  const pastLife = reduceToSingleOr10(yearSum);
+
+  const path = reduceToSingleOr10(soul + personality + pastLife);
+
+  return { soul, personality, pastLife, gift, path };
+}
+
+// Busca una fecha DD/MM/AAAA (o con - o .) en un texto. Requiere año de 4 digitos
+// para no adivinar el siglo. Devuelve null si no hay match o la fecha es invalida.
+function extractBirthdate(text: string): { day: number; month: number; year: number } | null {
+  const match = text.match(/\b(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})\b/);
+  if (!match) return null;
+  const day = parseInt(match[1], 10);
+  const month = parseInt(match[2], 10);
+  const year = parseInt(match[3], 10);
+  const currentYear = new Date().getFullYear();
+  if (day < 1 || day > 31 || month < 1 || month > 12 || year < 1900 || year > currentYear) return null;
+  return { day, month, year };
+}
+
 const GENDER_INSTRUCTIONS: Record<string, string> = {
   femenino: "Hablale como a una mujer: usa terminaciones femeninas (ella, la, bienvenida, lista, atenta, etc.).",
   masculino: "Hablale como a un hombre: usa terminaciones masculinas (el, lo, bienvenido, listo, atento, etc.).",
@@ -220,6 +265,24 @@ Deno.serve(async (req) => {
   const userMessageCount = messages.filter((m: { role: string }) => m.role === "user").length;
   const turnNumber = Math.min(userMessageCount, 3);
 
+  // Si el ultimo mensaje del asistente pidio una fecha de nacimiento y el ultimo
+  // mensaje del usuario trae una fecha, calculamos los numeros del tercero en
+  // codigo (confiable) en vez de dejar que el modelo haga la aritmetica solo.
+  let thirdPartyBlock = "";
+  const lastAssistantMsg = [...messages].reverse().find((m: { role: string }) => m.role === "assistant");
+  const lastUserMsg = [...messages].reverse().find((m: { role: string }) => m.role === "user");
+  const askedForBirthdate = lastAssistantMsg && /fecha de nacimiento/i.test(lastAssistantMsg.content ?? "");
+  if (askedForBirthdate && lastUserMsg) {
+    const parsed = extractBirthdate(lastUserMsg.content ?? "");
+    if (parsed) {
+      const tp = calculateThirdPartyNumbers(parsed.day, parsed.month, parsed.year);
+      thirdPartyBlock =
+        `\n\n# MAPA NUMEROLOGICO DEL TERCERO (YA CALCULADO — usa EXACTAMENTE estos numeros, nunca los recalcules ni inventes otros)\n` +
+        `Fecha proporcionada: ${String(parsed.day).padStart(2, "0")}/${String(parsed.month).padStart(2, "0")}/${parsed.year}\n` +
+        `- alma: ${tp.soul}\n- personalidad: ${tp.personality}\n- vida pasada: ${tp.pastLife}\n- don: ${tp.gift}\n- camino: ${tp.path}\n`;
+    }
+  }
+
   const systemPrompt =
     `# ROL\n` +
     `Actuas como un Mentor en Psicologia Transpersonal y Consultor Estrategico de Vida para la app KYROS.` +
@@ -278,9 +341,12 @@ Deno.serve(async (req) => {
     ` a apagar la pantalla y asimilar, despidete indicando que la sesion concluyo y que puede volver mañana con un nuevo tema,` +
     ` y agrega la marca exacta ${CONCLUDED_TOKEN} sola en su propia linea al final de tu ultimo mensaje. No la menciones ni la expliques.\n\n` +
     `## RELACIONES Y ESPEJOS — detalle del proceso\n` +
-    `Al recibir la fecha de nacimiento del tercero: calcula sus 5 numeros con el mismo metodo (alma=suma de digitos del dia,` +
-    ` personalidad=mes, vida pasada=suma de digitos del año, don=2 ultimos digitos del año, camino=suma de toda la fecha;` +
-    ` todo reducido a 1-9 o 10). Compara con la matriz de ${userProfile.name} aplicando la MATRIZ DE AFINIDADES:` +
+    `Al pedir la fecha de nacimiento del tercero, espera a que la persona te la de en un mensaje aparte — nunca sigas` +
+    ` sin ella. Si mas abajo en este prompt aparece la seccion "MAPA NUMEROLOGICO DEL TERCERO (YA CALCULADO)",` +
+    ` esos numeros ya estan calculados correctamente: usalos tal cual, NUNCA hagas tu propia suma ni los recalcules.` +
+    ` Si esa seccion no aparece pero la persona ya escribio una fecha, pidesela de nuevo en formato DD/MM/AAAA` +
+    ` (ejemplo: 15/03/1990) porque no se pudo leer. Una vez que tengas los numeros del tercero, compara con la matriz` +
+    ` de ${userProfile.name} aplicando la MATRIZ DE AFINIDADES:` +
     ` 1 y 2, 3 y 4, 5 y 4, 6 y 3 fluyen · 7 y 8 chocan por control vs introspeccion · 5 y 7 en luz se potencian, en sombra se destruyen.` +
     ` Aplica la REGLA DE ASIMETRIA: si ${userProfile.name} tiene ese numero en sus aspectos natos (alma, don o camino)` +
     ` y el tercero lo tiene en su personalidad (numero reto), o viceversa, diselo asi: "estan chocando porque tu ya adquiriste` +
@@ -320,7 +386,8 @@ Deno.serve(async (req) => {
     ` (3) explica que esta atrayendo por esa ley y para que se lo esta exigiendo la vida, (4) conecta con la luz del numero` +
     ` que necesita activar. Ejemplo del tono exacto (adaptalo a la situacion real, no lo copies literal):` +
     ` "Estas vibrando en el miedo a la falta de certezas del 4, y por LEY DEL IMAN, estas atrayendo escenarios donde nada` +
-    ` es seguro para obligarte a activar la flexibilidad de tu camino 5."`;
+    ` es seguro para obligarte a activar la flexibilidad de tu camino 5."` +
+    thirdPartyBlock;
 
   const groqMessages = [{ role: "system", content: systemPrompt }];
   for (const m of messages) {
