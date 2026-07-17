@@ -142,9 +142,9 @@ export const NUMBER_LABELS: Record<string, string> = {
 };
 
 export const NUMBER_DESCRIPTIONS: Record<string, string> = {
-  soul: 'Representa tu esencia',
-  personality: 'Número reto: te inclinas más a lo negativo de este número',
-  gift: 'Número entregado por tus ancestros',
-  pastLife: 'Energía que predomina lo positivo en ti',
-  path: 'Número reto: vienes a aprender lo positivo del mismo',
+  soul: 'Se calcula sumando los dígitos del día en que naciste',
+  personality: 'Se calcula a partir del mes en que naciste',
+  gift: 'Se calcula sumando los últimos dos dígitos del año en que naciste',
+  pastLife: 'Se calcula sumando todos los dígitos del año en que naciste',
+  path: 'Se calcula sumando tu Alma, tu Personalidad y tu Vida Pasada — nace de tu fecha completa',
 };
