@@ -63,137 +63,63 @@ const GENDER_INSTRUCTIONS: Record<string, string> = {
 const NUM_DESC: Record<number, { titulo: string; virtudes: string; sombra: string; mision: string }> = {
   1: {
     titulo: "El Creador, El Pionero, El Independiente",
-    virtudes:
-      "Abre caminos donde no los hay. Pionero, fuerte, valiente, libre, decidido y seguro." +
-      " Muy protector con quienes lo rodean. Logico, directo, ambicioso, orientado a metas." +
-      " Lider natural. Justicia y claridad moral firme.",
-    sombra:
-      "Si no bebe de su numero: egocentrico, autoritario, dominante y conflictivo." +
-      " Irascible, terco, impulsivo. Frustracion y autocastigo cuando se siente bloqueado.",
-    mision:
-      "Abrir caminos con conciencia. Liderar desde el poder interior equilibrando fuerza con sensibilidad." +
-      " No viene a imponer, sino a guiar.",
+    virtudes: "Lider natural, pionero, valiente, decidido, protector, directo, ambicioso, etica firme.",
+    sombra: "Egocentrico, autoritario, terco, impulsivo; se frustra y autocastiga si se siente bloqueado.",
+    mision: "Liderar con conciencia, equilibrando fuerza y sensibilidad; guiar, no imponer.",
   },
   2: {
     titulo: "La Madre, La Protectora, La Diplomatica",
-    virtudes:
-      "Complementa a los demas con sensibilidad y flexibilidad. Amoroso y suave, atiende y cuida con gusto." +
-      " Capta el dolor ajeno con facilidad. Hogare\u00f1o. Diplomatico, sereno, puente entre visiones." +
-      " Gran obediencia a un orden superior.",
-    sombra:
-      "Si no bebe de su numero: dubitativo, se subestima, espera que los demas decidan." +
-      " Hipersensible, sufre por todo, se siente culpable. Miedo e inseguridad. Se deja manipular.",
-    mision:
-      "Sanar, acompa\u00f1ar y mediar. Complementar con dulzura, cuidar desde el amor y facilitar relaciones sanas." +
-      " Sostener sin dominar; unir sin imponer.",
+    virtudes: "Sensible, diplomatico, hogare\u00f1o, cuidador, puente entre visiones, obediente a un orden superior.",
+    sombra: "Dubitativo, se subestima, hipersensible, culposo, inseguro, facil de manipular.",
+    mision: "Sanar y mediar con dulzura; sostener sin dominar, unir sin imponer.",
   },
   3: {
     titulo: "El Hijo, El Artista, El Comunicador",
-    virtudes:
-      "Alegre por naturaleza; el numero del ni\u00f1o que quiere y se deja querer." +
-      " Respeta la igualdad; considera a todos como iguales. Bondadoso, compasivo." +
-      " Creativo, carismatico, contagia entusiasmo y optimismo. Flexible, se adapta con gracia.",
-    sombra:
-      "Si no bebe: racista, clasista, mentiroso, depresivo. Tiende a aislarse, intolerante." +
-      " Tristeza interna si no se expresa autenticamente. Dispersion, le cuesta enfocarse.",
-    mision:
-      "Expresarse creativamente y compartir su energia positiva. Ser canal de creatividad y comunicacion." +
-      " Elevar lo humano hacia lo espiritual.",
+    virtudes: "Alegre, creativo, carismatico, compasivo, flexible; contagia entusiasmo y optimismo.",
+    sombra: "Intolerante, mentiroso, disperso; se aisla y entristece si no se expresa autenticamente.",
+    mision: "Expresarse creativamente, ser canal de comunicacion, elevar lo humano hacia lo espiritual.",
   },
   4: {
     titulo: "El Constructor, El Organizador, El Fundamento",
-    virtudes:
-      "Solidifica lo sutil: hace vida humana los principios espirituales, no habla de lo que no hace." +
-      " Palabra de honor: jamas olvida la palabra empe\u00f1ada." +
-      " Quiere ser libre y dejar libres a los demas. Templanza, confiabilidad, orden, voluntad y perseverancia.",
-    sombra:
-      "Si no bebe: vive con dolor sus contradicciones internas, habla sin certeza." +
-      " No escucha a los demas, terco, agresivo. Le cuesta adaptarse a lo nuevo. Miedo a empezar de cero.",
-    mision:
-      "Crear una base solida para si mismo y para los demas. Organizar, estructurar y traer estabilidad." +
-      " Aprender que la vida no es una tragedia si algo no funciona bien; adaptarse y reiniciar.",
+    virtudes: "Confiable, ordenado, perseverante, cumple su palabra, busca libertad propia y ajena.",
+    sombra: "Terco, agresivo, rigido ante lo nuevo; vive con dolor sus contradicciones internas.",
+    mision: "Construir bases solidas y estabilidad; aprender a adaptarse y reiniciar sin dramatizar.",
   },
   5: {
     titulo: "El Libertador, El Explorador, El Viajero",
-    virtudes:
-      "Buscador incansable de la libertad; no le afectan demasiado los golpes del destino." +
-      " Ama los desafios y la aventura. Atractivo, con encanto personal." +
-      " Energia dinamica, creativa, independiente. Balancea libertad y fortaleza con sensibilidad y nobleza.",
-    sombra:
-      "Si no bebe: egolatra, soberbio, autoritario." +
-      " Su animo de libertad se convierte en libertinaje o esclavitud de malos habitos." +
-      " Irresponsable, desorganizado, impulsivo.",
-    mision:
-      "Encontrar el equilibrio entre la libertad y la responsabilidad." +
-      " Usar su poder de transformacion como alquimista para crear cambios positivos y duraderos.",
+    virtudes: "Libre, aventurero, dinamico, encantador, independiente; resiliente ante los golpes del destino.",
+    sombra: "Soberbio, impulsivo, desorganizado; su libertad se vuelve libertinaje o malos habitos.",
+    mision: "Equilibrar libertad con responsabilidad; transformar creando cambios positivos y duraderos.",
   },
   6: {
     titulo: "El Amor, La Familia, El Servicio",
-    virtudes:
-      "El Angel de la Guarda: protege en forma permanente y busca pasar desapercibido." +
-      " Gran fortaleza para orar y meditar. Muy leal con familia, amigos y comunidad." +
-      " Intuitivo. Busca la alta vibracion en personas, situaciones y palabras. Humildad como virtud central.",
-    sombra:
-      "Si no bebe: errante, no sabe lo que quiere, cambia permanentemente." +
-      " Se queda en los propositos de los demas y no encuentra el suyo." +
-      " Sobreproteccion, codigo de martir, culpa, dependencia emocional.",
-    mision:
-      "Amar sin perderse, servir sin olvidarse. Aprender a servir por conviccion, no por aprobacion." +
-      " Su tarea es distinguir entre el servicio genuino y el sacrificio por necesidad de ser visto.",
+    virtudes: "Protector, leal, intuitivo, humilde; cuida a familia y comunidad, busca alta vibracion.",
+    sombra: "Sin rumbo propio, sobreprotector, culposo, dependiente emocionalmente, se pierde en lo ajeno.",
+    mision: "Servir y amar por conviccion, no por aprobacion; distinguir servicio genuino de sacrificio.",
   },
   7: {
     titulo: "El Sabio, El Solitario, El Mistico",
-    virtudes:
-      "Numero sagrado en todas las culturas. Viene a UNIR CIELO Y TIERRA en su propio interior." +
-      " Cuando bebe de su numero es sumamente intuitivo, casi clarividente." +
-      " Tiene aura fuerte e independiente. Su tema es LA MAGIA: su presencia impone, magnetica e intensa.",
-    sombra:
-      "Si no bebe: debil, inseguro, influenciable. Se vuelve tirano y nervioso." +
-      " Inflexible si las cosas no le cierran. Cierra con la razon y se queda rumiando el mismo asunto." +
-      " Aislamiento emocional, frialdad, desconfianza.",
-    mision:
-      "Unir cielo y tierra. Confiar en los demas, abrir su mundo interior y compartir su sabiduria sin imponerla." +
-      " El conocimiento no es solo para el, sino para inspirar con humildad y compasion.",
+    virtudes: "Intuitivo, magnetico, profundo, independiente; une lo espiritual con lo terrenal.",
+    sombra: "Inseguro, inflexible, desconfiado; se aisla emocionalmente y rumia los mismos temas.",
+    mision: "Unir cielo y tierra; confiar en otros y compartir su sabiduria con humildad.",
   },
   8: {
     titulo: "El Poder, El Lider, El Maestro del Mundo Material",
-    virtudes:
-      "El numero del delfin. Capaz de CERRAR mientras INICIA lo que sigue." +
-      " Gran habilidad para organizar lo nuevo. Numero de la ESPERANZA: gran fortaleza interior, no se da por vencido." +
-      " Como el Ave Fenix, se reconstruye tras cada caida. Lider estrategico, etico, perseverante.",
-    sombra:
-      "Si no bebe: materialista, pierde el camino espiritual, se vuelve inestable, temeroso, intolerante." +
-      " Sus proyectos fracasan por miedos internos. Controlador, rigido, dominante. Frialdad emocional.",
-    mision:
-      "Usar su poder con conciencia. Equilibrar lo material con lo espiritual. Liderar con etica." +
-      " Demostrar que es posible construir desde el corazon, no desde el control.",
+    virtudes: "Estrategico, etico, perseverante; cierra ciclos mientras inicia otros, se reconstruye tras caer.",
+    sombra: "Materialista, controlador, rigido, temeroso; sus proyectos fallan por miedos internos.",
+    mision: "Liderar con etica, equilibrando lo material y lo espiritual; construir desde el corazon.",
   },
   9: {
     titulo: "El Sabio, El Humanitario, El Maestro Espiritual",
-    virtudes:
-      "Sus virtudes se toman desde un lugar distinto: no desde la propia realizacion sino desde el bien de la humanidad." +
-      " Se cura para que otros tambien lo logren. Trabaja por amor universal, no por interes." +
-      " Altruista, compasivo, espiritual, sanador desde la experiencia.",
-    sombra:
-      "Si no bebe: intolerante, no saben AMAR. Inconstantes e inestables." +
-      " Fuerte individualismo. Cuando no esta en amor, no se mezcla con nadie." +
-      " LA VIRTUD PRINCIPAL A TRABAJAR ES EL AMOR. Melancolia, sufrimiento interno, resentimiento.",
-    mision:
-      "Amar sin sacrificarse. Sanar su historia, cerrar ciclos con amor." +
-      " Su camino es el del amor consciente que no se olvida de si mismo al entregarse a los demas.",
+    virtudes: "Altruista, compasivo, espiritual; trabaja por el bien mayor, no por interes propio.",
+    sombra: "Intolerante, inconstante, individualista; le cuesta amar y sostener vinculos.",
+    mision: "Amar sin sacrificarse; cerrar ciclos con amor consciente, sin olvidarse de si mismo.",
   },
   10: {
     titulo: "El Lider de Nueva Era, El Canal, El Iniciado",
-    virtudes:
-      "Une al UNO (el Padre) con el CERO (la humanidad y la vida eterna). Su sentido primero son los otros." +
-      " UNE EL AMOR CON LA SABIDURIA y la FORTALEZA. Su presencia proyecta LUZ al lugar donde entra." +
-      " Canal divino, liderazgo visionario, transformador resiliente.",
-    sombra:
-      "Si no bebe: cobarde, sin dignidad. Debil y extremadamente orgulloso. Depresivo y solitario." +
-      " Gran capacidad autodestructiva. Confusion de identidad, soberbia espiritual, evasion de su mision.",
-    mision:
-      "Reconocerse como canal entre lo divino y lo humano. Equilibrar su liderazgo con humildad." +
-      " Aceptar su poder sin miedo para transformar desde la luz, no desde el control ni la evasion.",
+    virtudes: "Visionario, canal de luz, lidera con amor y sabiduria; transformador resiliente.",
+    sombra: "Debil, orgulloso, depresivo, autodestructivo; evade su mision por confusion de identidad.",
+    mision: "Reconocerse canal entre lo divino y lo humano; liderar con humildad y sin miedo.",
   },
 };
 
@@ -407,7 +333,7 @@ Deno.serve(async (req) => {
       model: "llama-3.1-8b-instant",
       messages: groqMessages,
       temperature: 0.8,
-      max_tokens: 900,
+      max_tokens: 700,
     }),
   });
 
