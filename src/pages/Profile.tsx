@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { useApp, calculateNumbers, Gender } from '@/context/AppContext';
-import { Navigate } from 'react-router-dom';
-import { User, Calendar, Hash, Pencil, Loader2, ChevronDown, ChevronUp, Sparkles, CloudLightning, Compass } from 'lucide-react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { User, Calendar, Hash, Pencil, Loader2, ChevronDown, ChevronUp, Sparkles, CloudLightning, Compass, LogOut } from 'lucide-react';
 import { NUMBER_DESCRIPTIONS, NUMBER_PROFILES } from '@/data/numberMeanings';
 import { NumberSection } from '@/components/NumberSection';
 import { supabase } from '@/lib/supabase';
 
 export default function Profile() {
-  const { user, setUser, authUser } = useApp();
+  const { user, setUser, authUser, signOut } = useApp();
+  const navigate = useNavigate();
+  const [signingOut, setSigningOut] = useState(false);
   const [editing, setEditing] = useState(false);
   const [nameInput, setNameInput] = useState('');
   const [birthInput, setBirthInput] = useState('');
@@ -96,6 +98,12 @@ export default function Profile() {
     setUser(updatedProfile);
     setSaving(false);
     setEditing(false);
+  };
+
+  const handleSignOut = async () => {
+    setSigningOut(true);
+    await signOut();
+    navigate('/auth');
   };
 
   return (
@@ -255,6 +263,22 @@ export default function Profile() {
             );
           })}
         </div>
+      </div>
+
+      <div className="px-6 mt-6">
+        <button
+          onClick={handleSignOut}
+          disabled={signingOut}
+          className="flex w-full items-center justify-center gap-2 rounded-2xl border border-white/40 bg-white/20 py-3.5 text-sm font-semibold text-on-gradient backdrop-blur-sm transition-transform active:scale-[0.98] font-lato disabled:opacity-60"
+        >
+          {signingOut ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <>
+              <LogOut className="h-4 w-4" /> Cerrar sesión
+            </>
+          )}
+        </button>
       </div>
     </div>
   );
