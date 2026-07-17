@@ -14,6 +14,7 @@ import LearnDetail from "./pages/LearnDetail";
 import Saved from "./pages/Saved";
 import NumberDetail from "./pages/NumberDetail";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/auth" element={<PublicRoute><Auth /></PublicRoute>} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="/" element={<PrivateRoute><Onboarding /></PrivateRoute>} />
       <Route path="/dashboard" element={<PrivateRoute><AppLayout><Dashboard /></AppLayout></PrivateRoute>} />
       <Route path="/mentor" element={<PrivateRoute><AppLayout><Mentor /></AppLayout></PrivateRoute>} />

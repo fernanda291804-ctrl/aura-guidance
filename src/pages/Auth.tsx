@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Sparkles, Lock } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
-type Mode = 'login' | 'register';
+type Mode = 'login' | 'register' | 'forgot';
 
 const INVITE_CODE = import.meta.env.VITE_INVITE_CODE as string | undefined;
 
@@ -15,6 +15,7 @@ export default function Auth() {
   const [inviteVerified, setInviteVerified] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
   const navigate = useNavigate();
 
   const handleVerifyInvite = () => {
@@ -29,7 +30,28 @@ export default function Auth() {
   const handleModeSwitch = (m: Mode) => {
     setMode(m);
     setError('');
+    setResetSent(false);
     if (m === 'login') setInviteVerified(false);
+  };
+
+  const handleForgotPassword = async () => {
+    setError('');
+    if (!email.trim()) {
+      setError('Ingresa tu correo electrónico');
+      return;
+    }
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (error) throw error;
+      setResetSent(true);
+    } catch (err: any) {
+      setError(err.message || 'Ocurrió un error. Inténtalo de nuevo.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async () => {
@@ -74,23 +96,66 @@ export default function Auth() {
         </div>
 
         {/* Tabs */}
-        <div className="flex rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 p-1 mb-6">
-          <button
-            onClick={() => handleModeSwitch('login')}
-            className={`flex-1 rounded-xl py-2.5 text-sm font-semibold font-lato transition-all ${mode === 'login' ? 'bg-white/80 text-heading shadow-sm' : 'text-on-gradient-muted'}`}
-          >
-            Iniciar sesión
-          </button>
-          <button
-            onClick={() => handleModeSwitch('register')}
-            className={`flex-1 rounded-xl py-2.5 text-sm font-semibold font-lato transition-all ${mode === 'register' ? 'bg-white/80 text-heading shadow-sm' : 'text-on-gradient-muted'}`}
-          >
-            Registrarse
-          </button>
-        </div>
+        {mode !== 'forgot' && (
+          <div className="flex rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 p-1 mb-6">
+            <button
+              onClick={() => handleModeSwitch('login')}
+              className={`flex-1 rounded-xl py-2.5 text-sm font-semibold font-lato transition-all ${mode === 'login' ? 'bg-white/80 text-heading shadow-sm' : 'text-on-gradient-muted'}`}
+            >
+              Iniciar sesión
+            </button>
+            <button
+              onClick={() => handleModeSwitch('register')}
+              className={`flex-1 rounded-xl py-2.5 text-sm font-semibold font-lato transition-all ${mode === 'register' ? 'bg-white/80 text-heading shadow-sm' : 'text-on-gradient-muted'}`}
+            >
+              Registrarse
+            </button>
+          </div>
+        )}
 
-        {/* Register: invite code gate */}
-        {mode === 'register' && !inviteVerified ? (
+        {/* Forgot password */}
+        {mode === 'forgot' ? (
+          <div className="space-y-4">
+            {resetSent ? (
+              <div className="rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 p-5 text-center">
+                <p className="text-sm text-on-gradient font-lato font-semibold mb-1">Revisa tu correo</p>
+                <p className="text-xs text-on-gradient-muted font-lato">
+                  Te enviamos un link a {email} para crear una nueva contraseña. Si no lo ves, revisa spam.
+                </p>
+              </div>
+            ) : (
+              <>
+                <div>
+                  <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-on-gradient-muted font-lato">
+                    Correo electrónico
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && handleForgotPassword()}
+                    placeholder="tu@correo.com"
+                    className="w-full rounded-2xl border border-white/30 bg-white/30 backdrop-blur-sm px-5 py-4 text-sm text-on-gradient placeholder:text-on-gradient-muted/60 outline-none transition-all focus:bg-white/50 focus:ring-2 focus:ring-white/40 font-lato"
+                  />
+                </div>
+                {error && <p className="text-xs text-destructive font-lato text-center">{error}</p>}
+                <button
+                  onClick={handleForgotPassword}
+                  disabled={loading}
+                  className="w-full rounded-2xl gradient-warm py-4 text-sm font-bold text-primary-foreground shadow-glow transition-transform active:scale-[0.98] font-lato disabled:opacity-60"
+                >
+                  {loading ? 'Enviando...' : 'Enviar link de recuperación'}
+                </button>
+              </>
+            )}
+            <button
+              onClick={() => handleModeSwitch('login')}
+              className="w-full text-center text-xs text-on-gradient-muted font-lato underline"
+            >
+              Volver a iniciar sesión
+            </button>
+          </div>
+        ) : mode === 'register' && !inviteVerified ? (
           <div className="space-y-4">
             <div className="rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 p-5 text-center">
               <Lock className="mx-auto h-8 w-8 text-on-gradient-muted mb-3" />
@@ -141,6 +206,15 @@ export default function Auth() {
                 placeholder="Mínimo 6 caracteres"
                 className="w-full rounded-2xl border border-white/30 bg-white/30 backdrop-blur-sm px-5 py-4 text-sm text-on-gradient placeholder:text-on-gradient-muted/60 outline-none transition-all focus:bg-white/50 focus:ring-2 focus:ring-white/40 font-lato"
               />
+              {mode === 'login' && (
+                <button
+                  type="button"
+                  onClick={() => handleModeSwitch('forgot')}
+                  className="mt-2 text-xs text-on-gradient-muted font-lato underline"
+                >
+                  ¿Olvidaste tu contraseña?
+                </button>
+              )}
             </div>
 
             {error && (
