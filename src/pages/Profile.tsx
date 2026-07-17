@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useApp, calculateNumbers, Gender } from '@/context/AppContext';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { User, Calendar, Hash, Pencil, Loader2, ChevronDown, ChevronUp, Sparkles, CloudLightning, Compass, LogOut } from 'lucide-react';
-import { NUMBER_DESCRIPTIONS, NUMBER_PROFILES } from '@/data/numberMeanings';
+import { ROLE_MEANINGS, NUMBER_PROFILES } from '@/data/numberMeanings';
 import { NumberSection } from '@/components/NumberSection';
 import { supabase } from '@/lib/supabase';
 
@@ -224,7 +224,7 @@ export default function Profile() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-heading font-lato">{n.label}</p>
-                    <p className="text-[11px] text-muted-foreground font-lato">{NUMBER_DESCRIPTIONS[n.key]}</p>
+                    <p className="text-[11px] text-muted-foreground font-lato">{ROLE_MEANINGS[n.key]}</p>
                     {profile && <p className="text-xs font-medium text-accent font-lato mt-0.5">{profile.title}</p>}
                   </div>
                   {isExpanded

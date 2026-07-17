@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useApp, calculateNumbers, UserProfile, Gender } from '@/context/AppContext';
 import PentagonChart from '@/components/PentagonChart';
 import { supabase } from '@/lib/supabase';
+import { ROLE_MEANINGS } from '@/data/numberMeanings';
 
 type Phase = 'choose' | 'intro' | 'form' | 'loading' | 'explain' | 'guide';
 
@@ -298,36 +299,11 @@ export default function Onboarding() {
 
   if (phase === 'explain' && computedUser) {
     const DIMENSIONS = [
-      {
-        key: 'soul' as const,
-        label: 'Alma',
-        hue: 225,
-        desc: 'Tu esencia más profunda. Lo que eres antes de que el mundo opine.',
-      },
-      {
-        key: 'personality' as const,
-        label: 'Personalidad',
-        hue: 248,
-        desc: 'Lo que viniste a aprender en esta vida.',
-      },
-      {
-        key: 'gift' as const,
-        label: 'Don',
-        hue: 225,
-        desc: 'Tu tendencia genética. El talento que traes de origen.',
-      },
-      {
-        key: 'pastLife' as const,
-        label: 'Vida Pasada',
-        hue: 225,
-        desc: 'Conocerlo te da la oportunidad de recordarlo y recobrarlo.',
-      },
-      {
-        key: 'path' as const,
-        label: 'Camino',
-        hue: 248,
-        desc: 'Las decisiones que tomas en tu vida. Tu dirección natural.',
-      },
+      { key: 'soul' as const, label: 'Alma', hue: 225, desc: ROLE_MEANINGS.soul },
+      { key: 'personality' as const, label: 'Personalidad', hue: 248, desc: ROLE_MEANINGS.personality },
+      { key: 'gift' as const, label: 'Don', hue: 225, desc: ROLE_MEANINGS.gift },
+      { key: 'pastLife' as const, label: 'Vida Pasada', hue: 225, desc: ROLE_MEANINGS.pastLife },
+      { key: 'path' as const, label: 'Camino', hue: 248, desc: ROLE_MEANINGS.path },
     ];
 
     return (

@@ -148,3 +148,14 @@ export const NUMBER_DESCRIPTIONS: Record<string, string> = {
   pastLife: 'Se calcula sumando todos los dígitos del año en que naciste',
   path: 'Se calcula sumando tu Alma, tu Personalidad y tu Vida Pasada — nace de tu fecha completa',
 };
+
+/** Qué significa cada una de las 5 categorías, en lenguaje simple — fuente única para
+ * Onboarding, Perfil y el detalle de cada número, para no repetir el mismo concepto
+ * con textos distintos en cada pantalla. */
+export const ROLE_MEANINGS: Record<string, string> = {
+  soul: 'Lo que eres en esencia, tu motivación interna.',
+  personality: 'Cómo te ven los demás, tu máscara social.',
+  gift: 'Tu herramienta más poderosa, tu regalo.',
+  pastLife: 'Lo que ya aprendiste en tu última vida.',
+  path: 'Tu propósito, la energía que guía tu camino.',
+};

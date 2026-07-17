@@ -1,7 +1,7 @@
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useApp } from '@/context/AppContext';
 import { ArrowLeft, Sparkles, CloudLightning, Compass } from 'lucide-react';
-import { NUMBER_LABELS, NUMBER_DESCRIPTIONS, NUMBER_PROFILES } from '@/data/numberMeanings';
+import { NUMBER_LABELS, NUMBER_DESCRIPTIONS, NUMBER_PROFILES, ROLE_MEANINGS } from '@/data/numberMeanings';
 import { NumberSection } from '@/components/NumberSection';
 
 export default function NumberDetail() {
@@ -14,7 +14,8 @@ export default function NumberDetail() {
 
   const value = user.numbers[type as keyof typeof user.numbers];
   const label = NUMBER_LABELS[type] || type;
-  const description = NUMBER_DESCRIPTIONS[type] || '';
+  const meaning = ROLE_MEANINGS[type] || '';
+  const origin = NUMBER_DESCRIPTIONS[type] || '';
   const profile = NUMBER_PROFILES[value];
 
   if (!profile) return <Navigate to="/dashboard" replace />;
@@ -30,7 +31,8 @@ export default function NumberDetail() {
           <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Volver
         </button>
         <h1 className="font-lora text-2xl font-bold text-on-gradient">{label}</h1>
-        <p className="mt-1 text-base text-on-gradient-muted font-lato">{description}</p>
+        <p className="mt-1.5 text-sm text-on-gradient-muted font-lato">{meaning}</p>
+        <p className="mt-1 text-xs font-bold leading-relaxed text-on-gradient-muted/80 font-lato">{origin}</p>
 
         <div className="mt-6 flex justify-center">
           <div
