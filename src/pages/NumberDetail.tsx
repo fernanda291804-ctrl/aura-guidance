@@ -1,7 +1,7 @@
 import { useParams, Navigate, useNavigate } from 'react-router-dom';
 import { useApp } from '@/context/AppContext';
-import { ArrowLeft, Sparkles, CloudLightning, Compass } from 'lucide-react';
-import { NUMBER_LABELS, NUMBER_DESCRIPTIONS, NUMBER_PROFILES, ROLE_MEANINGS } from '@/data/numberMeanings';
+import { ArrowLeft, Sparkles, CloudLightning, Compass, Heart } from 'lucide-react';
+import { NUMBER_LABELS, NUMBER_DESCRIPTIONS, NUMBER_PROFILES, NUMBER_SYNTHESIS, ROLE_MEANINGS } from '@/data/numberMeanings';
 import { NumberSection } from '@/components/NumberSection';
 
 export default function NumberDetail() {
@@ -17,8 +17,11 @@ export default function NumberDetail() {
   const meaning = ROLE_MEANINGS[type] || '';
   const origin = NUMBER_DESCRIPTIONS[type] || '';
   const profile = NUMBER_PROFILES[value];
+  const synthesis = NUMBER_SYNTHESIS[value];
 
   if (!profile) return <Navigate to="/dashboard" replace />;
+
+  const displayTitle = synthesis?.titulo ?? profile.title;
 
   return (
     <div className="min-h-screen pb-24 md:pb-8 gradient-dashboard grain-overlay">
@@ -43,7 +46,7 @@ export default function NumberDetail() {
           </div>
         </div>
 
-        <p className="mt-3 text-center text-base font-semibold text-on-gradient font-lato">{profile.title}</p>
+        <p className="mt-3 text-center text-base font-semibold text-on-gradient font-lato">{displayTitle}</p>
         <p className="mt-1 text-center text-sm text-on-gradient-muted font-lato">{profile.subtitles}</p>
         <div className="mt-2 flex justify-center">
           <span className="rounded-full bg-white/30 px-3 py-0.5 text-xs font-semibold text-on-gradient font-lato">
@@ -54,23 +57,52 @@ export default function NumberDetail() {
 
       <div className="mx-6">
         <div className="rounded-xl bg-white/90 backdrop-blur-md border border-white/50 shadow-soft p-5">
-          <p className="text-sm text-foreground/80 font-lato leading-relaxed">{profile.esencia}</p>
+          {synthesis ? (
+            <>
+              <p className="text-sm text-foreground/80 font-lato leading-relaxed">{synthesis.intro}</p>
 
-          <NumberSection
-            title="Tu Luz"
-            icon={<Sparkles className="h-3 w-3 text-amber-500" aria-hidden="true" />}
-            text={profile.luz}
-          />
-          <NumberSection
-            title="Tu Reto"
-            icon={<CloudLightning className="h-3 w-3 text-violet-500" aria-hidden="true" />}
-            text={profile.sombra}
-          />
-          <NumberSection
-            title="Tu Misión"
-            icon={<Compass className="h-3 w-3 text-sky-500" aria-hidden="true" />}
-            text={profile.mision}
-          />
+              <NumberSection
+                title="Tu mejor versión"
+                icon={<Sparkles className="h-3 w-3 text-amber-500" aria-hidden="true" />}
+                text={synthesis.luz}
+              />
+              <NumberSection
+                title="Cuando te desequilibras"
+                icon={<CloudLightning className="h-3 w-3 text-violet-500" aria-hidden="true" />}
+                text={synthesis.sombra}
+              />
+              <NumberSection
+                title="En el amor y las relaciones"
+                icon={<Heart className="h-3 w-3 text-rose-500" aria-hidden="true" />}
+                text={synthesis.relaciones}
+              />
+              <NumberSection
+                title="Tu gran lección de vida"
+                icon={<Compass className="h-3 w-3 text-sky-500" aria-hidden="true" />}
+                text={synthesis.leccion}
+              />
+            </>
+          ) : (
+            <>
+              <p className="text-sm text-foreground/80 font-lato leading-relaxed">{profile.esencia}</p>
+
+              <NumberSection
+                title="Tu Luz"
+                icon={<Sparkles className="h-3 w-3 text-amber-500" aria-hidden="true" />}
+                text={profile.luz}
+              />
+              <NumberSection
+                title="Tu Reto"
+                icon={<CloudLightning className="h-3 w-3 text-violet-500" aria-hidden="true" />}
+                text={profile.sombra}
+              />
+              <NumberSection
+                title="Tu Misión"
+                icon={<Compass className="h-3 w-3 text-sky-500" aria-hidden="true" />}
+                text={profile.mision}
+              />
+            </>
+          )}
         </div>
       </div>
     </div>
